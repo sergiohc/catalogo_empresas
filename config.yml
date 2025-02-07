@@ -4,7 +4,7 @@ baseURL: http://localhost:1313
 enableInlineShortcodes: true
 canonifyURLs: true
 params:
-  homepage: https://flowbite.com
+  homepage: https://sergiohc.github.io/catalogo_empresas/
   authors: Flowbite
   social_image_path: /marketing-ui/demo/images/og-image.jpg
 markup:
