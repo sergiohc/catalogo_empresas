@@ -2,8 +2,6 @@
   "name": "ruby-companies-calogue",
   "version": "1.0.0",
   "description": "Lista de empresas e ou instituições das quais possuem em sua stack principal e ou demais sistemas relevantes com Ruby",
-  "style": "dist/flowbite.css",
-  "main": "static/js/app.bundle.js",
   "contributors": [
     "Sergio Henrique <sergioh.c.dsenv@gmail.com>"
   ],
