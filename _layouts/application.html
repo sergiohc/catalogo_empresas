@@ -1,0 +1,26 @@
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }}</title>
+  <link rel="stylesheet" href="{{ '/assets/builds/application.css' | relative_url }}">
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+  <nav class="bg-white shadow p-4">
+    <ul class="flex space-x-4">
+      <li><a href="#CO" class="hover:underline">Centro-Oeste</a></li>
+      <li><a href="#NE" class="hover:underline">Nordeste</a></li>
+      <li><a href="#N" class="hover:underline">Norte</a></li>
+      <li><a href="#SE" class="hover:underline">Sudeste</a></li>
+      <li><a href="#S" class="hover:underline">Sul</a></li>
+    </ul>
+  </nav>
+  <main class="container mx-auto p-4">
+    {{ content }}
+  </main>
+  <script src="{{ '/assets/builds/application.js' | relative_url }}"></script>
+</body>
+
+</html>

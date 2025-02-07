@@ -1,0 +1,17 @@
+{
+  "name": "Jekyll Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "extensions": [
+    "rebornix.Ruby",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint"
+  ],
+  "postCreateCommand": "bundle install && npm install",
+  "remoteUser": "vscode"
+}

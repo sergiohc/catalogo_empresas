@@ -1,0 +1,142 @@
+{
+  "CO": {
+    "name": "Centro-Oeste",
+    "states": {
+      "DF": {
+        "name": "Distrito Federal",
+        "companies": [
+          {
+            "name": "Bx Blue",
+            "url": "https://bxblue.com.br/"
+          },
+          {
+            "name": "Flama",
+            "url": "https://flama.is/"
+          }
+        ]
+      },
+      "GO": {
+        "name": "Goias",
+        "companies": [
+          {
+            "name": "Anexo Solucoes",
+            "url": "http://www.anexosolucoes.com.br/"
+          }
+        ]
+      }
+    }
+  },
+  "NE": {
+    "name": "Nordeste",
+    "states": {
+      "BA": {
+        "name": "Bahia",
+        "companies": [
+          {
+            "name": "Elo7",
+            "url": "https://www.elo7.com.br/"
+          }
+        ]
+      },
+      "CE": {
+        "name": "Ceara",
+        "companies": [
+          {
+            "name": "Bitix",
+            "url": "https://www.bitix.com.br/"
+          }
+        ]
+      }
+    }
+  },
+  "N": {
+    "name": "Norte",
+    "states": {
+      "AM": {
+        "name": "Amazonas",
+        "companies": [
+          {
+            "name": "Bemol Digital",
+            "url": "https://www.bemoldigital.com.br/"
+          }
+        ]
+      }
+    }
+  },
+  "SE": {
+    "name": "Sudeste",
+    "states": {
+      "MG": {
+        "name": "Minas Gerais",
+        "companies": [
+          {
+            "name": "Mélliuz",
+            "url": "https://www.meliuz.com.br/"
+          }
+        ]
+      },
+      "RJ": {
+        "name": "Rio de Janeiro",
+        "companies": [
+          {
+            "name": "Stone",
+            "url": "https://www.stone.com.br/"
+          }
+        ]
+      },
+      "SP": {
+        "name": "Sao Paulo",
+        "companies": [
+          {
+            "name": "Creditas",
+            "url": "https://www.creditas.com.br/"
+          },
+          {
+            "name": "Gympass",
+            "url": "https://www.gympass.com/"
+          },
+          {
+            "name": "Loggi",
+            "url": "https://www.loggi.com/"
+          },
+          {
+            "name": "QuintoAndar",
+            "url": "https://www.quintoandar.com.br/"
+          }
+        ]
+      }
+    }
+  },
+  "S": {
+    "name": "Sul",
+    "states": {
+      "PR": {
+        "name": "Parana",
+        "companies": [
+          {
+            "name": "Olist",
+            "url": "https://www.olist.com/"
+          }
+        ]
+      },
+      "RS": {
+        "name": "Rio Grande do Sul",
+        "companies": [
+          {
+            "name": "Warren",
+            "url": "https://warren.com.br/"
+          }
+        ]
+      },
+      "SC": {
+        "name": "Santa Catarina",
+        "companies": [
+          {
+            "name": "ContaAzul",
+            "url": "https://www.contaazul.com/"
+          }
+        ]
+      }
+    }
+  }
+}

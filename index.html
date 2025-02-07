@@ -1,0 +1,24 @@
+---
+layout: application
+title: "Catalogo de Empresas"
+---
+
+<h1 class="text-4xl font-bold mb-8">Catalogo de Empresas</h1>
+
+{% assign companies = site.data.companies %}
+{% for region_key in companies | sort %}
+{% assign region = companies[region_key] %}
+<section id="{{ region_key }}">
+  <h2 class="text-2xl font-semibold mt-8">{{ region.name }}</h2>
+  {% assign states = region.states %}
+  {% for state_key in states | sort %}
+  {% assign state = states[state_key] %}
+  <h3 class="text-xl font-medium mt-4">{{ state.name }}</h3>
+  <ul class="list-disc list-inside">
+    {% for company in state.companies | sort: 'name' %}
+    <li><a class="text-blue-600 hover:underline" href="{{ company.url }}" target="_blank">{{ company.name }}</a></li>
+    {% endfor %}
+  </ul>
+  {% endfor %}
+</section>
+{% endfor %}
