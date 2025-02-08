@@ -1,12 +1,11 @@
 languageCode: en
-title: Flowbite Marketing UI
+title: Enterprise Catologue
 baseURL: http://localhost:1313
 enableInlineShortcodes: true
 canonifyURLs: true
 params:
   homepage: https://sergiohc.github.io/catalogo_empresas/
-  authors: Flowbite
-  social_image_path: /marketing-ui/demo/images/og-image.jpg
+  authors: Sergio Henrique
 markup:
   goldmark:
     renderer:

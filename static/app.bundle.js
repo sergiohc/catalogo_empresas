@@ -1,99 +1,1239 @@
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 391:
-/***/ (() => {
+/***/ "./node_modules/@popperjs/core/lib/createPopper.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/createPopper.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-console.log("connectins CompaniesLists")
-
-document.addEventListener('DOMContentLoaded', function () {
-    const $currentYearText = document.getElementById('currentYear');
-    if ($currentYearText) {
-        $currentYearText.textContent = new Date().getFullYear();
-    }
-});
-
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   createPopper: () => (/* binding */ createPopper),\n/* harmony export */   detectOverflow: () => (/* reexport safe */ _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_8__[\"default\"]),\n/* harmony export */   popperGenerator: () => (/* binding */ popperGenerator)\n/* harmony export */ });\n/* harmony import */ var _dom_utils_getCompositeRect_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./dom-utils/getCompositeRect.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js\");\n/* harmony import */ var _dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./dom-utils/getLayoutRect.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js\");\n/* harmony import */ var _dom_utils_listScrollParents_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom-utils/listScrollParents.js */ \"./node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js\");\n/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./dom-utils/getOffsetParent.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js\");\n/* harmony import */ var _utils_orderModifiers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/orderModifiers.js */ \"./node_modules/@popperjs/core/lib/utils/orderModifiers.js\");\n/* harmony import */ var _utils_debounce_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils/debounce.js */ \"./node_modules/@popperjs/core/lib/utils/debounce.js\");\n/* harmony import */ var _utils_mergeByName_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/mergeByName.js */ \"./node_modules/@popperjs/core/lib/utils/mergeByName.js\");\n/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utils/detectOverflow.js */ \"./node_modules/@popperjs/core/lib/utils/detectOverflow.js\");\n/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom-utils/instanceOf.js */ \"./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js\");\n\n\n\n\n\n\n\n\n\nvar DEFAULT_OPTIONS = {\n  placement: 'bottom',\n  modifiers: [],\n  strategy: 'absolute'\n};\n\nfunction areValidElements() {\n  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {\n    args[_key] = arguments[_key];\n  }\n\n  return !args.some(function (element) {\n    return !(element && typeof element.getBoundingClientRect === 'function');\n  });\n}\n\nfunction popperGenerator(generatorOptions) {\n  if (generatorOptions === void 0) {\n    generatorOptions = {};\n  }\n\n  var _generatorOptions = generatorOptions,\n      _generatorOptions$def = _generatorOptions.defaultModifiers,\n      defaultModifiers = _generatorOptions$def === void 0 ? [] : _generatorOptions$def,\n      _generatorOptions$def2 = _generatorOptions.defaultOptions,\n      defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;\n  return function createPopper(reference, popper, options) {\n    if (options === void 0) {\n      options = defaultOptions;\n    }\n\n    var state = {\n      placement: 'bottom',\n      orderedModifiers: [],\n      options: Object.assign({}, DEFAULT_OPTIONS, defaultOptions),\n      modifiersData: {},\n      elements: {\n        reference: reference,\n        popper: popper\n      },\n      attributes: {},\n      styles: {}\n    };\n    var effectCleanupFns = [];\n    var isDestroyed = false;\n    var instance = {\n      state: state,\n      setOptions: function setOptions(setOptionsAction) {\n        var options = typeof setOptionsAction === 'function' ? setOptionsAction(state.options) : setOptionsAction;\n        cleanupModifierEffects();\n        state.options = Object.assign({}, defaultOptions, state.options, options);\n        state.scrollParents = {\n          reference: (0,_dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isElement)(reference) ? (0,_dom_utils_listScrollParents_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(reference) : reference.contextElement ? (0,_dom_utils_listScrollParents_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(reference.contextElement) : [],\n          popper: (0,_dom_utils_listScrollParents_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(popper)\n        }; // Orders the modifiers based on their dependencies and `phase`\n        // properties\n\n        var orderedModifiers = (0,_utils_orderModifiers_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])((0,_utils_mergeByName_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])([].concat(defaultModifiers, state.options.modifiers))); // Strip out disabled modifiers\n\n        state.orderedModifiers = orderedModifiers.filter(function (m) {\n          return m.enabled;\n        });\n        runModifierEffects();\n        return instance.update();\n      },\n      // Sync update – it will always be executed, even if not necessary. This\n      // is useful for low frequency updates where sync behavior simplifies the\n      // logic.\n      // For high frequency updates (e.g. `resize` and `scroll` events), always\n      // prefer the async Popper#update method\n      forceUpdate: function forceUpdate() {\n        if (isDestroyed) {\n          return;\n        }\n\n        var _state$elements = state.elements,\n            reference = _state$elements.reference,\n            popper = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements\n        // anymore\n\n        if (!areValidElements(reference, popper)) {\n          return;\n        } // Store the reference and popper rects to be read by modifiers\n\n\n        state.rects = {\n          reference: (0,_dom_utils_getCompositeRect_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"])(reference, (0,_dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"])(popper), state.options.strategy === 'fixed'),\n          popper: (0,_dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_6__[\"default\"])(popper)\n        }; // Modifiers have the ability to reset the current update cycle. The\n        // most common use case for this is the `flip` modifier changing the\n        // placement, which then needs to re-run all the modifiers, because the\n        // logic was previously ran for the previous placement and is therefore\n        // stale/incorrect\n\n        state.reset = false;\n        state.placement = state.options.placement; // On each update cycle, the `modifiersData` property for each modifier\n        // is filled with the initial data specified by the modifier. This means\n        // it doesn't persist and is fresh on each update.\n        // To ensure persistent data, use `${name}#persistent`\n\n        state.orderedModifiers.forEach(function (modifier) {\n          return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);\n        });\n\n        for (var index = 0; index < state.orderedModifiers.length; index++) {\n          if (state.reset === true) {\n            state.reset = false;\n            index = -1;\n            continue;\n          }\n\n          var _state$orderedModifie = state.orderedModifiers[index],\n              fn = _state$orderedModifie.fn,\n              _state$orderedModifie2 = _state$orderedModifie.options,\n              _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,\n              name = _state$orderedModifie.name;\n\n          if (typeof fn === 'function') {\n            state = fn({\n              state: state,\n              options: _options,\n              name: name,\n              instance: instance\n            }) || state;\n          }\n        }\n      },\n      // Async and optimistically optimized update – it will not be executed if\n      // not necessary (debounced to run at most once-per-tick)\n      update: (0,_utils_debounce_js__WEBPACK_IMPORTED_MODULE_7__[\"default\"])(function () {\n        return new Promise(function (resolve) {\n          instance.forceUpdate();\n          resolve(state);\n        });\n      }),\n      destroy: function destroy() {\n        cleanupModifierEffects();\n        isDestroyed = true;\n      }\n    };\n\n    if (!areValidElements(reference, popper)) {\n      return instance;\n    }\n\n    instance.setOptions(options).then(function (state) {\n      if (!isDestroyed && options.onFirstUpdate) {\n        options.onFirstUpdate(state);\n      }\n    }); // Modifiers have the ability to execute arbitrary code before the first\n    // update cycle runs. They will be executed in the same order as the update\n    // cycle. This is useful when a modifier adds some persistent data that\n    // other modifiers need to use, but the modifier is run after the dependent\n    // one.\n\n    function runModifierEffects() {\n      state.orderedModifiers.forEach(function (_ref) {\n        var name = _ref.name,\n            _ref$options = _ref.options,\n            options = _ref$options === void 0 ? {} : _ref$options,\n            effect = _ref.effect;\n\n        if (typeof effect === 'function') {\n          var cleanupFn = effect({\n            state: state,\n            name: name,\n            instance: instance,\n            options: options\n          });\n\n          var noopFn = function noopFn() {};\n\n          effectCleanupFns.push(cleanupFn || noopFn);\n        }\n      });\n    }\n\n    function cleanupModifierEffects() {\n      effectCleanupFns.forEach(function (fn) {\n        return fn();\n      });\n      effectCleanupFns = [];\n    }\n\n    return instance;\n  };\n}\nvar createPopper = /*#__PURE__*/popperGenerator(); // eslint-disable-next-line import/no-unused-modules\n\n\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/createPopper.js?");
 
 /***/ }),
 
-/***/ 4:
-/***/ (() => {
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/contains.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/contains.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-const themeToggleDarkIcon = document.getElementById('themeToggleDarkIcon');
-const themeToggleLightIcon = document.getElementById('themeToggleLightIcon');
-console.log("connectins CompaniesLists")
-
-if (themeToggleDarkIcon && themeToggleLightIcon) {
-    // Change the icons inside the button based on previous settings
-    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        themeToggleLightIcon.classList.remove('hidden');
-    } else {
-        themeToggleDarkIcon.classList.remove('hidden');
-    }
-}
-
-const themeToggleBtn = document.getElementById('themeToggle');
-
-let event = new Event('dark-mode');
-
-if (themeToggleBtn) {
-
-    themeToggleBtn.addEventListener('click', function () {
-
-        // toggle icons
-        themeToggleDarkIcon.classList.toggle('hidden');
-        themeToggleLightIcon.classList.toggle('hidden');
-
-        // if set via local storage previously
-        if (localStorage.getItem('color-theme')) {
-            if (localStorage.getItem('color-theme') === 'light') {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('color-theme', 'dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('color-theme', 'light');
-            }
-
-            // if NOT set via local storage previously
-        } else {
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('color-theme', 'light');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('color-theme', 'dark');
-            }
-        }
-
-        document.dispatchEvent(event);
-
-    });
-
-}
-
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ contains)\n/* harmony export */ });\n/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./instanceOf.js */ \"./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js\");\n\nfunction contains(parent, child) {\n  var rootNode = child.getRootNode && child.getRootNode(); // First, attempt with faster native method\n\n  if (parent.contains(child)) {\n    return true;\n  } // then fallback to custom implementation with Shadow DOM support\n  else if (rootNode && (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isShadowRoot)(rootNode)) {\n      var next = child;\n\n      do {\n        if (next && parent.isSameNode(next)) {\n          return true;\n        } // $FlowFixMe[prop-missing]: need a better way to handle this...\n\n\n        next = next.parentNode || next.host;\n      } while (next);\n    } // Give up, the result is false\n\n\n  return false;\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/contains.js?");
 
 /***/ }),
 
-/***/ 756:
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getBoundingClientRect)\n/* harmony export */ });\n/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./instanceOf.js */ \"./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js\");\n/* harmony import */ var _utils_math_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/math.js */ \"./node_modules/@popperjs/core/lib/utils/math.js\");\n/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindow.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindow.js\");\n/* harmony import */ var _isLayoutViewport_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./isLayoutViewport.js */ \"./node_modules/@popperjs/core/lib/dom-utils/isLayoutViewport.js\");\n\n\n\n\nfunction getBoundingClientRect(element, includeScale, isFixedStrategy) {\n  if (includeScale === void 0) {\n    includeScale = false;\n  }\n\n  if (isFixedStrategy === void 0) {\n    isFixedStrategy = false;\n  }\n\n  var clientRect = element.getBoundingClientRect();\n  var scaleX = 1;\n  var scaleY = 1;\n\n  if (includeScale && (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isHTMLElement)(element)) {\n    scaleX = element.offsetWidth > 0 ? (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_1__.round)(clientRect.width) / element.offsetWidth || 1 : 1;\n    scaleY = element.offsetHeight > 0 ? (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_1__.round)(clientRect.height) / element.offsetHeight || 1 : 1;\n  }\n\n  var _ref = (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isElement)(element) ? (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(element) : window,\n      visualViewport = _ref.visualViewport;\n\n  var addVisualOffsets = !(0,_isLayoutViewport_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])() && isFixedStrategy;\n  var x = (clientRect.left + (addVisualOffsets && visualViewport ? visualViewport.offsetLeft : 0)) / scaleX;\n  var y = (clientRect.top + (addVisualOffsets && visualViewport ? visualViewport.offsetTop : 0)) / scaleY;\n  var width = clientRect.width / scaleX;\n  var height = clientRect.height / scaleY;\n  return {\n    width: width,\n    height: height,\n    top: y,\n    right: x + width,\n    bottom: y + height,\n    left: x,\n    x: x,\n    y: y\n  };\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getClippingRect)\n/* harmony export */ });\n/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ \"./node_modules/@popperjs/core/lib/enums.js\");\n/* harmony import */ var _getViewportRect_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getViewportRect.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js\");\n/* harmony import */ var _getDocumentRect_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./getDocumentRect.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js\");\n/* harmony import */ var _listScrollParents_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./listScrollParents.js */ \"./node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js\");\n/* harmony import */ var _getOffsetParent_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./getOffsetParent.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js\");\n/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./getDocumentElement.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js\");\n/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./getComputedStyle.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js\");\n/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./instanceOf.js */ \"./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js\");\n/* harmony import */ var _getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getBoundingClientRect.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js\");\n/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./getParentNode.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js\");\n/* harmony import */ var _contains_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./contains.js */ \"./node_modules/@popperjs/core/lib/dom-utils/contains.js\");\n/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./getNodeName.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js\");\n/* harmony import */ var _utils_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/rectToClientRect.js */ \"./node_modules/@popperjs/core/lib/utils/rectToClientRect.js\");\n/* harmony import */ var _utils_math_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../utils/math.js */ \"./node_modules/@popperjs/core/lib/utils/math.js\");\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nfunction getInnerBoundingClientRect(element, strategy) {\n  var rect = (0,_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(element, false, strategy === 'fixed');\n  rect.top = rect.top + element.clientTop;\n  rect.left = rect.left + element.clientLeft;\n  rect.bottom = rect.top + element.clientHeight;\n  rect.right = rect.left + element.clientWidth;\n  rect.width = element.clientWidth;\n  rect.height = element.clientHeight;\n  rect.x = rect.left;\n  rect.y = rect.top;\n  return rect;\n}\n\nfunction getClientRectFromMixedType(element, clippingParent, strategy) {\n  return clippingParent === _enums_js__WEBPACK_IMPORTED_MODULE_1__.viewport ? (0,_utils_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])((0,_getViewportRect_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(element, strategy)) : (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_4__.isElement)(clippingParent) ? getInnerBoundingClientRect(clippingParent, strategy) : (0,_utils_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])((0,_getDocumentRect_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"])((0,_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_6__[\"default\"])(element)));\n} // A \"clipping parent\" is an overflowable container with the characteristic of\n// clipping (or hiding) overflowing elements with a position different from\n// `initial`\n\n\nfunction getClippingParents(element) {\n  var clippingParents = (0,_listScrollParents_js__WEBPACK_IMPORTED_MODULE_7__[\"default\"])((0,_getParentNode_js__WEBPACK_IMPORTED_MODULE_8__[\"default\"])(element));\n  var canEscapeClipping = ['absolute', 'fixed'].indexOf((0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_9__[\"default\"])(element).position) >= 0;\n  var clipperElement = canEscapeClipping && (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_4__.isHTMLElement)(element) ? (0,_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_10__[\"default\"])(element) : element;\n\n  if (!(0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_4__.isElement)(clipperElement)) {\n    return [];\n  } // $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414\n\n\n  return clippingParents.filter(function (clippingParent) {\n    return (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_4__.isElement)(clippingParent) && (0,_contains_js__WEBPACK_IMPORTED_MODULE_11__[\"default\"])(clippingParent, clipperElement) && (0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_12__[\"default\"])(clippingParent) !== 'body';\n  });\n} // Gets the maximum area that the element is visible in due to any number of\n// clipping parents\n\n\nfunction getClippingRect(element, boundary, rootBoundary, strategy) {\n  var mainClippingParents = boundary === 'clippingParents' ? getClippingParents(element) : [].concat(boundary);\n  var clippingParents = [].concat(mainClippingParents, [rootBoundary]);\n  var firstClippingParent = clippingParents[0];\n  var clippingRect = clippingParents.reduce(function (accRect, clippingParent) {\n    var rect = getClientRectFromMixedType(element, clippingParent, strategy);\n    accRect.top = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_13__.max)(rect.top, accRect.top);\n    accRect.right = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_13__.min)(rect.right, accRect.right);\n    accRect.bottom = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_13__.min)(rect.bottom, accRect.bottom);\n    accRect.left = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_13__.max)(rect.left, accRect.left);\n    return accRect;\n  }, getClientRectFromMixedType(element, firstClippingParent, strategy));\n  clippingRect.width = clippingRect.right - clippingRect.left;\n  clippingRect.height = clippingRect.bottom - clippingRect.top;\n  clippingRect.x = clippingRect.left;\n  clippingRect.y = clippingRect.top;\n  return clippingRect;\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getCompositeRect)\n/* harmony export */ });\n/* harmony import */ var _getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getBoundingClientRect.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js\");\n/* harmony import */ var _getNodeScroll_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./getNodeScroll.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js\");\n/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./getNodeName.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js\");\n/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./instanceOf.js */ \"./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js\");\n/* harmony import */ var _getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./getWindowScrollBarX.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js\");\n/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getDocumentElement.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js\");\n/* harmony import */ var _isScrollParent_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./isScrollParent.js */ \"./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js\");\n/* harmony import */ var _utils_math_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/math.js */ \"./node_modules/@popperjs/core/lib/utils/math.js\");\n\n\n\n\n\n\n\n\n\nfunction isElementScaled(element) {\n  var rect = element.getBoundingClientRect();\n  var scaleX = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_0__.round)(rect.width) / element.offsetWidth || 1;\n  var scaleY = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_0__.round)(rect.height) / element.offsetHeight || 1;\n  return scaleX !== 1 || scaleY !== 1;\n} // Returns the composite rect of an element relative to its offsetParent.\n// Composite means it takes into account transforms as well as layout.\n\n\nfunction getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {\n  if (isFixed === void 0) {\n    isFixed = false;\n  }\n\n  var isOffsetParentAnElement = (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_1__.isHTMLElement)(offsetParent);\n  var offsetParentIsScaled = (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_1__.isHTMLElement)(offsetParent) && isElementScaled(offsetParent);\n  var documentElement = (0,_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(offsetParent);\n  var rect = (0,_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(elementOrVirtualElement, offsetParentIsScaled, isFixed);\n  var scroll = {\n    scrollLeft: 0,\n    scrollTop: 0\n  };\n  var offsets = {\n    x: 0,\n    y: 0\n  };\n\n  if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {\n    if ((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"])(offsetParent) !== 'body' || // https://github.com/popperjs/popper-core/issues/1078\n    (0,_isScrollParent_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"])(documentElement)) {\n      scroll = (0,_getNodeScroll_js__WEBPACK_IMPORTED_MODULE_6__[\"default\"])(offsetParent);\n    }\n\n    if ((0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_1__.isHTMLElement)(offsetParent)) {\n      offsets = (0,_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(offsetParent, true);\n      offsets.x += offsetParent.clientLeft;\n      offsets.y += offsetParent.clientTop;\n    } else if (documentElement) {\n      offsets.x = (0,_getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_7__[\"default\"])(documentElement);\n    }\n  }\n\n  return {\n    x: rect.left + scroll.scrollLeft - offsets.x,\n    y: rect.top + scroll.scrollTop - offsets.y,\n    width: rect.width,\n    height: rect.height\n  };\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getComputedStyle)\n/* harmony export */ });\n/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindow.js\");\n\nfunction getComputedStyle(element) {\n  return (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(element).getComputedStyle(element);\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getDocumentElement)\n/* harmony export */ });\n/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./instanceOf.js */ \"./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js\");\n\nfunction getDocumentElement(element) {\n  // $FlowFixMe[incompatible-return]: assume body is always available\n  return (((0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isElement)(element) ? element.ownerDocument : // $FlowFixMe[prop-missing]\n  element.document) || window.document).documentElement;\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getDocumentRect)\n/* harmony export */ });\n/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getDocumentElement.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js\");\n/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./getComputedStyle.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js\");\n/* harmony import */ var _getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getWindowScrollBarX.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js\");\n/* harmony import */ var _getWindowScroll_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getWindowScroll.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js\");\n/* harmony import */ var _utils_math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/math.js */ \"./node_modules/@popperjs/core/lib/utils/math.js\");\n\n\n\n\n // Gets the entire size of the scrollable document area, even extending outside\n// of the `<html>` and `<body>` rect bounds if horizontally scrollable\n\nfunction getDocumentRect(element) {\n  var _element$ownerDocumen;\n\n  var html = (0,_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(element);\n  var winScroll = (0,_getWindowScroll_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(element);\n  var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;\n  var width = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_2__.max)(html.scrollWidth, html.clientWidth, body ? body.scrollWidth : 0, body ? body.clientWidth : 0);\n  var height = (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_2__.max)(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);\n  var x = -winScroll.scrollLeft + (0,_getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(element);\n  var y = -winScroll.scrollTop;\n\n  if ((0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"])(body || html).direction === 'rtl') {\n    x += (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_2__.max)(html.clientWidth, body ? body.clientWidth : 0) - width;\n  }\n\n  return {\n    width: width,\n    height: height,\n    x: x,\n    y: y\n  };\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getHTMLElementScroll.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getHTMLElementScroll.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getHTMLElementScroll)\n/* harmony export */ });\nfunction getHTMLElementScroll(element) {\n  return {\n    scrollLeft: element.scrollLeft,\n    scrollTop: element.scrollTop\n  };\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getHTMLElementScroll.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getLayoutRect)\n/* harmony export */ });\n/* harmony import */ var _getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getBoundingClientRect.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js\");\n // Returns the layout rect of an element relative to its offsetParent. Layout\n// means it doesn't take into account transforms.\n\nfunction getLayoutRect(element) {\n  var clientRect = (0,_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(element); // Use the clientRect sizes if it's not been transformed.\n  // Fixes https://github.com/popperjs/popper-core/issues/1223\n\n  var width = element.offsetWidth;\n  var height = element.offsetHeight;\n\n  if (Math.abs(clientRect.width - width) <= 1) {\n    width = clientRect.width;\n  }\n\n  if (Math.abs(clientRect.height - height) <= 1) {\n    height = clientRect.height;\n  }\n\n  return {\n    x: element.offsetLeft,\n    y: element.offsetTop,\n    width: width,\n    height: height\n  };\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getNodeName)\n/* harmony export */ });\nfunction getNodeName(element) {\n  return element ? (element.nodeName || '').toLowerCase() : null;\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getNodeScroll)\n/* harmony export */ });\n/* harmony import */ var _getWindowScroll_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindowScroll.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js\");\n/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindow.js\");\n/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./instanceOf.js */ \"./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js\");\n/* harmony import */ var _getHTMLElementScroll_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getHTMLElementScroll.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getHTMLElementScroll.js\");\n\n\n\n\nfunction getNodeScroll(node) {\n  if (node === (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(node) || !(0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_1__.isHTMLElement)(node)) {\n    return (0,_getWindowScroll_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(node);\n  } else {\n    return (0,_getHTMLElementScroll_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(node);\n  }\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getOffsetParent)\n/* harmony export */ });\n/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./getWindow.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindow.js\");\n/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./getNodeName.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js\");\n/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getComputedStyle.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js\");\n/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./instanceOf.js */ \"./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js\");\n/* harmony import */ var _isTableElement_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./isTableElement.js */ \"./node_modules/@popperjs/core/lib/dom-utils/isTableElement.js\");\n/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getParentNode.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js\");\n/* harmony import */ var _utils_userAgent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/userAgent.js */ \"./node_modules/@popperjs/core/lib/utils/userAgent.js\");\n\n\n\n\n\n\n\n\nfunction getTrueOffsetParent(element) {\n  if (!(0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isHTMLElement)(element) || // https://github.com/popperjs/popper-core/issues/837\n  (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(element).position === 'fixed') {\n    return null;\n  }\n\n  return element.offsetParent;\n} // `.offsetParent` reports `null` for fixed elements, while absolute elements\n// return the containing block\n\n\nfunction getContainingBlock(element) {\n  var isFirefox = /firefox/i.test((0,_utils_userAgent_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])());\n  var isIE = /Trident/i.test((0,_utils_userAgent_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])());\n\n  if (isIE && (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isHTMLElement)(element)) {\n    // In IE 9, 10 and 11 fixed elements containing block is always established by the viewport\n    var elementCss = (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(element);\n\n    if (elementCss.position === 'fixed') {\n      return null;\n    }\n  }\n\n  var currentNode = (0,_getParentNode_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(element);\n\n  if ((0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isShadowRoot)(currentNode)) {\n    currentNode = currentNode.host;\n  }\n\n  while ((0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isHTMLElement)(currentNode) && ['html', 'body'].indexOf((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"])(currentNode)) < 0) {\n    var css = (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(currentNode); // This is non-exhaustive but covers the most common CSS properties that\n    // create a containing block.\n    // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block\n\n    if (css.transform !== 'none' || css.perspective !== 'none' || css.contain === 'paint' || ['transform', 'perspective'].indexOf(css.willChange) !== -1 || isFirefox && css.willChange === 'filter' || isFirefox && css.filter && css.filter !== 'none') {\n      return currentNode;\n    } else {\n      currentNode = currentNode.parentNode;\n    }\n  }\n\n  return null;\n} // Gets the closest ancestor positioned element. Handles some edge cases,\n// such as table ancestors and cross browser bugs.\n\n\nfunction getOffsetParent(element) {\n  var window = (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"])(element);\n  var offsetParent = getTrueOffsetParent(element);\n\n  while (offsetParent && (0,_isTableElement_js__WEBPACK_IMPORTED_MODULE_6__[\"default\"])(offsetParent) && (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(offsetParent).position === 'static') {\n    offsetParent = getTrueOffsetParent(offsetParent);\n  }\n\n  if (offsetParent && ((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"])(offsetParent) === 'html' || (0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"])(offsetParent) === 'body' && (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(offsetParent).position === 'static')) {\n    return window;\n  }\n\n  return offsetParent || getContainingBlock(element) || window;\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getParentNode)\n/* harmony export */ });\n/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getNodeName.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js\");\n/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getDocumentElement.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js\");\n/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./instanceOf.js */ \"./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js\");\n\n\n\nfunction getParentNode(element) {\n  if ((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(element) === 'html') {\n    return element;\n  }\n\n  return (// this is a quicker (but less type safe) way to save quite some bytes from the bundle\n    // $FlowFixMe[incompatible-return]\n    // $FlowFixMe[prop-missing]\n    element.assignedSlot || // step into the shadow DOM of the parent of a slotted node\n    element.parentNode || ( // DOM Element detected\n    (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_1__.isShadowRoot)(element) ? element.host : null) || // ShadowRoot detected\n    // $FlowFixMe[incompatible-call]: HTMLElement is a Node\n    (0,_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(element) // fallback\n\n  );\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getScrollParent)\n/* harmony export */ });\n/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getParentNode.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js\");\n/* harmony import */ var _isScrollParent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./isScrollParent.js */ \"./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js\");\n/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getNodeName.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js\");\n/* harmony import */ var _instanceOf_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./instanceOf.js */ \"./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js\");\n\n\n\n\nfunction getScrollParent(node) {\n  if (['html', 'body', '#document'].indexOf((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(node)) >= 0) {\n    // $FlowFixMe[incompatible-return]: assume body is always available\n    return node.ownerDocument.body;\n  }\n\n  if ((0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_1__.isHTMLElement)(node) && (0,_isScrollParent_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(node)) {\n    return node;\n  }\n\n  return getScrollParent((0,_getParentNode_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(node));\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getViewportRect)\n/* harmony export */ });\n/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindow.js\");\n/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getDocumentElement.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js\");\n/* harmony import */ var _getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getWindowScrollBarX.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js\");\n/* harmony import */ var _isLayoutViewport_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./isLayoutViewport.js */ \"./node_modules/@popperjs/core/lib/dom-utils/isLayoutViewport.js\");\n\n\n\n\nfunction getViewportRect(element, strategy) {\n  var win = (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(element);\n  var html = (0,_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(element);\n  var visualViewport = win.visualViewport;\n  var width = html.clientWidth;\n  var height = html.clientHeight;\n  var x = 0;\n  var y = 0;\n\n  if (visualViewport) {\n    width = visualViewport.width;\n    height = visualViewport.height;\n    var layoutViewport = (0,_isLayoutViewport_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])();\n\n    if (layoutViewport || !layoutViewport && strategy === 'fixed') {\n      x = visualViewport.offsetLeft;\n      y = visualViewport.offsetTop;\n    }\n  }\n\n  return {\n    width: width,\n    height: height,\n    x: x + (0,_getWindowScrollBarX_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(element),\n    y: y\n  };\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getWindow.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getWindow.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getWindow)\n/* harmony export */ });\nfunction getWindow(node) {\n  if (node == null) {\n    return window;\n  }\n\n  if (node.toString() !== '[object Window]') {\n    var ownerDocument = node.ownerDocument;\n    return ownerDocument ? ownerDocument.defaultView || window : window;\n  }\n\n  return node;\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getWindow.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getWindowScroll)\n/* harmony export */ });\n/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindow.js\");\n\nfunction getWindowScroll(node) {\n  var win = (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(node);\n  var scrollLeft = win.pageXOffset;\n  var scrollTop = win.pageYOffset;\n  return {\n    scrollLeft: scrollLeft,\n    scrollTop: scrollTop\n  };\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getWindowScrollBarX)\n/* harmony export */ });\n/* harmony import */ var _getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getBoundingClientRect.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js\");\n/* harmony import */ var _getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getDocumentElement.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js\");\n/* harmony import */ var _getWindowScroll_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./getWindowScroll.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js\");\n\n\n\nfunction getWindowScrollBarX(element) {\n  // If <html> has a CSS width greater than the viewport, then this will be\n  // incorrect for RTL.\n  // Popper 1 is broken in this case and never had a bug report so let's assume\n  // it's not an issue. I don't think anyone ever specifies width on <html>\n  // anyway.\n  // Browsers where the left scrollbar doesn't cause an issue report `0` for\n  // this (e.g. Edge 2019, IE11, Safari)\n  return (0,_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])((0,_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(element)).left + (0,_getWindowScroll_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(element).scrollLeft;\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   isElement: () => (/* binding */ isElement),\n/* harmony export */   isHTMLElement: () => (/* binding */ isHTMLElement),\n/* harmony export */   isShadowRoot: () => (/* binding */ isShadowRoot)\n/* harmony export */ });\n/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getWindow.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindow.js\");\n\n\nfunction isElement(node) {\n  var OwnElement = (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(node).Element;\n  return node instanceof OwnElement || node instanceof Element;\n}\n\nfunction isHTMLElement(node) {\n  var OwnElement = (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(node).HTMLElement;\n  return node instanceof OwnElement || node instanceof HTMLElement;\n}\n\nfunction isShadowRoot(node) {\n  // IE 11 has no ShadowRoot\n  if (typeof ShadowRoot === 'undefined') {\n    return false;\n  }\n\n  var OwnElement = (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(node).ShadowRoot;\n  return node instanceof OwnElement || node instanceof ShadowRoot;\n}\n\n\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/isLayoutViewport.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/isLayoutViewport.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ isLayoutViewport)\n/* harmony export */ });\n/* harmony import */ var _utils_userAgent_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/userAgent.js */ \"./node_modules/@popperjs/core/lib/utils/userAgent.js\");\n\nfunction isLayoutViewport() {\n  return !/^((?!chrome|android).)*safari/i.test((0,_utils_userAgent_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])());\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/isLayoutViewport.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ isScrollParent)\n/* harmony export */ });\n/* harmony import */ var _getComputedStyle_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getComputedStyle.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js\");\n\nfunction isScrollParent(element) {\n  // Firefox wants us to check `-x` and `-y` variations as well\n  var _getComputedStyle = (0,_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(element),\n      overflow = _getComputedStyle.overflow,\n      overflowX = _getComputedStyle.overflowX,\n      overflowY = _getComputedStyle.overflowY;\n\n  return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/isTableElement.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/isTableElement.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ isTableElement)\n/* harmony export */ });\n/* harmony import */ var _getNodeName_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getNodeName.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js\");\n\nfunction isTableElement(element) {\n  return ['table', 'td', 'th'].indexOf((0,_getNodeName_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(element)) >= 0;\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/isTableElement.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ listScrollParents)\n/* harmony export */ });\n/* harmony import */ var _getScrollParent_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getScrollParent.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js\");\n/* harmony import */ var _getParentNode_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getParentNode.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js\");\n/* harmony import */ var _getWindow_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getWindow.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindow.js\");\n/* harmony import */ var _isScrollParent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./isScrollParent.js */ \"./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js\");\n\n\n\n\n/*\ngiven a DOM element, return the list of all scroll parents, up the list of ancesors\nuntil we get to the top window object. This list is what we attach scroll listeners\nto, because if any of these parent elements scroll, we'll need to re-calculate the\nreference element's position.\n*/\n\nfunction listScrollParents(element, list) {\n  var _element$ownerDocumen;\n\n  if (list === void 0) {\n    list = [];\n  }\n\n  var scrollParent = (0,_getScrollParent_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(element);\n  var isBody = scrollParent === ((_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body);\n  var win = (0,_getWindow_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(scrollParent);\n  var target = isBody ? [win].concat(win.visualViewport || [], (0,_isScrollParent_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(scrollParent) ? scrollParent : []) : scrollParent;\n  var updatedList = list.concat(target);\n  return isBody ? updatedList : // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here\n  updatedList.concat(listScrollParents((0,_getParentNode_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(target)));\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/enums.js":
+/*!**************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/enums.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   afterMain: () => (/* binding */ afterMain),\n/* harmony export */   afterRead: () => (/* binding */ afterRead),\n/* harmony export */   afterWrite: () => (/* binding */ afterWrite),\n/* harmony export */   auto: () => (/* binding */ auto),\n/* harmony export */   basePlacements: () => (/* binding */ basePlacements),\n/* harmony export */   beforeMain: () => (/* binding */ beforeMain),\n/* harmony export */   beforeRead: () => (/* binding */ beforeRead),\n/* harmony export */   beforeWrite: () => (/* binding */ beforeWrite),\n/* harmony export */   bottom: () => (/* binding */ bottom),\n/* harmony export */   clippingParents: () => (/* binding */ clippingParents),\n/* harmony export */   end: () => (/* binding */ end),\n/* harmony export */   left: () => (/* binding */ left),\n/* harmony export */   main: () => (/* binding */ main),\n/* harmony export */   modifierPhases: () => (/* binding */ modifierPhases),\n/* harmony export */   placements: () => (/* binding */ placements),\n/* harmony export */   popper: () => (/* binding */ popper),\n/* harmony export */   read: () => (/* binding */ read),\n/* harmony export */   reference: () => (/* binding */ reference),\n/* harmony export */   right: () => (/* binding */ right),\n/* harmony export */   start: () => (/* binding */ start),\n/* harmony export */   top: () => (/* binding */ top),\n/* harmony export */   variationPlacements: () => (/* binding */ variationPlacements),\n/* harmony export */   viewport: () => (/* binding */ viewport),\n/* harmony export */   write: () => (/* binding */ write)\n/* harmony export */ });\nvar top = 'top';\nvar bottom = 'bottom';\nvar right = 'right';\nvar left = 'left';\nvar auto = 'auto';\nvar basePlacements = [top, bottom, right, left];\nvar start = 'start';\nvar end = 'end';\nvar clippingParents = 'clippingParents';\nvar viewport = 'viewport';\nvar popper = 'popper';\nvar reference = 'reference';\nvar variationPlacements = /*#__PURE__*/basePlacements.reduce(function (acc, placement) {\n  return acc.concat([placement + \"-\" + start, placement + \"-\" + end]);\n}, []);\nvar placements = /*#__PURE__*/[].concat(basePlacements, [auto]).reduce(function (acc, placement) {\n  return acc.concat([placement, placement + \"-\" + start, placement + \"-\" + end]);\n}, []); // modifiers that need to read the DOM\n\nvar beforeRead = 'beforeRead';\nvar read = 'read';\nvar afterRead = 'afterRead'; // pure-logic modifiers\n\nvar beforeMain = 'beforeMain';\nvar main = 'main';\nvar afterMain = 'afterMain'; // modifier with the purpose to write to the DOM (or write into a framework state)\n\nvar beforeWrite = 'beforeWrite';\nvar write = 'write';\nvar afterWrite = 'afterWrite';\nvar modifierPhases = [beforeRead, read, afterRead, beforeMain, main, afterMain, beforeWrite, write, afterWrite];\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/enums.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/modifiers/applyStyles.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/applyStyles.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _dom_utils_getNodeName_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../dom-utils/getNodeName.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js\");\n/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dom-utils/instanceOf.js */ \"./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js\");\n\n // This modifier takes the styles prepared by the `computeStyles` modifier\n// and applies them to the HTMLElements such as popper and arrow\n\nfunction applyStyles(_ref) {\n  var state = _ref.state;\n  Object.keys(state.elements).forEach(function (name) {\n    var style = state.styles[name] || {};\n    var attributes = state.attributes[name] || {};\n    var element = state.elements[name]; // arrow is optional + virtual elements\n\n    if (!(0,_dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isHTMLElement)(element) || !(0,_dom_utils_getNodeName_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(element)) {\n      return;\n    } // Flow doesn't support to extend this property, but it's the most\n    // effective way to apply styles to an HTMLElement\n    // $FlowFixMe[cannot-write]\n\n\n    Object.assign(element.style, style);\n    Object.keys(attributes).forEach(function (name) {\n      var value = attributes[name];\n\n      if (value === false) {\n        element.removeAttribute(name);\n      } else {\n        element.setAttribute(name, value === true ? '' : value);\n      }\n    });\n  });\n}\n\nfunction effect(_ref2) {\n  var state = _ref2.state;\n  var initialStyles = {\n    popper: {\n      position: state.options.strategy,\n      left: '0',\n      top: '0',\n      margin: '0'\n    },\n    arrow: {\n      position: 'absolute'\n    },\n    reference: {}\n  };\n  Object.assign(state.elements.popper.style, initialStyles.popper);\n  state.styles = initialStyles;\n\n  if (state.elements.arrow) {\n    Object.assign(state.elements.arrow.style, initialStyles.arrow);\n  }\n\n  return function () {\n    Object.keys(state.elements).forEach(function (name) {\n      var element = state.elements[name];\n      var attributes = state.attributes[name] || {};\n      var styleProperties = Object.keys(state.styles.hasOwnProperty(name) ? state.styles[name] : initialStyles[name]); // Set all values to an empty string to unset them\n\n      var style = styleProperties.reduce(function (style, property) {\n        style[property] = '';\n        return style;\n      }, {}); // arrow is optional + virtual elements\n\n      if (!(0,_dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_0__.isHTMLElement)(element) || !(0,_dom_utils_getNodeName_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(element)) {\n        return;\n      }\n\n      Object.assign(element.style, style);\n      Object.keys(attributes).forEach(function (attribute) {\n        element.removeAttribute(attribute);\n      });\n    });\n  };\n} // eslint-disable-next-line import/no-unused-modules\n\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  name: 'applyStyles',\n  enabled: true,\n  phase: 'write',\n  fn: applyStyles,\n  effect: effect,\n  requires: ['computeStyles']\n});\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/modifiers/applyStyles.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/modifiers/arrow.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/arrow.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ \"./node_modules/@popperjs/core/lib/utils/getBasePlacement.js\");\n/* harmony import */ var _dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../dom-utils/getLayoutRect.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js\");\n/* harmony import */ var _dom_utils_contains_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../dom-utils/contains.js */ \"./node_modules/@popperjs/core/lib/dom-utils/contains.js\");\n/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dom-utils/getOffsetParent.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js\");\n/* harmony import */ var _utils_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/getMainAxisFromPlacement.js */ \"./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js\");\n/* harmony import */ var _utils_within_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/within.js */ \"./node_modules/@popperjs/core/lib/utils/within.js\");\n/* harmony import */ var _utils_mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/mergePaddingObject.js */ \"./node_modules/@popperjs/core/lib/utils/mergePaddingObject.js\");\n/* harmony import */ var _utils_expandToHashMap_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/expandToHashMap.js */ \"./node_modules/@popperjs/core/lib/utils/expandToHashMap.js\");\n/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../enums.js */ \"./node_modules/@popperjs/core/lib/enums.js\");\n\n\n\n\n\n\n\n\n // eslint-disable-next-line import/no-unused-modules\n\nvar toPaddingObject = function toPaddingObject(padding, state) {\n  padding = typeof padding === 'function' ? padding(Object.assign({}, state.rects, {\n    placement: state.placement\n  })) : padding;\n  return (0,_utils_mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(typeof padding !== 'number' ? padding : (0,_utils_expandToHashMap_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(padding, _enums_js__WEBPACK_IMPORTED_MODULE_2__.basePlacements));\n};\n\nfunction arrow(_ref) {\n  var _state$modifiersData$;\n\n  var state = _ref.state,\n      name = _ref.name,\n      options = _ref.options;\n  var arrowElement = state.elements.arrow;\n  var popperOffsets = state.modifiersData.popperOffsets;\n  var basePlacement = (0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(state.placement);\n  var axis = (0,_utils_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"])(basePlacement);\n  var isVertical = [_enums_js__WEBPACK_IMPORTED_MODULE_2__.left, _enums_js__WEBPACK_IMPORTED_MODULE_2__.right].indexOf(basePlacement) >= 0;\n  var len = isVertical ? 'height' : 'width';\n\n  if (!arrowElement || !popperOffsets) {\n    return;\n  }\n\n  var paddingObject = toPaddingObject(options.padding, state);\n  var arrowRect = (0,_dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"])(arrowElement);\n  var minProp = axis === 'y' ? _enums_js__WEBPACK_IMPORTED_MODULE_2__.top : _enums_js__WEBPACK_IMPORTED_MODULE_2__.left;\n  var maxProp = axis === 'y' ? _enums_js__WEBPACK_IMPORTED_MODULE_2__.bottom : _enums_js__WEBPACK_IMPORTED_MODULE_2__.right;\n  var endDiff = state.rects.reference[len] + state.rects.reference[axis] - popperOffsets[axis] - state.rects.popper[len];\n  var startDiff = popperOffsets[axis] - state.rects.reference[axis];\n  var arrowOffsetParent = (0,_dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_6__[\"default\"])(arrowElement);\n  var clientSize = arrowOffsetParent ? axis === 'y' ? arrowOffsetParent.clientHeight || 0 : arrowOffsetParent.clientWidth || 0 : 0;\n  var centerToReference = endDiff / 2 - startDiff / 2; // Make sure the arrow doesn't overflow the popper if the center point is\n  // outside of the popper bounds\n\n  var min = paddingObject[minProp];\n  var max = clientSize - arrowRect[len] - paddingObject[maxProp];\n  var center = clientSize / 2 - arrowRect[len] / 2 + centerToReference;\n  var offset = (0,_utils_within_js__WEBPACK_IMPORTED_MODULE_7__.within)(min, center, max); // Prevents breaking syntax highlighting...\n\n  var axisProp = axis;\n  state.modifiersData[name] = (_state$modifiersData$ = {}, _state$modifiersData$[axisProp] = offset, _state$modifiersData$.centerOffset = offset - center, _state$modifiersData$);\n}\n\nfunction effect(_ref2) {\n  var state = _ref2.state,\n      options = _ref2.options;\n  var _options$element = options.element,\n      arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;\n\n  if (arrowElement == null) {\n    return;\n  } // CSS selector\n\n\n  if (typeof arrowElement === 'string') {\n    arrowElement = state.elements.popper.querySelector(arrowElement);\n\n    if (!arrowElement) {\n      return;\n    }\n  }\n\n  if (!(0,_dom_utils_contains_js__WEBPACK_IMPORTED_MODULE_8__[\"default\"])(state.elements.popper, arrowElement)) {\n    return;\n  }\n\n  state.elements.arrow = arrowElement;\n} // eslint-disable-next-line import/no-unused-modules\n\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  name: 'arrow',\n  enabled: true,\n  phase: 'main',\n  fn: arrow,\n  effect: effect,\n  requires: ['popperOffsets'],\n  requiresIfExists: ['preventOverflow']\n});\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/modifiers/arrow.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/modifiers/computeStyles.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/computeStyles.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   mapToStyles: () => (/* binding */ mapToStyles)\n/* harmony export */ });\n/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ \"./node_modules/@popperjs/core/lib/enums.js\");\n/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dom-utils/getOffsetParent.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js\");\n/* harmony import */ var _dom_utils_getWindow_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dom-utils/getWindow.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindow.js\");\n/* harmony import */ var _dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dom-utils/getDocumentElement.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js\");\n/* harmony import */ var _dom_utils_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../dom-utils/getComputedStyle.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js\");\n/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ \"./node_modules/@popperjs/core/lib/utils/getBasePlacement.js\");\n/* harmony import */ var _utils_getVariation_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/getVariation.js */ \"./node_modules/@popperjs/core/lib/utils/getVariation.js\");\n/* harmony import */ var _utils_math_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/math.js */ \"./node_modules/@popperjs/core/lib/utils/math.js\");\n\n\n\n\n\n\n\n // eslint-disable-next-line import/no-unused-modules\n\nvar unsetSides = {\n  top: 'auto',\n  right: 'auto',\n  bottom: 'auto',\n  left: 'auto'\n}; // Round the offsets to the nearest suitable subpixel based on the DPR.\n// Zooming can change the DPR, but it seems to report a value that will\n// cleanly divide the values into the appropriate subpixels.\n\nfunction roundOffsetsByDPR(_ref, win) {\n  var x = _ref.x,\n      y = _ref.y;\n  var dpr = win.devicePixelRatio || 1;\n  return {\n    x: (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_0__.round)(x * dpr) / dpr || 0,\n    y: (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_0__.round)(y * dpr) / dpr || 0\n  };\n}\n\nfunction mapToStyles(_ref2) {\n  var _Object$assign2;\n\n  var popper = _ref2.popper,\n      popperRect = _ref2.popperRect,\n      placement = _ref2.placement,\n      variation = _ref2.variation,\n      offsets = _ref2.offsets,\n      position = _ref2.position,\n      gpuAcceleration = _ref2.gpuAcceleration,\n      adaptive = _ref2.adaptive,\n      roundOffsets = _ref2.roundOffsets,\n      isFixed = _ref2.isFixed;\n  var _offsets$x = offsets.x,\n      x = _offsets$x === void 0 ? 0 : _offsets$x,\n      _offsets$y = offsets.y,\n      y = _offsets$y === void 0 ? 0 : _offsets$y;\n\n  var _ref3 = typeof roundOffsets === 'function' ? roundOffsets({\n    x: x,\n    y: y\n  }) : {\n    x: x,\n    y: y\n  };\n\n  x = _ref3.x;\n  y = _ref3.y;\n  var hasX = offsets.hasOwnProperty('x');\n  var hasY = offsets.hasOwnProperty('y');\n  var sideX = _enums_js__WEBPACK_IMPORTED_MODULE_1__.left;\n  var sideY = _enums_js__WEBPACK_IMPORTED_MODULE_1__.top;\n  var win = window;\n\n  if (adaptive) {\n    var offsetParent = (0,_dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(popper);\n    var heightProp = 'clientHeight';\n    var widthProp = 'clientWidth';\n\n    if (offsetParent === (0,_dom_utils_getWindow_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(popper)) {\n      offsetParent = (0,_dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"])(popper);\n\n      if ((0,_dom_utils_getComputedStyle_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"])(offsetParent).position !== 'static' && position === 'absolute') {\n        heightProp = 'scrollHeight';\n        widthProp = 'scrollWidth';\n      }\n    } // $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it\n\n\n    offsetParent = offsetParent;\n\n    if (placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.top || (placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.left || placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.right) && variation === _enums_js__WEBPACK_IMPORTED_MODULE_1__.end) {\n      sideY = _enums_js__WEBPACK_IMPORTED_MODULE_1__.bottom;\n      var offsetY = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.height : // $FlowFixMe[prop-missing]\n      offsetParent[heightProp];\n      y -= offsetY - popperRect.height;\n      y *= gpuAcceleration ? 1 : -1;\n    }\n\n    if (placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.left || (placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.top || placement === _enums_js__WEBPACK_IMPORTED_MODULE_1__.bottom) && variation === _enums_js__WEBPACK_IMPORTED_MODULE_1__.end) {\n      sideX = _enums_js__WEBPACK_IMPORTED_MODULE_1__.right;\n      var offsetX = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.width : // $FlowFixMe[prop-missing]\n      offsetParent[widthProp];\n      x -= offsetX - popperRect.width;\n      x *= gpuAcceleration ? 1 : -1;\n    }\n  }\n\n  var commonStyles = Object.assign({\n    position: position\n  }, adaptive && unsetSides);\n\n  var _ref4 = roundOffsets === true ? roundOffsetsByDPR({\n    x: x,\n    y: y\n  }, (0,_dom_utils_getWindow_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(popper)) : {\n    x: x,\n    y: y\n  };\n\n  x = _ref4.x;\n  y = _ref4.y;\n\n  if (gpuAcceleration) {\n    var _Object$assign;\n\n    return Object.assign({}, commonStyles, (_Object$assign = {}, _Object$assign[sideY] = hasY ? '0' : '', _Object$assign[sideX] = hasX ? '0' : '', _Object$assign.transform = (win.devicePixelRatio || 1) <= 1 ? \"translate(\" + x + \"px, \" + y + \"px)\" : \"translate3d(\" + x + \"px, \" + y + \"px, 0)\", _Object$assign));\n  }\n\n  return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + \"px\" : '', _Object$assign2[sideX] = hasX ? x + \"px\" : '', _Object$assign2.transform = '', _Object$assign2));\n}\n\nfunction computeStyles(_ref5) {\n  var state = _ref5.state,\n      options = _ref5.options;\n  var _options$gpuAccelerat = options.gpuAcceleration,\n      gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,\n      _options$adaptive = options.adaptive,\n      adaptive = _options$adaptive === void 0 ? true : _options$adaptive,\n      _options$roundOffsets = options.roundOffsets,\n      roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;\n  var commonStyles = {\n    placement: (0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_6__[\"default\"])(state.placement),\n    variation: (0,_utils_getVariation_js__WEBPACK_IMPORTED_MODULE_7__[\"default\"])(state.placement),\n    popper: state.elements.popper,\n    popperRect: state.rects.popper,\n    gpuAcceleration: gpuAcceleration,\n    isFixed: state.options.strategy === 'fixed'\n  };\n\n  if (state.modifiersData.popperOffsets != null) {\n    state.styles.popper = Object.assign({}, state.styles.popper, mapToStyles(Object.assign({}, commonStyles, {\n      offsets: state.modifiersData.popperOffsets,\n      position: state.options.strategy,\n      adaptive: adaptive,\n      roundOffsets: roundOffsets\n    })));\n  }\n\n  if (state.modifiersData.arrow != null) {\n    state.styles.arrow = Object.assign({}, state.styles.arrow, mapToStyles(Object.assign({}, commonStyles, {\n      offsets: state.modifiersData.arrow,\n      position: 'absolute',\n      adaptive: false,\n      roundOffsets: roundOffsets\n    })));\n  }\n\n  state.attributes.popper = Object.assign({}, state.attributes.popper, {\n    'data-popper-placement': state.placement\n  });\n} // eslint-disable-next-line import/no-unused-modules\n\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  name: 'computeStyles',\n  enabled: true,\n  phase: 'beforeWrite',\n  fn: computeStyles,\n  data: {}\n});\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/modifiers/computeStyles.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/modifiers/eventListeners.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/eventListeners.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _dom_utils_getWindow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dom-utils/getWindow.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getWindow.js\");\n // eslint-disable-next-line import/no-unused-modules\n\nvar passive = {\n  passive: true\n};\n\nfunction effect(_ref) {\n  var state = _ref.state,\n      instance = _ref.instance,\n      options = _ref.options;\n  var _options$scroll = options.scroll,\n      scroll = _options$scroll === void 0 ? true : _options$scroll,\n      _options$resize = options.resize,\n      resize = _options$resize === void 0 ? true : _options$resize;\n  var window = (0,_dom_utils_getWindow_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(state.elements.popper);\n  var scrollParents = [].concat(state.scrollParents.reference, state.scrollParents.popper);\n\n  if (scroll) {\n    scrollParents.forEach(function (scrollParent) {\n      scrollParent.addEventListener('scroll', instance.update, passive);\n    });\n  }\n\n  if (resize) {\n    window.addEventListener('resize', instance.update, passive);\n  }\n\n  return function () {\n    if (scroll) {\n      scrollParents.forEach(function (scrollParent) {\n        scrollParent.removeEventListener('scroll', instance.update, passive);\n      });\n    }\n\n    if (resize) {\n      window.removeEventListener('resize', instance.update, passive);\n    }\n  };\n} // eslint-disable-next-line import/no-unused-modules\n\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  name: 'eventListeners',\n  enabled: true,\n  phase: 'write',\n  fn: function fn() {},\n  effect: effect,\n  data: {}\n});\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/modifiers/eventListeners.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/modifiers/flip.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/flip.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/getOppositePlacement.js */ \"./node_modules/@popperjs/core/lib/utils/getOppositePlacement.js\");\n/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ \"./node_modules/@popperjs/core/lib/utils/getBasePlacement.js\");\n/* harmony import */ var _utils_getOppositeVariationPlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/getOppositeVariationPlacement.js */ \"./node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js\");\n/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../utils/detectOverflow.js */ \"./node_modules/@popperjs/core/lib/utils/detectOverflow.js\");\n/* harmony import */ var _utils_computeAutoPlacement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/computeAutoPlacement.js */ \"./node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js\");\n/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ \"./node_modules/@popperjs/core/lib/enums.js\");\n/* harmony import */ var _utils_getVariation_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/getVariation.js */ \"./node_modules/@popperjs/core/lib/utils/getVariation.js\");\n\n\n\n\n\n\n // eslint-disable-next-line import/no-unused-modules\n\nfunction getExpandedFallbackPlacements(placement) {\n  if ((0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(placement) === _enums_js__WEBPACK_IMPORTED_MODULE_1__.auto) {\n    return [];\n  }\n\n  var oppositePlacement = (0,_utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(placement);\n  return [(0,_utils_getOppositeVariationPlacement_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(placement), oppositePlacement, (0,_utils_getOppositeVariationPlacement_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(oppositePlacement)];\n}\n\nfunction flip(_ref) {\n  var state = _ref.state,\n      options = _ref.options,\n      name = _ref.name;\n\n  if (state.modifiersData[name]._skip) {\n    return;\n  }\n\n  var _options$mainAxis = options.mainAxis,\n      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,\n      _options$altAxis = options.altAxis,\n      checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,\n      specifiedFallbackPlacements = options.fallbackPlacements,\n      padding = options.padding,\n      boundary = options.boundary,\n      rootBoundary = options.rootBoundary,\n      altBoundary = options.altBoundary,\n      _options$flipVariatio = options.flipVariations,\n      flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,\n      allowedAutoPlacements = options.allowedAutoPlacements;\n  var preferredPlacement = state.options.placement;\n  var basePlacement = (0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(preferredPlacement);\n  var isBasePlacement = basePlacement === preferredPlacement;\n  var fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipVariations ? [(0,_utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(preferredPlacement)] : getExpandedFallbackPlacements(preferredPlacement));\n  var placements = [preferredPlacement].concat(fallbackPlacements).reduce(function (acc, placement) {\n    return acc.concat((0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(placement) === _enums_js__WEBPACK_IMPORTED_MODULE_1__.auto ? (0,_utils_computeAutoPlacement_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"])(state, {\n      placement: placement,\n      boundary: boundary,\n      rootBoundary: rootBoundary,\n      padding: padding,\n      flipVariations: flipVariations,\n      allowedAutoPlacements: allowedAutoPlacements\n    }) : placement);\n  }, []);\n  var referenceRect = state.rects.reference;\n  var popperRect = state.rects.popper;\n  var checksMap = new Map();\n  var makeFallbackChecks = true;\n  var firstFittingPlacement = placements[0];\n\n  for (var i = 0; i < placements.length; i++) {\n    var placement = placements[i];\n\n    var _basePlacement = (0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(placement);\n\n    var isStartVariation = (0,_utils_getVariation_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"])(placement) === _enums_js__WEBPACK_IMPORTED_MODULE_1__.start;\n    var isVertical = [_enums_js__WEBPACK_IMPORTED_MODULE_1__.top, _enums_js__WEBPACK_IMPORTED_MODULE_1__.bottom].indexOf(_basePlacement) >= 0;\n    var len = isVertical ? 'width' : 'height';\n    var overflow = (0,_utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_6__[\"default\"])(state, {\n      placement: placement,\n      boundary: boundary,\n      rootBoundary: rootBoundary,\n      altBoundary: altBoundary,\n      padding: padding\n    });\n    var mainVariationSide = isVertical ? isStartVariation ? _enums_js__WEBPACK_IMPORTED_MODULE_1__.right : _enums_js__WEBPACK_IMPORTED_MODULE_1__.left : isStartVariation ? _enums_js__WEBPACK_IMPORTED_MODULE_1__.bottom : _enums_js__WEBPACK_IMPORTED_MODULE_1__.top;\n\n    if (referenceRect[len] > popperRect[len]) {\n      mainVariationSide = (0,_utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(mainVariationSide);\n    }\n\n    var altVariationSide = (0,_utils_getOppositePlacement_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(mainVariationSide);\n    var checks = [];\n\n    if (checkMainAxis) {\n      checks.push(overflow[_basePlacement] <= 0);\n    }\n\n    if (checkAltAxis) {\n      checks.push(overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0);\n    }\n\n    if (checks.every(function (check) {\n      return check;\n    })) {\n      firstFittingPlacement = placement;\n      makeFallbackChecks = false;\n      break;\n    }\n\n    checksMap.set(placement, checks);\n  }\n\n  if (makeFallbackChecks) {\n    // `2` may be desired in some cases – research later\n    var numberOfChecks = flipVariations ? 3 : 1;\n\n    var _loop = function _loop(_i) {\n      var fittingPlacement = placements.find(function (placement) {\n        var checks = checksMap.get(placement);\n\n        if (checks) {\n          return checks.slice(0, _i).every(function (check) {\n            return check;\n          });\n        }\n      });\n\n      if (fittingPlacement) {\n        firstFittingPlacement = fittingPlacement;\n        return \"break\";\n      }\n    };\n\n    for (var _i = numberOfChecks; _i > 0; _i--) {\n      var _ret = _loop(_i);\n\n      if (_ret === \"break\") break;\n    }\n  }\n\n  if (state.placement !== firstFittingPlacement) {\n    state.modifiersData[name]._skip = true;\n    state.placement = firstFittingPlacement;\n    state.reset = true;\n  }\n} // eslint-disable-next-line import/no-unused-modules\n\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  name: 'flip',\n  enabled: true,\n  phase: 'main',\n  fn: flip,\n  requiresIfExists: ['offset'],\n  data: {\n    _skip: false\n  }\n});\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/modifiers/flip.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/modifiers/hide.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/hide.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ \"./node_modules/@popperjs/core/lib/enums.js\");\n/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/detectOverflow.js */ \"./node_modules/@popperjs/core/lib/utils/detectOverflow.js\");\n\n\n\nfunction getSideOffsets(overflow, rect, preventedOffsets) {\n  if (preventedOffsets === void 0) {\n    preventedOffsets = {\n      x: 0,\n      y: 0\n    };\n  }\n\n  return {\n    top: overflow.top - rect.height - preventedOffsets.y,\n    right: overflow.right - rect.width + preventedOffsets.x,\n    bottom: overflow.bottom - rect.height + preventedOffsets.y,\n    left: overflow.left - rect.width - preventedOffsets.x\n  };\n}\n\nfunction isAnySideFullyClipped(overflow) {\n  return [_enums_js__WEBPACK_IMPORTED_MODULE_0__.top, _enums_js__WEBPACK_IMPORTED_MODULE_0__.right, _enums_js__WEBPACK_IMPORTED_MODULE_0__.bottom, _enums_js__WEBPACK_IMPORTED_MODULE_0__.left].some(function (side) {\n    return overflow[side] >= 0;\n  });\n}\n\nfunction hide(_ref) {\n  var state = _ref.state,\n      name = _ref.name;\n  var referenceRect = state.rects.reference;\n  var popperRect = state.rects.popper;\n  var preventedOffsets = state.modifiersData.preventOverflow;\n  var referenceOverflow = (0,_utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(state, {\n    elementContext: 'reference'\n  });\n  var popperAltOverflow = (0,_utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(state, {\n    altBoundary: true\n  });\n  var referenceClippingOffsets = getSideOffsets(referenceOverflow, referenceRect);\n  var popperEscapeOffsets = getSideOffsets(popperAltOverflow, popperRect, preventedOffsets);\n  var isReferenceHidden = isAnySideFullyClipped(referenceClippingOffsets);\n  var hasPopperEscaped = isAnySideFullyClipped(popperEscapeOffsets);\n  state.modifiersData[name] = {\n    referenceClippingOffsets: referenceClippingOffsets,\n    popperEscapeOffsets: popperEscapeOffsets,\n    isReferenceHidden: isReferenceHidden,\n    hasPopperEscaped: hasPopperEscaped\n  };\n  state.attributes.popper = Object.assign({}, state.attributes.popper, {\n    'data-popper-reference-hidden': isReferenceHidden,\n    'data-popper-escaped': hasPopperEscaped\n  });\n} // eslint-disable-next-line import/no-unused-modules\n\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  name: 'hide',\n  enabled: true,\n  phase: 'main',\n  requiresIfExists: ['preventOverflow'],\n  fn: hide\n});\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/modifiers/hide.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/modifiers/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/index.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   applyStyles: () => (/* reexport safe */ _applyStyles_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"]),\n/* harmony export */   arrow: () => (/* reexport safe */ _arrow_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"]),\n/* harmony export */   computeStyles: () => (/* reexport safe */ _computeStyles_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"]),\n/* harmony export */   eventListeners: () => (/* reexport safe */ _eventListeners_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"]),\n/* harmony export */   flip: () => (/* reexport safe */ _flip_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"]),\n/* harmony export */   hide: () => (/* reexport safe */ _hide_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"]),\n/* harmony export */   offset: () => (/* reexport safe */ _offset_js__WEBPACK_IMPORTED_MODULE_6__[\"default\"]),\n/* harmony export */   popperOffsets: () => (/* reexport safe */ _popperOffsets_js__WEBPACK_IMPORTED_MODULE_7__[\"default\"]),\n/* harmony export */   preventOverflow: () => (/* reexport safe */ _preventOverflow_js__WEBPACK_IMPORTED_MODULE_8__[\"default\"])\n/* harmony export */ });\n/* harmony import */ var _applyStyles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./applyStyles.js */ \"./node_modules/@popperjs/core/lib/modifiers/applyStyles.js\");\n/* harmony import */ var _arrow_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./arrow.js */ \"./node_modules/@popperjs/core/lib/modifiers/arrow.js\");\n/* harmony import */ var _computeStyles_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./computeStyles.js */ \"./node_modules/@popperjs/core/lib/modifiers/computeStyles.js\");\n/* harmony import */ var _eventListeners_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./eventListeners.js */ \"./node_modules/@popperjs/core/lib/modifiers/eventListeners.js\");\n/* harmony import */ var _flip_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./flip.js */ \"./node_modules/@popperjs/core/lib/modifiers/flip.js\");\n/* harmony import */ var _hide_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./hide.js */ \"./node_modules/@popperjs/core/lib/modifiers/hide.js\");\n/* harmony import */ var _offset_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./offset.js */ \"./node_modules/@popperjs/core/lib/modifiers/offset.js\");\n/* harmony import */ var _popperOffsets_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./popperOffsets.js */ \"./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js\");\n/* harmony import */ var _preventOverflow_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./preventOverflow.js */ \"./node_modules/@popperjs/core/lib/modifiers/preventOverflow.js\");\n\n\n\n\n\n\n\n\n\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/modifiers/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/modifiers/offset.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/offset.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   distanceAndSkiddingToXY: () => (/* binding */ distanceAndSkiddingToXY)\n/* harmony export */ });\n/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ \"./node_modules/@popperjs/core/lib/utils/getBasePlacement.js\");\n/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enums.js */ \"./node_modules/@popperjs/core/lib/enums.js\");\n\n // eslint-disable-next-line import/no-unused-modules\n\nfunction distanceAndSkiddingToXY(placement, rects, offset) {\n  var basePlacement = (0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(placement);\n  var invertDistance = [_enums_js__WEBPACK_IMPORTED_MODULE_1__.left, _enums_js__WEBPACK_IMPORTED_MODULE_1__.top].indexOf(basePlacement) >= 0 ? -1 : 1;\n\n  var _ref = typeof offset === 'function' ? offset(Object.assign({}, rects, {\n    placement: placement\n  })) : offset,\n      skidding = _ref[0],\n      distance = _ref[1];\n\n  skidding = skidding || 0;\n  distance = (distance || 0) * invertDistance;\n  return [_enums_js__WEBPACK_IMPORTED_MODULE_1__.left, _enums_js__WEBPACK_IMPORTED_MODULE_1__.right].indexOf(basePlacement) >= 0 ? {\n    x: distance,\n    y: skidding\n  } : {\n    x: skidding,\n    y: distance\n  };\n}\n\nfunction offset(_ref2) {\n  var state = _ref2.state,\n      options = _ref2.options,\n      name = _ref2.name;\n  var _options$offset = options.offset,\n      offset = _options$offset === void 0 ? [0, 0] : _options$offset;\n  var data = _enums_js__WEBPACK_IMPORTED_MODULE_1__.placements.reduce(function (acc, placement) {\n    acc[placement] = distanceAndSkiddingToXY(placement, state.rects, offset);\n    return acc;\n  }, {});\n  var _data$state$placement = data[state.placement],\n      x = _data$state$placement.x,\n      y = _data$state$placement.y;\n\n  if (state.modifiersData.popperOffsets != null) {\n    state.modifiersData.popperOffsets.x += x;\n    state.modifiersData.popperOffsets.y += y;\n  }\n\n  state.modifiersData[name] = data;\n} // eslint-disable-next-line import/no-unused-modules\n\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  name: 'offset',\n  enabled: true,\n  phase: 'main',\n  requires: ['popperOffsets'],\n  fn: offset\n});\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/modifiers/offset.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _utils_computeOffsets_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/computeOffsets.js */ \"./node_modules/@popperjs/core/lib/utils/computeOffsets.js\");\n\n\nfunction popperOffsets(_ref) {\n  var state = _ref.state,\n      name = _ref.name;\n  // Offsets are the actual position the popper needs to have to be\n  // properly positioned near its reference element\n  // This is the most basic placement, and will be adjusted by\n  // the modifiers in the next step\n  state.modifiersData[name] = (0,_utils_computeOffsets_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])({\n    reference: state.rects.reference,\n    element: state.rects.popper,\n    strategy: 'absolute',\n    placement: state.placement\n  });\n} // eslint-disable-next-line import/no-unused-modules\n\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  name: 'popperOffsets',\n  enabled: true,\n  phase: 'read',\n  fn: popperOffsets,\n  data: {}\n});\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/modifiers/preventOverflow.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/modifiers/preventOverflow.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../enums.js */ \"./node_modules/@popperjs/core/lib/enums.js\");\n/* harmony import */ var _utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/getBasePlacement.js */ \"./node_modules/@popperjs/core/lib/utils/getBasePlacement.js\");\n/* harmony import */ var _utils_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/getMainAxisFromPlacement.js */ \"./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js\");\n/* harmony import */ var _utils_getAltAxis_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/getAltAxis.js */ \"./node_modules/@popperjs/core/lib/utils/getAltAxis.js\");\n/* harmony import */ var _utils_within_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils/within.js */ \"./node_modules/@popperjs/core/lib/utils/within.js\");\n/* harmony import */ var _dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dom-utils/getLayoutRect.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js\");\n/* harmony import */ var _dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../dom-utils/getOffsetParent.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js\");\n/* harmony import */ var _utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/detectOverflow.js */ \"./node_modules/@popperjs/core/lib/utils/detectOverflow.js\");\n/* harmony import */ var _utils_getVariation_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/getVariation.js */ \"./node_modules/@popperjs/core/lib/utils/getVariation.js\");\n/* harmony import */ var _utils_getFreshSideObject_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/getFreshSideObject.js */ \"./node_modules/@popperjs/core/lib/utils/getFreshSideObject.js\");\n/* harmony import */ var _utils_math_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utils/math.js */ \"./node_modules/@popperjs/core/lib/utils/math.js\");\n\n\n\n\n\n\n\n\n\n\n\n\nfunction preventOverflow(_ref) {\n  var state = _ref.state,\n      options = _ref.options,\n      name = _ref.name;\n  var _options$mainAxis = options.mainAxis,\n      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,\n      _options$altAxis = options.altAxis,\n      checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis,\n      boundary = options.boundary,\n      rootBoundary = options.rootBoundary,\n      altBoundary = options.altBoundary,\n      padding = options.padding,\n      _options$tether = options.tether,\n      tether = _options$tether === void 0 ? true : _options$tether,\n      _options$tetherOffset = options.tetherOffset,\n      tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;\n  var overflow = (0,_utils_detectOverflow_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(state, {\n    boundary: boundary,\n    rootBoundary: rootBoundary,\n    padding: padding,\n    altBoundary: altBoundary\n  });\n  var basePlacement = (0,_utils_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(state.placement);\n  var variation = (0,_utils_getVariation_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(state.placement);\n  var isBasePlacement = !variation;\n  var mainAxis = (0,_utils_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(basePlacement);\n  var altAxis = (0,_utils_getAltAxis_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"])(mainAxis);\n  var popperOffsets = state.modifiersData.popperOffsets;\n  var referenceRect = state.rects.reference;\n  var popperRect = state.rects.popper;\n  var tetherOffsetValue = typeof tetherOffset === 'function' ? tetherOffset(Object.assign({}, state.rects, {\n    placement: state.placement\n  })) : tetherOffset;\n  var normalizedTetherOffsetValue = typeof tetherOffsetValue === 'number' ? {\n    mainAxis: tetherOffsetValue,\n    altAxis: tetherOffsetValue\n  } : Object.assign({\n    mainAxis: 0,\n    altAxis: 0\n  }, tetherOffsetValue);\n  var offsetModifierState = state.modifiersData.offset ? state.modifiersData.offset[state.placement] : null;\n  var data = {\n    x: 0,\n    y: 0\n  };\n\n  if (!popperOffsets) {\n    return;\n  }\n\n  if (checkMainAxis) {\n    var _offsetModifierState$;\n\n    var mainSide = mainAxis === 'y' ? _enums_js__WEBPACK_IMPORTED_MODULE_5__.top : _enums_js__WEBPACK_IMPORTED_MODULE_5__.left;\n    var altSide = mainAxis === 'y' ? _enums_js__WEBPACK_IMPORTED_MODULE_5__.bottom : _enums_js__WEBPACK_IMPORTED_MODULE_5__.right;\n    var len = mainAxis === 'y' ? 'height' : 'width';\n    var offset = popperOffsets[mainAxis];\n    var min = offset + overflow[mainSide];\n    var max = offset - overflow[altSide];\n    var additive = tether ? -popperRect[len] / 2 : 0;\n    var minLen = variation === _enums_js__WEBPACK_IMPORTED_MODULE_5__.start ? referenceRect[len] : popperRect[len];\n    var maxLen = variation === _enums_js__WEBPACK_IMPORTED_MODULE_5__.start ? -popperRect[len] : -referenceRect[len]; // We need to include the arrow in the calculation so the arrow doesn't go\n    // outside the reference bounds\n\n    var arrowElement = state.elements.arrow;\n    var arrowRect = tether && arrowElement ? (0,_dom_utils_getLayoutRect_js__WEBPACK_IMPORTED_MODULE_6__[\"default\"])(arrowElement) : {\n      width: 0,\n      height: 0\n    };\n    var arrowPaddingObject = state.modifiersData['arrow#persistent'] ? state.modifiersData['arrow#persistent'].padding : (0,_utils_getFreshSideObject_js__WEBPACK_IMPORTED_MODULE_7__[\"default\"])();\n    var arrowPaddingMin = arrowPaddingObject[mainSide];\n    var arrowPaddingMax = arrowPaddingObject[altSide]; // If the reference length is smaller than the arrow length, we don't want\n    // to include its full size in the calculation. If the reference is small\n    // and near the edge of a boundary, the popper can overflow even if the\n    // reference is not overflowing as well (e.g. virtual elements with no\n    // width or height)\n\n    var arrowLen = (0,_utils_within_js__WEBPACK_IMPORTED_MODULE_8__.within)(0, referenceRect[len], arrowRect[len]);\n    var minOffset = isBasePlacement ? referenceRect[len] / 2 - additive - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis : minLen - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis;\n    var maxOffset = isBasePlacement ? -referenceRect[len] / 2 + additive + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis : maxLen + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis;\n    var arrowOffsetParent = state.elements.arrow && (0,_dom_utils_getOffsetParent_js__WEBPACK_IMPORTED_MODULE_9__[\"default\"])(state.elements.arrow);\n    var clientOffset = arrowOffsetParent ? mainAxis === 'y' ? arrowOffsetParent.clientTop || 0 : arrowOffsetParent.clientLeft || 0 : 0;\n    var offsetModifierValue = (_offsetModifierState$ = offsetModifierState == null ? void 0 : offsetModifierState[mainAxis]) != null ? _offsetModifierState$ : 0;\n    var tetherMin = offset + minOffset - offsetModifierValue - clientOffset;\n    var tetherMax = offset + maxOffset - offsetModifierValue;\n    var preventedOffset = (0,_utils_within_js__WEBPACK_IMPORTED_MODULE_8__.within)(tether ? (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_10__.min)(min, tetherMin) : min, offset, tether ? (0,_utils_math_js__WEBPACK_IMPORTED_MODULE_10__.max)(max, tetherMax) : max);\n    popperOffsets[mainAxis] = preventedOffset;\n    data[mainAxis] = preventedOffset - offset;\n  }\n\n  if (checkAltAxis) {\n    var _offsetModifierState$2;\n\n    var _mainSide = mainAxis === 'x' ? _enums_js__WEBPACK_IMPORTED_MODULE_5__.top : _enums_js__WEBPACK_IMPORTED_MODULE_5__.left;\n\n    var _altSide = mainAxis === 'x' ? _enums_js__WEBPACK_IMPORTED_MODULE_5__.bottom : _enums_js__WEBPACK_IMPORTED_MODULE_5__.right;\n\n    var _offset = popperOffsets[altAxis];\n\n    var _len = altAxis === 'y' ? 'height' : 'width';\n\n    var _min = _offset + overflow[_mainSide];\n\n    var _max = _offset - overflow[_altSide];\n\n    var isOriginSide = [_enums_js__WEBPACK_IMPORTED_MODULE_5__.top, _enums_js__WEBPACK_IMPORTED_MODULE_5__.left].indexOf(basePlacement) !== -1;\n\n    var _offsetModifierValue = (_offsetModifierState$2 = offsetModifierState == null ? void 0 : offsetModifierState[altAxis]) != null ? _offsetModifierState$2 : 0;\n\n    var _tetherMin = isOriginSide ? _min : _offset - referenceRect[_len] - popperRect[_len] - _offsetModifierValue + normalizedTetherOffsetValue.altAxis;\n\n    var _tetherMax = isOriginSide ? _offset + referenceRect[_len] + popperRect[_len] - _offsetModifierValue - normalizedTetherOffsetValue.altAxis : _max;\n\n    var _preventedOffset = tether && isOriginSide ? (0,_utils_within_js__WEBPACK_IMPORTED_MODULE_8__.withinMaxClamp)(_tetherMin, _offset, _tetherMax) : (0,_utils_within_js__WEBPACK_IMPORTED_MODULE_8__.within)(tether ? _tetherMin : _min, _offset, tether ? _tetherMax : _max);\n\n    popperOffsets[altAxis] = _preventedOffset;\n    data[altAxis] = _preventedOffset - _offset;\n  }\n\n  state.modifiersData[name] = data;\n} // eslint-disable-next-line import/no-unused-modules\n\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({\n  name: 'preventOverflow',\n  enabled: true,\n  phase: 'main',\n  fn: preventOverflow,\n  requiresIfExists: ['offset']\n});\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/modifiers/preventOverflow.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/popper-lite.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/popper-lite.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   createPopper: () => (/* binding */ createPopper),\n/* harmony export */   defaultModifiers: () => (/* binding */ defaultModifiers),\n/* harmony export */   detectOverflow: () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"]),\n/* harmony export */   popperGenerator: () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_4__.popperGenerator)\n/* harmony export */ });\n/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./createPopper.js */ \"./node_modules/@popperjs/core/lib/createPopper.js\");\n/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./createPopper.js */ \"./node_modules/@popperjs/core/lib/utils/detectOverflow.js\");\n/* harmony import */ var _modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modifiers/eventListeners.js */ \"./node_modules/@popperjs/core/lib/modifiers/eventListeners.js\");\n/* harmony import */ var _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modifiers/popperOffsets.js */ \"./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js\");\n/* harmony import */ var _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modifiers/computeStyles.js */ \"./node_modules/@popperjs/core/lib/modifiers/computeStyles.js\");\n/* harmony import */ var _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modifiers/applyStyles.js */ \"./node_modules/@popperjs/core/lib/modifiers/applyStyles.js\");\n\n\n\n\n\nvar defaultModifiers = [_modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"], _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"], _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"], _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"]];\nvar createPopper = /*#__PURE__*/(0,_createPopper_js__WEBPACK_IMPORTED_MODULE_4__.popperGenerator)({\n  defaultModifiers: defaultModifiers\n}); // eslint-disable-next-line import/no-unused-modules\n\n\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/popper-lite.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/popper.js":
+/*!***************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/popper.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   applyStyles: () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.applyStyles),\n/* harmony export */   arrow: () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.arrow),\n/* harmony export */   computeStyles: () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.computeStyles),\n/* harmony export */   createPopper: () => (/* binding */ createPopper),\n/* harmony export */   createPopperLite: () => (/* reexport safe */ _popper_lite_js__WEBPACK_IMPORTED_MODULE_11__.createPopper),\n/* harmony export */   defaultModifiers: () => (/* binding */ defaultModifiers),\n/* harmony export */   detectOverflow: () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_10__[\"default\"]),\n/* harmony export */   eventListeners: () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.eventListeners),\n/* harmony export */   flip: () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.flip),\n/* harmony export */   hide: () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.hide),\n/* harmony export */   offset: () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.offset),\n/* harmony export */   popperGenerator: () => (/* reexport safe */ _createPopper_js__WEBPACK_IMPORTED_MODULE_9__.popperGenerator),\n/* harmony export */   popperOffsets: () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.popperOffsets),\n/* harmony export */   preventOverflow: () => (/* reexport safe */ _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__.preventOverflow)\n/* harmony export */ });\n/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./createPopper.js */ \"./node_modules/@popperjs/core/lib/createPopper.js\");\n/* harmony import */ var _createPopper_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./createPopper.js */ \"./node_modules/@popperjs/core/lib/utils/detectOverflow.js\");\n/* harmony import */ var _modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modifiers/eventListeners.js */ \"./node_modules/@popperjs/core/lib/modifiers/eventListeners.js\");\n/* harmony import */ var _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modifiers/popperOffsets.js */ \"./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js\");\n/* harmony import */ var _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modifiers/computeStyles.js */ \"./node_modules/@popperjs/core/lib/modifiers/computeStyles.js\");\n/* harmony import */ var _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modifiers/applyStyles.js */ \"./node_modules/@popperjs/core/lib/modifiers/applyStyles.js\");\n/* harmony import */ var _modifiers_offset_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modifiers/offset.js */ \"./node_modules/@popperjs/core/lib/modifiers/offset.js\");\n/* harmony import */ var _modifiers_flip_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modifiers/flip.js */ \"./node_modules/@popperjs/core/lib/modifiers/flip.js\");\n/* harmony import */ var _modifiers_preventOverflow_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modifiers/preventOverflow.js */ \"./node_modules/@popperjs/core/lib/modifiers/preventOverflow.js\");\n/* harmony import */ var _modifiers_arrow_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modifiers/arrow.js */ \"./node_modules/@popperjs/core/lib/modifiers/arrow.js\");\n/* harmony import */ var _modifiers_hide_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modifiers/hide.js */ \"./node_modules/@popperjs/core/lib/modifiers/hide.js\");\n/* harmony import */ var _popper_lite_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./popper-lite.js */ \"./node_modules/@popperjs/core/lib/popper-lite.js\");\n/* harmony import */ var _modifiers_index_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modifiers/index.js */ \"./node_modules/@popperjs/core/lib/modifiers/index.js\");\n\n\n\n\n\n\n\n\n\n\nvar defaultModifiers = [_modifiers_eventListeners_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"], _modifiers_popperOffsets_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"], _modifiers_computeStyles_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"], _modifiers_applyStyles_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"], _modifiers_offset_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"], _modifiers_flip_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"], _modifiers_preventOverflow_js__WEBPACK_IMPORTED_MODULE_6__[\"default\"], _modifiers_arrow_js__WEBPACK_IMPORTED_MODULE_7__[\"default\"], _modifiers_hide_js__WEBPACK_IMPORTED_MODULE_8__[\"default\"]];\nvar createPopper = /*#__PURE__*/(0,_createPopper_js__WEBPACK_IMPORTED_MODULE_9__.popperGenerator)({\n  defaultModifiers: defaultModifiers\n}); // eslint-disable-next-line import/no-unused-modules\n\n // eslint-disable-next-line import/no-unused-modules\n\n // eslint-disable-next-line import/no-unused-modules\n\n\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/popper.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ computeAutoPlacement)\n/* harmony export */ });\n/* harmony import */ var _getVariation_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getVariation.js */ \"./node_modules/@popperjs/core/lib/utils/getVariation.js\");\n/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ \"./node_modules/@popperjs/core/lib/enums.js\");\n/* harmony import */ var _detectOverflow_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./detectOverflow.js */ \"./node_modules/@popperjs/core/lib/utils/detectOverflow.js\");\n/* harmony import */ var _getBasePlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getBasePlacement.js */ \"./node_modules/@popperjs/core/lib/utils/getBasePlacement.js\");\n\n\n\n\nfunction computeAutoPlacement(state, options) {\n  if (options === void 0) {\n    options = {};\n  }\n\n  var _options = options,\n      placement = _options.placement,\n      boundary = _options.boundary,\n      rootBoundary = _options.rootBoundary,\n      padding = _options.padding,\n      flipVariations = _options.flipVariations,\n      _options$allowedAutoP = _options.allowedAutoPlacements,\n      allowedAutoPlacements = _options$allowedAutoP === void 0 ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.placements : _options$allowedAutoP;\n  var variation = (0,_getVariation_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(placement);\n  var placements = variation ? flipVariations ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.variationPlacements : _enums_js__WEBPACK_IMPORTED_MODULE_0__.variationPlacements.filter(function (placement) {\n    return (0,_getVariation_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(placement) === variation;\n  }) : _enums_js__WEBPACK_IMPORTED_MODULE_0__.basePlacements;\n  var allowedPlacements = placements.filter(function (placement) {\n    return allowedAutoPlacements.indexOf(placement) >= 0;\n  });\n\n  if (allowedPlacements.length === 0) {\n    allowedPlacements = placements;\n  } // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...\n\n\n  var overflows = allowedPlacements.reduce(function (acc, placement) {\n    acc[placement] = (0,_detectOverflow_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(state, {\n      placement: placement,\n      boundary: boundary,\n      rootBoundary: rootBoundary,\n      padding: padding\n    })[(0,_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(placement)];\n    return acc;\n  }, {});\n  return Object.keys(overflows).sort(function (a, b) {\n    return overflows[a] - overflows[b];\n  });\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/computeOffsets.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/computeOffsets.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ computeOffsets)\n/* harmony export */ });\n/* harmony import */ var _getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getBasePlacement.js */ \"./node_modules/@popperjs/core/lib/utils/getBasePlacement.js\");\n/* harmony import */ var _getVariation_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./getVariation.js */ \"./node_modules/@popperjs/core/lib/utils/getVariation.js\");\n/* harmony import */ var _getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./getMainAxisFromPlacement.js */ \"./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js\");\n/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../enums.js */ \"./node_modules/@popperjs/core/lib/enums.js\");\n\n\n\n\nfunction computeOffsets(_ref) {\n  var reference = _ref.reference,\n      element = _ref.element,\n      placement = _ref.placement;\n  var basePlacement = placement ? (0,_getBasePlacement_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(placement) : null;\n  var variation = placement ? (0,_getVariation_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(placement) : null;\n  var commonX = reference.x + reference.width / 2 - element.width / 2;\n  var commonY = reference.y + reference.height / 2 - element.height / 2;\n  var offsets;\n\n  switch (basePlacement) {\n    case _enums_js__WEBPACK_IMPORTED_MODULE_2__.top:\n      offsets = {\n        x: commonX,\n        y: reference.y - element.height\n      };\n      break;\n\n    case _enums_js__WEBPACK_IMPORTED_MODULE_2__.bottom:\n      offsets = {\n        x: commonX,\n        y: reference.y + reference.height\n      };\n      break;\n\n    case _enums_js__WEBPACK_IMPORTED_MODULE_2__.right:\n      offsets = {\n        x: reference.x + reference.width,\n        y: commonY\n      };\n      break;\n\n    case _enums_js__WEBPACK_IMPORTED_MODULE_2__.left:\n      offsets = {\n        x: reference.x - element.width,\n        y: commonY\n      };\n      break;\n\n    default:\n      offsets = {\n        x: reference.x,\n        y: reference.y\n      };\n  }\n\n  var mainAxis = basePlacement ? (0,_getMainAxisFromPlacement_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])(basePlacement) : null;\n\n  if (mainAxis != null) {\n    var len = mainAxis === 'y' ? 'height' : 'width';\n\n    switch (variation) {\n      case _enums_js__WEBPACK_IMPORTED_MODULE_2__.start:\n        offsets[mainAxis] = offsets[mainAxis] - (reference[len] / 2 - element[len] / 2);\n        break;\n\n      case _enums_js__WEBPACK_IMPORTED_MODULE_2__.end:\n        offsets[mainAxis] = offsets[mainAxis] + (reference[len] / 2 - element[len] / 2);\n        break;\n\n      default:\n    }\n  }\n\n  return offsets;\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/computeOffsets.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/debounce.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/debounce.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ debounce)\n/* harmony export */ });\nfunction debounce(fn) {\n  var pending;\n  return function () {\n    if (!pending) {\n      pending = new Promise(function (resolve) {\n        Promise.resolve().then(function () {\n          pending = undefined;\n          resolve(fn());\n        });\n      });\n    }\n\n    return pending;\n  };\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/debounce.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/detectOverflow.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/detectOverflow.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ detectOverflow)\n/* harmony export */ });\n/* harmony import */ var _dom_utils_getClippingRect_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dom-utils/getClippingRect.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js\");\n/* harmony import */ var _dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../dom-utils/getDocumentElement.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js\");\n/* harmony import */ var _dom_utils_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../dom-utils/getBoundingClientRect.js */ \"./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js\");\n/* harmony import */ var _computeOffsets_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./computeOffsets.js */ \"./node_modules/@popperjs/core/lib/utils/computeOffsets.js\");\n/* harmony import */ var _rectToClientRect_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./rectToClientRect.js */ \"./node_modules/@popperjs/core/lib/utils/rectToClientRect.js\");\n/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ \"./node_modules/@popperjs/core/lib/enums.js\");\n/* harmony import */ var _dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../dom-utils/instanceOf.js */ \"./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js\");\n/* harmony import */ var _mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mergePaddingObject.js */ \"./node_modules/@popperjs/core/lib/utils/mergePaddingObject.js\");\n/* harmony import */ var _expandToHashMap_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./expandToHashMap.js */ \"./node_modules/@popperjs/core/lib/utils/expandToHashMap.js\");\n\n\n\n\n\n\n\n\n // eslint-disable-next-line import/no-unused-modules\n\nfunction detectOverflow(state, options) {\n  if (options === void 0) {\n    options = {};\n  }\n\n  var _options = options,\n      _options$placement = _options.placement,\n      placement = _options$placement === void 0 ? state.placement : _options$placement,\n      _options$strategy = _options.strategy,\n      strategy = _options$strategy === void 0 ? state.strategy : _options$strategy,\n      _options$boundary = _options.boundary,\n      boundary = _options$boundary === void 0 ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.clippingParents : _options$boundary,\n      _options$rootBoundary = _options.rootBoundary,\n      rootBoundary = _options$rootBoundary === void 0 ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.viewport : _options$rootBoundary,\n      _options$elementConte = _options.elementContext,\n      elementContext = _options$elementConte === void 0 ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.popper : _options$elementConte,\n      _options$altBoundary = _options.altBoundary,\n      altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary,\n      _options$padding = _options.padding,\n      padding = _options$padding === void 0 ? 0 : _options$padding;\n  var paddingObject = (0,_mergePaddingObject_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(typeof padding !== 'number' ? padding : (0,_expandToHashMap_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(padding, _enums_js__WEBPACK_IMPORTED_MODULE_0__.basePlacements));\n  var altContext = elementContext === _enums_js__WEBPACK_IMPORTED_MODULE_0__.popper ? _enums_js__WEBPACK_IMPORTED_MODULE_0__.reference : _enums_js__WEBPACK_IMPORTED_MODULE_0__.popper;\n  var popperRect = state.rects.popper;\n  var element = state.elements[altBoundary ? altContext : elementContext];\n  var clippingClientRect = (0,_dom_utils_getClippingRect_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])((0,_dom_utils_instanceOf_js__WEBPACK_IMPORTED_MODULE_4__.isElement)(element) ? element : element.contextElement || (0,_dom_utils_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"])(state.elements.popper), boundary, rootBoundary, strategy);\n  var referenceClientRect = (0,_dom_utils_getBoundingClientRect_js__WEBPACK_IMPORTED_MODULE_6__[\"default\"])(state.elements.reference);\n  var popperOffsets = (0,_computeOffsets_js__WEBPACK_IMPORTED_MODULE_7__[\"default\"])({\n    reference: referenceClientRect,\n    element: popperRect,\n    strategy: 'absolute',\n    placement: placement\n  });\n  var popperClientRect = (0,_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_8__[\"default\"])(Object.assign({}, popperRect, popperOffsets));\n  var elementClientRect = elementContext === _enums_js__WEBPACK_IMPORTED_MODULE_0__.popper ? popperClientRect : referenceClientRect; // positive = overflowing the clipping rect\n  // 0 or negative = within the clipping rect\n\n  var overflowOffsets = {\n    top: clippingClientRect.top - elementClientRect.top + paddingObject.top,\n    bottom: elementClientRect.bottom - clippingClientRect.bottom + paddingObject.bottom,\n    left: clippingClientRect.left - elementClientRect.left + paddingObject.left,\n    right: elementClientRect.right - clippingClientRect.right + paddingObject.right\n  };\n  var offsetData = state.modifiersData.offset; // Offsets can be applied only to the popper element\n\n  if (elementContext === _enums_js__WEBPACK_IMPORTED_MODULE_0__.popper && offsetData) {\n    var offset = offsetData[placement];\n    Object.keys(overflowOffsets).forEach(function (key) {\n      var multiply = [_enums_js__WEBPACK_IMPORTED_MODULE_0__.right, _enums_js__WEBPACK_IMPORTED_MODULE_0__.bottom].indexOf(key) >= 0 ? 1 : -1;\n      var axis = [_enums_js__WEBPACK_IMPORTED_MODULE_0__.top, _enums_js__WEBPACK_IMPORTED_MODULE_0__.bottom].indexOf(key) >= 0 ? 'y' : 'x';\n      overflowOffsets[key] += offset[axis] * multiply;\n    });\n  }\n\n  return overflowOffsets;\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/detectOverflow.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/expandToHashMap.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/expandToHashMap.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ expandToHashMap)\n/* harmony export */ });\nfunction expandToHashMap(value, keys) {\n  return keys.reduce(function (hashMap, key) {\n    hashMap[key] = value;\n    return hashMap;\n  }, {});\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/expandToHashMap.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/getAltAxis.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/getAltAxis.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getAltAxis)\n/* harmony export */ });\nfunction getAltAxis(axis) {\n  return axis === 'x' ? 'y' : 'x';\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/getAltAxis.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/getBasePlacement.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/getBasePlacement.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getBasePlacement)\n/* harmony export */ });\n\nfunction getBasePlacement(placement) {\n  return placement.split('-')[0];\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/getBasePlacement.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/getFreshSideObject.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/getFreshSideObject.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getFreshSideObject)\n/* harmony export */ });\nfunction getFreshSideObject() {\n  return {\n    top: 0,\n    right: 0,\n    bottom: 0,\n    left: 0\n  };\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/getFreshSideObject.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getMainAxisFromPlacement)\n/* harmony export */ });\nfunction getMainAxisFromPlacement(placement) {\n  return ['top', 'bottom'].indexOf(placement) >= 0 ? 'x' : 'y';\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/getOppositePlacement.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/getOppositePlacement.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getOppositePlacement)\n/* harmony export */ });\nvar hash = {\n  left: 'right',\n  right: 'left',\n  bottom: 'top',\n  top: 'bottom'\n};\nfunction getOppositePlacement(placement) {\n  return placement.replace(/left|right|bottom|top/g, function (matched) {\n    return hash[matched];\n  });\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/getOppositePlacement.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getOppositeVariationPlacement)\n/* harmony export */ });\nvar hash = {\n  start: 'end',\n  end: 'start'\n};\nfunction getOppositeVariationPlacement(placement) {\n  return placement.replace(/start|end/g, function (matched) {\n    return hash[matched];\n  });\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/getVariation.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/getVariation.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getVariation)\n/* harmony export */ });\nfunction getVariation(placement) {\n  return placement.split('-')[1];\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/getVariation.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/math.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/math.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   max: () => (/* binding */ max),\n/* harmony export */   min: () => (/* binding */ min),\n/* harmony export */   round: () => (/* binding */ round)\n/* harmony export */ });\nvar max = Math.max;\nvar min = Math.min;\nvar round = Math.round;\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/math.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/mergeByName.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/mergeByName.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ mergeByName)\n/* harmony export */ });\nfunction mergeByName(modifiers) {\n  var merged = modifiers.reduce(function (merged, current) {\n    var existing = merged[current.name];\n    merged[current.name] = existing ? Object.assign({}, existing, current, {\n      options: Object.assign({}, existing.options, current.options),\n      data: Object.assign({}, existing.data, current.data)\n    }) : current;\n    return merged;\n  }, {}); // IE11 does not support Object.values\n\n  return Object.keys(merged).map(function (key) {\n    return merged[key];\n  });\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/mergeByName.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/mergePaddingObject.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/mergePaddingObject.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ mergePaddingObject)\n/* harmony export */ });\n/* harmony import */ var _getFreshSideObject_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getFreshSideObject.js */ \"./node_modules/@popperjs/core/lib/utils/getFreshSideObject.js\");\n\nfunction mergePaddingObject(paddingObject) {\n  return Object.assign({}, (0,_getFreshSideObject_js__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(), paddingObject);\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/mergePaddingObject.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/orderModifiers.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/orderModifiers.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ orderModifiers)\n/* harmony export */ });\n/* harmony import */ var _enums_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../enums.js */ \"./node_modules/@popperjs/core/lib/enums.js\");\n // source: https://stackoverflow.com/questions/49875255\n\nfunction order(modifiers) {\n  var map = new Map();\n  var visited = new Set();\n  var result = [];\n  modifiers.forEach(function (modifier) {\n    map.set(modifier.name, modifier);\n  }); // On visiting object, check for its dependencies and visit them recursively\n\n  function sort(modifier) {\n    visited.add(modifier.name);\n    var requires = [].concat(modifier.requires || [], modifier.requiresIfExists || []);\n    requires.forEach(function (dep) {\n      if (!visited.has(dep)) {\n        var depModifier = map.get(dep);\n\n        if (depModifier) {\n          sort(depModifier);\n        }\n      }\n    });\n    result.push(modifier);\n  }\n\n  modifiers.forEach(function (modifier) {\n    if (!visited.has(modifier.name)) {\n      // check for visited object\n      sort(modifier);\n    }\n  });\n  return result;\n}\n\nfunction orderModifiers(modifiers) {\n  // order based on dependencies\n  var orderedModifiers = order(modifiers); // order based on phase\n\n  return _enums_js__WEBPACK_IMPORTED_MODULE_0__.modifierPhases.reduce(function (acc, phase) {\n    return acc.concat(orderedModifiers.filter(function (modifier) {\n      return modifier.phase === phase;\n    }));\n  }, []);\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/orderModifiers.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/rectToClientRect.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/rectToClientRect.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ rectToClientRect)\n/* harmony export */ });\nfunction rectToClientRect(rect) {\n  return Object.assign({}, rect, {\n    left: rect.x,\n    top: rect.y,\n    right: rect.x + rect.width,\n    bottom: rect.y + rect.height\n  });\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/rectToClientRect.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/userAgent.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/userAgent.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ getUAString)\n/* harmony export */ });\nfunction getUAString() {\n  var uaData = navigator.userAgentData;\n\n  if (uaData != null && uaData.brands && Array.isArray(uaData.brands)) {\n    return uaData.brands.map(function (item) {\n      return item.brand + \"/\" + item.version;\n    }).join(' ');\n  }\n\n  return navigator.userAgent;\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/userAgent.js?");
+
+/***/ }),
+
+/***/ "./node_modules/@popperjs/core/lib/utils/within.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@popperjs/core/lib/utils/within.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   within: () => (/* binding */ within),\n/* harmony export */   withinMaxClamp: () => (/* binding */ withinMaxClamp)\n/* harmony export */ });\n/* harmony import */ var _math_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./math.js */ \"./node_modules/@popperjs/core/lib/utils/math.js\");\n\nfunction within(min, value, max) {\n  return (0,_math_js__WEBPACK_IMPORTED_MODULE_0__.max)(min, (0,_math_js__WEBPACK_IMPORTED_MODULE_0__.min)(value, max));\n}\nfunction withinMaxClamp(min, value, max) {\n  var v = within(min, value, max);\n  return v > max ? max : v;\n}\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/@popperjs/core/lib/utils/within.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite-datepicker/dist/main.esm.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/flowbite-datepicker/dist/main.esm.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   DateRangePicker: () => (/* binding */ DateRangePicker),\n/* harmony export */   Datepicker: () => (/* binding */ Datepicker)\n/* harmony export */ });\nfunction _arrayLikeToArray(r, a) {\n  (null == a || a > r.length) && (a = r.length);\n  for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];\n  return n;\n}\nfunction _arrayWithHoles(r) {\n  if (Array.isArray(r)) return r;\n}\nfunction _arrayWithoutHoles(r) {\n  if (Array.isArray(r)) return _arrayLikeToArray(r);\n}\nfunction _assertThisInitialized(e) {\n  if (void 0 === e) throw new ReferenceError(\"this hasn't been initialised - super() hasn't been called\");\n  return e;\n}\nfunction _callSuper(t, o, e) {\n  return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));\n}\nfunction _classCallCheck(a, n) {\n  if (!(a instanceof n)) throw new TypeError(\"Cannot call a class as a function\");\n}\nfunction _defineProperties(e, r) {\n  for (var t = 0; t < r.length; t++) {\n    var o = r[t];\n    o.enumerable = o.enumerable || !1, o.configurable = !0, \"value\" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o);\n  }\n}\nfunction _createClass(e, r, t) {\n  return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, \"prototype\", {\n    writable: !1\n  }), e;\n}\nfunction _get() {\n  return _get = \"undefined\" != typeof Reflect && Reflect.get ? Reflect.get.bind() : function (e, t, r) {\n    var p = _superPropBase(e, t);\n    if (p) {\n      var n = Object.getOwnPropertyDescriptor(p, t);\n      return n.get ? n.get.call(arguments.length < 3 ? e : r) : n.value;\n    }\n  }, _get.apply(null, arguments);\n}\nfunction _getPrototypeOf(t) {\n  return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) {\n    return t.__proto__ || Object.getPrototypeOf(t);\n  }, _getPrototypeOf(t);\n}\nfunction _inherits(t, e) {\n  if (\"function\" != typeof e && null !== e) throw new TypeError(\"Super expression must either be null or a function\");\n  t.prototype = Object.create(e && e.prototype, {\n    constructor: {\n      value: t,\n      writable: !0,\n      configurable: !0\n    }\n  }), Object.defineProperty(t, \"prototype\", {\n    writable: !1\n  }), e && _setPrototypeOf(t, e);\n}\nfunction _isNativeReflectConstruct() {\n  try {\n    var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));\n  } catch (t) {}\n  return (_isNativeReflectConstruct = function () {\n    return !!t;\n  })();\n}\nfunction _iterableToArray(r) {\n  if (\"undefined\" != typeof Symbol && null != r[Symbol.iterator] || null != r[\"@@iterator\"]) return Array.from(r);\n}\nfunction _iterableToArrayLimit(r, l) {\n  var t = null == r ? null : \"undefined\" != typeof Symbol && r[Symbol.iterator] || r[\"@@iterator\"];\n  if (null != t) {\n    var e,\n      n,\n      i,\n      u,\n      a = [],\n      f = !0,\n      o = !1;\n    try {\n      if (i = (t = t.call(r)).next, 0 === l) {\n        if (Object(t) !== t) return;\n        f = !1;\n      } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);\n    } catch (r) {\n      o = !0, n = r;\n    } finally {\n      try {\n        if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return;\n      } finally {\n        if (o) throw n;\n      }\n    }\n    return a;\n  }\n}\nfunction _nonIterableRest() {\n  throw new TypeError(\"Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\");\n}\nfunction _nonIterableSpread() {\n  throw new TypeError(\"Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.\");\n}\nfunction _possibleConstructorReturn(t, e) {\n  if (e && (\"object\" == typeof e || \"function\" == typeof e)) return e;\n  if (void 0 !== e) throw new TypeError(\"Derived constructors may only return object or undefined\");\n  return _assertThisInitialized(t);\n}\nfunction _setPrototypeOf(t, e) {\n  return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) {\n    return t.__proto__ = e, t;\n  }, _setPrototypeOf(t, e);\n}\nfunction _slicedToArray(r, e) {\n  return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest();\n}\nfunction _superPropBase(t, o) {\n  for (; !{}.hasOwnProperty.call(t, o) && null !== (t = _getPrototypeOf(t)););\n  return t;\n}\nfunction _toConsumableArray(r) {\n  return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread();\n}\nfunction _toPrimitive(t, r) {\n  if (\"object\" != typeof t || !t) return t;\n  var e = t[Symbol.toPrimitive];\n  if (void 0 !== e) {\n    var i = e.call(t, r || \"default\");\n    if (\"object\" != typeof i) return i;\n    throw new TypeError(\"@@toPrimitive must return a primitive value.\");\n  }\n  return (\"string\" === r ? String : Number)(t);\n}\nfunction _toPropertyKey(t) {\n  var i = _toPrimitive(t, \"string\");\n  return \"symbol\" == typeof i ? i : i + \"\";\n}\nfunction _typeof(o) {\n  \"@babel/helpers - typeof\";\n\n  return _typeof = \"function\" == typeof Symbol && \"symbol\" == typeof Symbol.iterator ? function (o) {\n    return typeof o;\n  } : function (o) {\n    return o && \"function\" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? \"symbol\" : typeof o;\n  }, _typeof(o);\n}\nfunction _unsupportedIterableToArray(r, a) {\n  if (r) {\n    if (\"string\" == typeof r) return _arrayLikeToArray(r, a);\n    var t = {}.toString.call(r).slice(8, -1);\n    return \"Object\" === t && r.constructor && (t = r.constructor.name), \"Map\" === t || \"Set\" === t ? Array.from(r) : \"Arguments\" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;\n  }\n}\n\nfunction hasProperty(obj, prop) {\n  return Object.prototype.hasOwnProperty.call(obj, prop);\n}\nfunction lastItemOf(arr) {\n  return arr[arr.length - 1];\n}\n\n// push only the items not included in the array\nfunction pushUnique(arr) {\n  for (var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {\n    items[_key - 1] = arguments[_key];\n  }\n  items.forEach(function (item) {\n    if (arr.includes(item)) {\n      return;\n    }\n    arr.push(item);\n  });\n  return arr;\n}\nfunction stringToArray(str, separator) {\n  // convert empty string to an empty array\n  return str ? str.split(separator) : [];\n}\nfunction isInRange(testVal, min, max) {\n  var minOK = min === undefined || testVal >= min;\n  var maxOK = max === undefined || testVal <= max;\n  return minOK && maxOK;\n}\nfunction limitToRange(val, min, max) {\n  if (val < min) {\n    return min;\n  }\n  if (val > max) {\n    return max;\n  }\n  return val;\n}\nfunction createTagRepeat(tagName, repeat) {\n  var attributes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};\n  var index = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;\n  var html = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';\n  var openTagSrc = Object.keys(attributes).reduce(function (src, attr) {\n    var val = attributes[attr];\n    if (typeof val === 'function') {\n      val = val(index);\n    }\n    return \"\".concat(src, \" \").concat(attr, \"=\\\"\").concat(val, \"\\\"\");\n  }, tagName);\n  html += \"<\".concat(openTagSrc, \"></\").concat(tagName, \">\");\n  var next = index + 1;\n  return next < repeat ? createTagRepeat(tagName, repeat, attributes, next, html) : html;\n}\n\n// Remove the spacing surrounding tags for HTML parser not to create text nodes\n// before/after elements\nfunction optimizeTemplateHTML(html) {\n  return html.replace(/>\\s+/g, '>').replace(/\\s+</, '<');\n}\n\nfunction stripTime(timeValue) {\n  return new Date(timeValue).setHours(0, 0, 0, 0);\n}\nfunction today() {\n  return new Date().setHours(0, 0, 0, 0);\n}\n\n// Get the time value of the start of given date or year, month and day\nfunction dateValue() {\n  switch (arguments.length) {\n    case 0:\n      return today();\n    case 1:\n      return stripTime(arguments.length <= 0 ? undefined : arguments[0]);\n  }\n\n  // use setFullYear() to keep 2-digit year from being mapped to 1900-1999\n  var newDate = new Date(0);\n  newDate.setFullYear.apply(newDate, arguments);\n  return newDate.setHours(0, 0, 0, 0);\n}\nfunction addDays(date, amount) {\n  var newDate = new Date(date);\n  return newDate.setDate(newDate.getDate() + amount);\n}\nfunction addWeeks(date, amount) {\n  return addDays(date, amount * 7);\n}\nfunction addMonths(date, amount) {\n  // If the day of the date is not in the new month, the last day of the new\n  // month will be returned. e.g. Jan 31 + 1 month → Feb 28 (not Mar 03)\n  var newDate = new Date(date);\n  var monthsToSet = newDate.getMonth() + amount;\n  var expectedMonth = monthsToSet % 12;\n  if (expectedMonth < 0) {\n    expectedMonth += 12;\n  }\n  var time = newDate.setMonth(monthsToSet);\n  return newDate.getMonth() !== expectedMonth ? newDate.setDate(0) : time;\n}\nfunction addYears(date, amount) {\n  // If the date is Feb 29 and the new year is not a leap year, Feb 28 of the\n  // new year will be returned.\n  var newDate = new Date(date);\n  var expectedMonth = newDate.getMonth();\n  var time = newDate.setFullYear(newDate.getFullYear() + amount);\n  return expectedMonth === 1 && newDate.getMonth() === 2 ? newDate.setDate(0) : time;\n}\n\n// Calculate the distance bettwen 2 days of the week\nfunction dayDiff(day, from) {\n  return (day - from + 7) % 7;\n}\n\n// Get the date of the specified day of the week of given base date\nfunction dayOfTheWeekOf(baseDate, dayOfWeek) {\n  var weekStart = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;\n  var baseDay = new Date(baseDate).getDay();\n  return addDays(baseDate, dayDiff(dayOfWeek, weekStart) - dayDiff(baseDay, weekStart));\n}\n\n// Get the ISO week of a date\nfunction getWeek(date) {\n  // start of ISO week is Monday\n  var thuOfTheWeek = dayOfTheWeekOf(date, 4, 1);\n  // 1st week == the week where the 4th of January is in\n  var firstThu = dayOfTheWeekOf(new Date(thuOfTheWeek).setMonth(0, 4), 4, 1);\n  return Math.round((thuOfTheWeek - firstThu) / 604800000) + 1;\n}\n\n// Get the start year of the period of years that includes given date\n// years: length of the year period\nfunction startOfYearPeriod(date, years) {\n  /* @see https://en.wikipedia.org/wiki/Year_zero#ISO_8601 */\n  var year = new Date(date).getFullYear();\n  return Math.floor(year / years) * years;\n}\n\n// pattern for format parts\nvar reFormatTokens = /dd?|DD?|mm?|MM?|yy?(?:yy)?/;\n// pattern for non date parts\nvar reNonDateParts = /[\\s!-/:-@[-`{-~年月日]+/;\n// cache for persed formats\nvar knownFormats = {};\n// parse funtions for date parts\nvar parseFns = {\n  y: function y(date, year) {\n    return new Date(date).setFullYear(parseInt(year, 10));\n  },\n  m: function m(date, month, locale) {\n    var newDate = new Date(date);\n    var monthIndex = parseInt(month, 10) - 1;\n    if (isNaN(monthIndex)) {\n      if (!month) {\n        return NaN;\n      }\n      var monthName = month.toLowerCase();\n      var compareNames = function compareNames(name) {\n        return name.toLowerCase().startsWith(monthName);\n      };\n      // compare with both short and full names because some locales have periods\n      // in the short names (not equal to the first X letters of the full names)\n      monthIndex = locale.monthsShort.findIndex(compareNames);\n      if (monthIndex < 0) {\n        monthIndex = locale.months.findIndex(compareNames);\n      }\n      if (monthIndex < 0) {\n        return NaN;\n      }\n    }\n    newDate.setMonth(monthIndex);\n    return newDate.getMonth() !== normalizeMonth(monthIndex) ? newDate.setDate(0) : newDate.getTime();\n  },\n  d: function d(date, day) {\n    return new Date(date).setDate(parseInt(day, 10));\n  }\n};\n// format functions for date parts\nvar formatFns = {\n  d: function d(date) {\n    return date.getDate();\n  },\n  dd: function dd(date) {\n    return padZero(date.getDate(), 2);\n  },\n  D: function D(date, locale) {\n    return locale.daysShort[date.getDay()];\n  },\n  DD: function DD(date, locale) {\n    return locale.days[date.getDay()];\n  },\n  m: function m(date) {\n    return date.getMonth() + 1;\n  },\n  mm: function mm(date) {\n    return padZero(date.getMonth() + 1, 2);\n  },\n  M: function M(date, locale) {\n    return locale.monthsShort[date.getMonth()];\n  },\n  MM: function MM(date, locale) {\n    return locale.months[date.getMonth()];\n  },\n  y: function y(date) {\n    return date.getFullYear();\n  },\n  yy: function yy(date) {\n    return padZero(date.getFullYear(), 2).slice(-2);\n  },\n  yyyy: function yyyy(date) {\n    return padZero(date.getFullYear(), 4);\n  }\n};\n\n// get month index in normal range (0 - 11) from any number\nfunction normalizeMonth(monthIndex) {\n  return monthIndex > -1 ? monthIndex % 12 : normalizeMonth(monthIndex + 12);\n}\nfunction padZero(num, length) {\n  return num.toString().padStart(length, '0');\n}\nfunction parseFormatString(format) {\n  if (typeof format !== 'string') {\n    throw new Error(\"Invalid date format.\");\n  }\n  if (format in knownFormats) {\n    return knownFormats[format];\n  }\n\n  // sprit the format string into parts and seprators\n  var separators = format.split(reFormatTokens);\n  var parts = format.match(new RegExp(reFormatTokens, 'g'));\n  if (separators.length === 0 || !parts) {\n    throw new Error(\"Invalid date format.\");\n  }\n\n  // collect format functions used in the format\n  var partFormatters = parts.map(function (token) {\n    return formatFns[token];\n  });\n\n  // collect parse function keys used in the format\n  // iterate over parseFns' keys in order to keep the order of the keys.\n  var partParserKeys = Object.keys(parseFns).reduce(function (keys, key) {\n    var token = parts.find(function (part) {\n      return part[0] !== 'D' && part[0].toLowerCase() === key;\n    });\n    if (token) {\n      keys.push(key);\n    }\n    return keys;\n  }, []);\n  return knownFormats[format] = {\n    parser: function parser(dateStr, locale) {\n      var dateParts = dateStr.split(reNonDateParts).reduce(function (dtParts, part, index) {\n        if (part.length > 0 && parts[index]) {\n          var token = parts[index][0];\n          if (token === 'M') {\n            dtParts.m = part;\n          } else if (token !== 'D') {\n            dtParts[token] = part;\n          }\n        }\n        return dtParts;\n      }, {});\n\n      // iterate over partParserkeys so that the parsing is made in the oder\n      // of year, month and day to prevent the day parser from correcting last\n      // day of month wrongly\n      return partParserKeys.reduce(function (origDate, key) {\n        var newDate = parseFns[key](origDate, dateParts[key], locale);\n        // ingnore the part failed to parse\n        return isNaN(newDate) ? origDate : newDate;\n      }, today());\n    },\n    formatter: function formatter(date, locale) {\n      var dateStr = partFormatters.reduce(function (str, fn, index) {\n        return str += \"\".concat(separators[index]).concat(fn(date, locale));\n      }, '');\n      // separators' length is always parts' length + 1,\n      return dateStr += lastItemOf(separators);\n    }\n  };\n}\nfunction parseDate(dateStr, format, locale) {\n  if (dateStr instanceof Date || typeof dateStr === 'number') {\n    var date = stripTime(dateStr);\n    return isNaN(date) ? undefined : date;\n  }\n  if (!dateStr) {\n    return undefined;\n  }\n  if (dateStr === 'today') {\n    return today();\n  }\n  if (format && format.toValue) {\n    var _date = format.toValue(dateStr, format, locale);\n    return isNaN(_date) ? undefined : stripTime(_date);\n  }\n  return parseFormatString(format).parser(dateStr, locale);\n}\nfunction formatDate(date, format, locale) {\n  if (isNaN(date) || !date && date !== 0) {\n    return '';\n  }\n  var dateObj = typeof date === 'number' ? new Date(date) : date;\n  if (format.toDisplay) {\n    return format.toDisplay(dateObj, format, locale);\n  }\n  return parseFormatString(format).formatter(dateObj, locale);\n}\n\nvar listenerRegistry = new WeakMap();\nvar _EventTarget$prototyp = EventTarget.prototype,\n  addEventListener = _EventTarget$prototyp.addEventListener,\n  removeEventListener = _EventTarget$prototyp.removeEventListener;\n\n// Register event listeners to a key object\n// listeners: array of listener definitions;\n//   - each definition must be a flat array of event target and the arguments\n//     used to call addEventListener() on the target\nfunction registerListeners(keyObj, listeners) {\n  var registered = listenerRegistry.get(keyObj);\n  if (!registered) {\n    registered = [];\n    listenerRegistry.set(keyObj, registered);\n  }\n  listeners.forEach(function (listener) {\n    addEventListener.call.apply(addEventListener, _toConsumableArray(listener));\n    registered.push(listener);\n  });\n}\nfunction unregisterListeners(keyObj) {\n  var listeners = listenerRegistry.get(keyObj);\n  if (!listeners) {\n    return;\n  }\n  listeners.forEach(function (listener) {\n    removeEventListener.call.apply(removeEventListener, _toConsumableArray(listener));\n  });\n  listenerRegistry[\"delete\"](keyObj);\n}\n\n// Event.composedPath() polyfill for Edge\n// based on https://gist.github.com/kleinfreund/e9787d73776c0e3750dcfcdc89f100ec\nif (!Event.prototype.composedPath) {\n  var getComposedPath = function getComposedPath(node) {\n    var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];\n    path.push(node);\n    var parent;\n    if (node.parentNode) {\n      parent = node.parentNode;\n    } else if (node.host) {\n      // ShadowRoot\n      parent = node.host;\n    } else if (node.defaultView) {\n      // Document\n      parent = node.defaultView;\n    }\n    return parent ? getComposedPath(parent, path) : path;\n  };\n  Event.prototype.composedPath = function () {\n    return getComposedPath(this.target);\n  };\n}\nfunction findFromPath(path, criteria, currentTarget) {\n  var index = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;\n  var el = path[index];\n  if (criteria(el)) {\n    return el;\n  } else if (el === currentTarget || !el.parentElement) {\n    // stop when reaching currentTarget or <html>\n    return;\n  }\n  return findFromPath(path, criteria, currentTarget, index + 1);\n}\n\n// Search for the actual target of a delegated event\nfunction findElementInEventPath(ev, selector) {\n  var criteria = typeof selector === 'function' ? selector : function (el) {\n    return el.matches(selector);\n  };\n  return findFromPath(ev.composedPath(), criteria, ev.currentTarget);\n}\n\n// default locales\nvar locales = {\n  en: {\n    days: [\"Sunday\", \"Monday\", \"Tuesday\", \"Wednesday\", \"Thursday\", \"Friday\", \"Saturday\"],\n    daysShort: [\"Sun\", \"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", \"Sat\"],\n    daysMin: [\"Su\", \"Mo\", \"Tu\", \"We\", \"Th\", \"Fr\", \"Sa\"],\n    months: [\"January\", \"February\", \"March\", \"April\", \"May\", \"June\", \"July\", \"August\", \"September\", \"October\", \"November\", \"December\"],\n    monthsShort: [\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Dec\"],\n    today: \"Today\",\n    clear: \"Clear\",\n    titleFormat: \"MM y\"\n  }\n};\n\n// config options updatable by setOptions() and their default values\nvar defaultOptions = {\n  autohide: false,\n  beforeShowDay: null,\n  beforeShowDecade: null,\n  beforeShowMonth: null,\n  beforeShowYear: null,\n  calendarWeeks: false,\n  clearBtn: false,\n  dateDelimiter: ',',\n  datesDisabled: [],\n  daysOfWeekDisabled: [],\n  daysOfWeekHighlighted: [],\n  defaultViewDate: undefined,\n  // placeholder, defaults to today() by the program\n  disableTouchKeyboard: false,\n  format: 'mm/dd/yyyy',\n  language: 'en',\n  maxDate: null,\n  maxNumberOfDates: 1,\n  maxView: 3,\n  minDate: null,\n  nextArrow: '<svg class=\"w-4 h-4 rtl:rotate-180 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 14 10\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M1 5h12m0 0L9 1m4 4L9 9\"/></svg>',\n  orientation: 'auto',\n  pickLevel: 0,\n  prevArrow: '<svg class=\"w-4 h-4 rtl:rotate-180 text-gray-800 dark:text-white\" aria-hidden=\"true\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 14 10\"><path stroke=\"currentColor\" stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13 5H1m0 0 4 4M1 5l4-4\"/></svg>',\n  showDaysOfWeek: true,\n  showOnClick: true,\n  showOnFocus: true,\n  startView: 0,\n  title: '',\n  todayBtn: false,\n  todayBtnMode: 0,\n  todayHighlight: false,\n  updateOnBlur: true,\n  weekStart: 0\n};\n\nvar range = null;\nfunction parseHTML(html) {\n  if (range == null) {\n    range = document.createRange();\n  }\n  return range.createContextualFragment(html);\n}\nfunction hideElement(el) {\n  if (el.style.display === 'none') {\n    return;\n  }\n  // back up the existing display setting in data-style-display\n  if (el.style.display) {\n    el.dataset.styleDisplay = el.style.display;\n  }\n  el.style.display = 'none';\n}\nfunction showElement(el) {\n  if (el.style.display !== 'none') {\n    return;\n  }\n  if (el.dataset.styleDisplay) {\n    // restore backed-up dispay property\n    el.style.display = el.dataset.styleDisplay;\n    delete el.dataset.styleDisplay;\n  } else {\n    el.style.display = '';\n  }\n}\nfunction emptyChildNodes(el) {\n  if (el.firstChild) {\n    el.removeChild(el.firstChild);\n    emptyChildNodes(el);\n  }\n}\nfunction replaceChildNodes(el, newChildNodes) {\n  emptyChildNodes(el);\n  if (newChildNodes instanceof DocumentFragment) {\n    el.appendChild(newChildNodes);\n  } else if (typeof newChildNodes === 'string') {\n    el.appendChild(parseHTML(newChildNodes));\n  } else if (typeof newChildNodes.forEach === 'function') {\n    newChildNodes.forEach(function (node) {\n      el.appendChild(node);\n    });\n  }\n}\n\nvar defaultLang = defaultOptions.language,\n  defaultFormat = defaultOptions.format,\n  defaultWeekStart = defaultOptions.weekStart;\n\n// Reducer function to filter out invalid day-of-week from the input\nfunction sanitizeDOW(dow, day) {\n  return dow.length < 6 && day >= 0 && day < 7 ? pushUnique(dow, day) : dow;\n}\nfunction calcEndOfWeek(startOfWeek) {\n  return (startOfWeek + 6) % 7;\n}\n\n// validate input date. if invalid, fallback to the original value\nfunction validateDate(value, format, locale, origValue) {\n  var date = parseDate(value, format, locale);\n  return date !== undefined ? date : origValue;\n}\n\n// Validate viewId. if invalid, fallback to the original value\nfunction validateViewId(value, origValue) {\n  var max = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 3;\n  var viewId = parseInt(value, 10);\n  return viewId >= 0 && viewId <= max ? viewId : origValue;\n}\n\n// Create Datepicker configuration to set\nfunction processOptions(options, datepicker) {\n  var inOpts = Object.assign({}, options);\n  var config = {};\n  var locales = datepicker.constructor.locales;\n  var _ref = datepicker.config || {},\n    format = _ref.format,\n    language = _ref.language,\n    locale = _ref.locale,\n    maxDate = _ref.maxDate,\n    maxView = _ref.maxView,\n    minDate = _ref.minDate,\n    pickLevel = _ref.pickLevel,\n    startView = _ref.startView,\n    weekStart = _ref.weekStart;\n  if (inOpts.language) {\n    var lang;\n    if (inOpts.language !== language) {\n      if (locales[inOpts.language]) {\n        lang = inOpts.language;\n      } else {\n        // Check if langauge + region tag can fallback to the one without\n        // region (e.g. fr-CA → fr)\n        lang = inOpts.language.split('-')[0];\n        if (locales[lang] === undefined) {\n          lang = false;\n        }\n      }\n    }\n    delete inOpts.language;\n    if (lang) {\n      language = config.language = lang;\n\n      // update locale as well when updating language\n      var origLocale = locale || locales[defaultLang];\n      // use default language's properties for the fallback\n      locale = Object.assign({\n        format: defaultFormat,\n        weekStart: defaultWeekStart\n      }, locales[defaultLang]);\n      if (language !== defaultLang) {\n        Object.assign(locale, locales[language]);\n      }\n      config.locale = locale;\n      // if format and/or weekStart are the same as old locale's defaults,\n      // update them to new locale's defaults\n      if (format === origLocale.format) {\n        format = config.format = locale.format;\n      }\n      if (weekStart === origLocale.weekStart) {\n        weekStart = config.weekStart = locale.weekStart;\n        config.weekEnd = calcEndOfWeek(locale.weekStart);\n      }\n    }\n  }\n  if (inOpts.format) {\n    var hasToDisplay = typeof inOpts.format.toDisplay === 'function';\n    var hasToValue = typeof inOpts.format.toValue === 'function';\n    var validFormatString = reFormatTokens.test(inOpts.format);\n    if (hasToDisplay && hasToValue || validFormatString) {\n      format = config.format = inOpts.format;\n    }\n    delete inOpts.format;\n  }\n\n  //*** dates ***//\n  // while min and maxDate for \"no limit\" in the options are better to be null\n  // (especially when updating), the ones in the config have to be undefined\n  // because null is treated as 0 (= unix epoch) when comparing with time value\n  var minDt = minDate;\n  var maxDt = maxDate;\n  if (inOpts.minDate !== undefined) {\n    minDt = inOpts.minDate === null ? dateValue(0, 0, 1) // set 0000-01-01 to prevent negative values for year\n    : validateDate(inOpts.minDate, format, locale, minDt);\n    delete inOpts.minDate;\n  }\n  if (inOpts.maxDate !== undefined) {\n    maxDt = inOpts.maxDate === null ? undefined : validateDate(inOpts.maxDate, format, locale, maxDt);\n    delete inOpts.maxDate;\n  }\n  if (maxDt < minDt) {\n    minDate = config.minDate = maxDt;\n    maxDate = config.maxDate = minDt;\n  } else {\n    if (minDate !== minDt) {\n      minDate = config.minDate = minDt;\n    }\n    if (maxDate !== maxDt) {\n      maxDate = config.maxDate = maxDt;\n    }\n  }\n  if (inOpts.datesDisabled) {\n    config.datesDisabled = inOpts.datesDisabled.reduce(function (dates, dt) {\n      var date = parseDate(dt, format, locale);\n      return date !== undefined ? pushUnique(dates, date) : dates;\n    }, []);\n    delete inOpts.datesDisabled;\n  }\n  if (inOpts.defaultViewDate !== undefined) {\n    var viewDate = parseDate(inOpts.defaultViewDate, format, locale);\n    if (viewDate !== undefined) {\n      config.defaultViewDate = viewDate;\n    }\n    delete inOpts.defaultViewDate;\n  }\n\n  //*** days of week ***//\n  if (inOpts.weekStart !== undefined) {\n    var wkStart = Number(inOpts.weekStart) % 7;\n    if (!isNaN(wkStart)) {\n      weekStart = config.weekStart = wkStart;\n      config.weekEnd = calcEndOfWeek(wkStart);\n    }\n    delete inOpts.weekStart;\n  }\n  if (inOpts.daysOfWeekDisabled) {\n    config.daysOfWeekDisabled = inOpts.daysOfWeekDisabled.reduce(sanitizeDOW, []);\n    delete inOpts.daysOfWeekDisabled;\n  }\n  if (inOpts.daysOfWeekHighlighted) {\n    config.daysOfWeekHighlighted = inOpts.daysOfWeekHighlighted.reduce(sanitizeDOW, []);\n    delete inOpts.daysOfWeekHighlighted;\n  }\n\n  //*** multi date ***//\n  if (inOpts.maxNumberOfDates !== undefined) {\n    var maxNumberOfDates = parseInt(inOpts.maxNumberOfDates, 10);\n    if (maxNumberOfDates >= 0) {\n      config.maxNumberOfDates = maxNumberOfDates;\n      config.multidate = maxNumberOfDates !== 1;\n    }\n    delete inOpts.maxNumberOfDates;\n  }\n  if (inOpts.dateDelimiter) {\n    config.dateDelimiter = String(inOpts.dateDelimiter);\n    delete inOpts.dateDelimiter;\n  }\n\n  //*** pick level & view ***//\n  var newPickLevel = pickLevel;\n  if (inOpts.pickLevel !== undefined) {\n    newPickLevel = validateViewId(inOpts.pickLevel, 2);\n    delete inOpts.pickLevel;\n  }\n  if (newPickLevel !== pickLevel) {\n    pickLevel = config.pickLevel = newPickLevel;\n  }\n  var newMaxView = maxView;\n  if (inOpts.maxView !== undefined) {\n    newMaxView = validateViewId(inOpts.maxView, maxView);\n    delete inOpts.maxView;\n  }\n  // ensure max view >= pick level\n  newMaxView = pickLevel > newMaxView ? pickLevel : newMaxView;\n  if (newMaxView !== maxView) {\n    maxView = config.maxView = newMaxView;\n  }\n  var newStartView = startView;\n  if (inOpts.startView !== undefined) {\n    newStartView = validateViewId(inOpts.startView, newStartView);\n    delete inOpts.startView;\n  }\n  // ensure pick level <= start view <= max view\n  if (newStartView < pickLevel) {\n    newStartView = pickLevel;\n  } else if (newStartView > maxView) {\n    newStartView = maxView;\n  }\n  if (newStartView !== startView) {\n    config.startView = newStartView;\n  }\n\n  //*** template ***//\n  if (inOpts.prevArrow) {\n    var prevArrow = parseHTML(inOpts.prevArrow);\n    if (prevArrow.childNodes.length > 0) {\n      config.prevArrow = prevArrow.childNodes;\n    }\n    delete inOpts.prevArrow;\n  }\n  if (inOpts.nextArrow) {\n    var nextArrow = parseHTML(inOpts.nextArrow);\n    if (nextArrow.childNodes.length > 0) {\n      config.nextArrow = nextArrow.childNodes;\n    }\n    delete inOpts.nextArrow;\n  }\n\n  //*** misc ***//\n  if (inOpts.disableTouchKeyboard !== undefined) {\n    config.disableTouchKeyboard = 'ontouchstart' in document && !!inOpts.disableTouchKeyboard;\n    delete inOpts.disableTouchKeyboard;\n  }\n  if (inOpts.orientation) {\n    var orientation = inOpts.orientation.toLowerCase().split(/\\s+/g);\n    config.orientation = {\n      x: orientation.find(function (x) {\n        return x === 'left' || x === 'right';\n      }) || 'auto',\n      y: orientation.find(function (y) {\n        return y === 'top' || y === 'bottom';\n      }) || 'auto'\n    };\n    delete inOpts.orientation;\n  }\n  if (inOpts.todayBtnMode !== undefined) {\n    switch (inOpts.todayBtnMode) {\n      case 0:\n      case 1:\n        config.todayBtnMode = inOpts.todayBtnMode;\n    }\n    delete inOpts.todayBtnMode;\n  }\n\n  //*** copy the rest ***//\n  Object.keys(inOpts).forEach(function (key) {\n    if (inOpts[key] !== undefined && hasProperty(defaultOptions, key)) {\n      config[key] = inOpts[key];\n    }\n  });\n  return config;\n}\n\nvar pickerTemplate = optimizeTemplateHTML(\"<div class=\\\"datepicker hidden\\\">\\n  <div class=\\\"datepicker-picker inline-block rounded-lg bg-white dark:bg-gray-700 shadow-lg p-4\\\">\\n    <div class=\\\"datepicker-header\\\">\\n      <div class=\\\"datepicker-title bg-white dark:bg-gray-700 dark:text-white px-2 py-3 text-center font-semibold\\\"></div>\\n      <div class=\\\"datepicker-controls flex justify-between mb-2\\\">\\n        <button type=\\\"button\\\" class=\\\"bg-white dark:bg-gray-700 rounded-lg text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white text-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-200 prev-btn\\\"></button>\\n        <button type=\\\"button\\\" class=\\\"text-sm rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-700 font-semibold py-2.5 px-5 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-200 view-switch\\\"></button>\\n        <button type=\\\"button\\\" class=\\\"bg-white dark:bg-gray-700 rounded-lg text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white text-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-200 next-btn\\\"></button>\\n      </div>\\n    </div>\\n    <div class=\\\"datepicker-main p-1\\\"></div>\\n    <div class=\\\"datepicker-footer\\\">\\n      <div class=\\\"datepicker-controls flex space-x-2 rtl:space-x-reverse mt-2\\\">\\n        <button type=\\\"button\\\" class=\\\"%buttonClass% today-btn text-white bg-blue-700 !bg-primary-700 dark:bg-blue-600 dark:!bg-primary-600 hover:bg-blue-800 hover:!bg-primary-800 dark:hover:bg-blue-700 dark:hover:!bg-primary-700 focus:ring-4 focus:ring-blue-300 focus:!ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center w-1/2\\\"></button>\\n        <button type=\\\"button\\\" class=\\\"%buttonClass% clear-btn text-gray-900 dark:text-white bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 focus:ring-4 focus:ring-blue-300 focus:!ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center w-1/2\\\"></button>\\n      </div>\\n    </div>\\n  </div>\\n</div>\");\n\nvar daysTemplate = optimizeTemplateHTML(\"<div class=\\\"days\\\">\\n  <div class=\\\"days-of-week grid grid-cols-7 mb-1\\\">\".concat(createTagRepeat('span', 7, {\n  \"class\": 'dow block flex-1 leading-9 border-0 rounded-lg cursor-default text-center text-gray-900 font-semibold text-sm'\n}), \"</div>\\n  <div class=\\\"datepicker-grid w-64 grid grid-cols-7\\\">\").concat(createTagRepeat('span', 42, {\n  \"class\": 'block flex-1 leading-9 border-0 rounded-lg cursor-default text-center text-gray-900 font-semibold text-sm h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400'\n}), \"</div>\\n</div>\"));\n\nvar calendarWeeksTemplate = optimizeTemplateHTML(\"<div class=\\\"calendar-weeks\\\">\\n  <div class=\\\"days-of-week flex\\\"><span class=\\\"dow h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400\\\"></span></div>\\n  <div class=\\\"weeks\\\">\".concat(createTagRepeat('span', 6, {\n  \"class\": 'week block flex-1 leading-9 border-0 rounded-lg cursor-default text-center text-gray-900 font-semibold text-sm'\n}), \"</div>\\n</div>\"));\n\n// Base class of the view classes\nvar View = /*#__PURE__*/function () {\n  function View(picker, config) {\n    _classCallCheck(this, View);\n    Object.assign(this, config, {\n      picker: picker,\n      element: parseHTML(\"<div class=\\\"datepicker-view flex\\\"></div>\").firstChild,\n      selected: []\n    });\n    this.init(this.picker.datepicker.config);\n  }\n  return _createClass(View, [{\n    key: \"init\",\n    value: function init(options) {\n      if (options.pickLevel !== undefined) {\n        this.isMinView = this.id === options.pickLevel;\n      }\n      this.setOptions(options);\n      this.updateFocus();\n      this.updateSelection();\n    }\n\n    // Execute beforeShow() callback and apply the result to the element\n    // args:\n    // - current - current value on the iteration on view rendering\n    // - timeValue - time value of the date to pass to beforeShow()\n  }, {\n    key: \"performBeforeHook\",\n    value: function performBeforeHook(el, current, timeValue) {\n      var result = this.beforeShow(new Date(timeValue));\n      switch (_typeof(result)) {\n        case 'boolean':\n          result = {\n            enabled: result\n          };\n          break;\n        case 'string':\n          result = {\n            classes: result\n          };\n      }\n      if (result) {\n        if (result.enabled === false) {\n          el.classList.add('disabled');\n          pushUnique(this.disabled, current);\n        }\n        if (result.classes) {\n          var _el$classList;\n          var extraClasses = result.classes.split(/\\s+/);\n          (_el$classList = el.classList).add.apply(_el$classList, _toConsumableArray(extraClasses));\n          if (extraClasses.includes('disabled')) {\n            pushUnique(this.disabled, current);\n          }\n        }\n        if (result.content) {\n          replaceChildNodes(el, result.content);\n        }\n      }\n    }\n  }]);\n}();\n\nvar DaysView = /*#__PURE__*/function (_View) {\n  function DaysView(picker) {\n    _classCallCheck(this, DaysView);\n    return _callSuper(this, DaysView, [picker, {\n      id: 0,\n      name: 'days',\n      cellClass: 'day'\n    }]);\n  }\n  _inherits(DaysView, _View);\n  return _createClass(DaysView, [{\n    key: \"init\",\n    value: function init(options) {\n      var onConstruction = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;\n      if (onConstruction) {\n        var inner = parseHTML(daysTemplate).firstChild;\n        this.dow = inner.firstChild;\n        this.grid = inner.lastChild;\n        this.element.appendChild(inner);\n      }\n      _get(_getPrototypeOf(DaysView.prototype), \"init\", this).call(this, options);\n    }\n  }, {\n    key: \"setOptions\",\n    value: function setOptions(options) {\n      var _this = this;\n      var updateDOW;\n      if (hasProperty(options, 'minDate')) {\n        this.minDate = options.minDate;\n      }\n      if (hasProperty(options, 'maxDate')) {\n        this.maxDate = options.maxDate;\n      }\n      if (options.datesDisabled) {\n        this.datesDisabled = options.datesDisabled;\n      }\n      if (options.daysOfWeekDisabled) {\n        this.daysOfWeekDisabled = options.daysOfWeekDisabled;\n        updateDOW = true;\n      }\n      if (options.daysOfWeekHighlighted) {\n        this.daysOfWeekHighlighted = options.daysOfWeekHighlighted;\n      }\n      if (options.todayHighlight !== undefined) {\n        this.todayHighlight = options.todayHighlight;\n      }\n      if (options.weekStart !== undefined) {\n        this.weekStart = options.weekStart;\n        this.weekEnd = options.weekEnd;\n        updateDOW = true;\n      }\n      if (options.locale) {\n        var locale = this.locale = options.locale;\n        this.dayNames = locale.daysMin;\n        this.switchLabelFormat = locale.titleFormat;\n        updateDOW = true;\n      }\n      if (options.beforeShowDay !== undefined) {\n        this.beforeShow = typeof options.beforeShowDay === 'function' ? options.beforeShowDay : undefined;\n      }\n      if (options.calendarWeeks !== undefined) {\n        if (options.calendarWeeks && !this.calendarWeeks) {\n          var weeksElem = parseHTML(calendarWeeksTemplate).firstChild;\n          this.calendarWeeks = {\n            element: weeksElem,\n            dow: weeksElem.firstChild,\n            weeks: weeksElem.lastChild\n          };\n          this.element.insertBefore(weeksElem, this.element.firstChild);\n        } else if (this.calendarWeeks && !options.calendarWeeks) {\n          this.element.removeChild(this.calendarWeeks.element);\n          this.calendarWeeks = null;\n        }\n      }\n      if (options.showDaysOfWeek !== undefined) {\n        if (options.showDaysOfWeek) {\n          showElement(this.dow);\n          if (this.calendarWeeks) {\n            showElement(this.calendarWeeks.dow);\n          }\n        } else {\n          hideElement(this.dow);\n          if (this.calendarWeeks) {\n            hideElement(this.calendarWeeks.dow);\n          }\n        }\n      }\n\n      // update days-of-week when locale, daysOfweekDisabled or weekStart is changed\n      if (updateDOW) {\n        Array.from(this.dow.children).forEach(function (el, index) {\n          var dow = (_this.weekStart + index) % 7;\n          el.textContent = _this.dayNames[dow];\n          el.className = _this.daysOfWeekDisabled.includes(dow) ? 'dow disabled text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400 cursor-not-allowed' : 'dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400';\n        });\n      }\n    }\n\n    // Apply update on the focused date to view's settings\n  }, {\n    key: \"updateFocus\",\n    value: function updateFocus() {\n      var viewDate = new Date(this.picker.viewDate);\n      var viewYear = viewDate.getFullYear();\n      var viewMonth = viewDate.getMonth();\n      var firstOfMonth = dateValue(viewYear, viewMonth, 1);\n      var start = dayOfTheWeekOf(firstOfMonth, this.weekStart, this.weekStart);\n      this.first = firstOfMonth;\n      this.last = dateValue(viewYear, viewMonth + 1, 0);\n      this.start = start;\n      this.focused = this.picker.viewDate;\n    }\n\n    // Apply update on the selected dates to view's settings\n  }, {\n    key: \"updateSelection\",\n    value: function updateSelection() {\n      var _this$picker$datepick = this.picker.datepicker,\n        dates = _this$picker$datepick.dates,\n        rangepicker = _this$picker$datepick.rangepicker;\n      this.selected = dates;\n      if (rangepicker) {\n        this.range = rangepicker.dates;\n      }\n    }\n\n    // Update the entire view UI\n  }, {\n    key: \"render\",\n    value: function render() {\n      var _this2 = this;\n      // update today marker on ever render\n      this.today = this.todayHighlight ? today() : undefined;\n      // refresh disabled dates on every render in order to clear the ones added\n      // by beforeShow hook at previous render\n      this.disabled = _toConsumableArray(this.datesDisabled);\n      var switchLabel = formatDate(this.focused, this.switchLabelFormat, this.locale);\n      this.picker.setViewSwitchLabel(switchLabel);\n      this.picker.setPrevBtnDisabled(this.first <= this.minDate);\n      this.picker.setNextBtnDisabled(this.last >= this.maxDate);\n      if (this.calendarWeeks) {\n        // start of the UTC week (Monday) of the 1st of the month\n        var startOfWeek = dayOfTheWeekOf(this.first, 1, 1);\n        Array.from(this.calendarWeeks.weeks.children).forEach(function (el, index) {\n          el.textContent = getWeek(addWeeks(startOfWeek, index));\n        });\n      }\n      Array.from(this.grid.children).forEach(function (el, index) {\n        var classList = el.classList;\n        var current = addDays(_this2.start, index);\n        var date = new Date(current);\n        var day = date.getDay();\n        el.className = \"datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm \".concat(_this2.cellClass);\n        el.dataset.date = current;\n        el.textContent = date.getDate();\n        if (current < _this2.first) {\n          classList.add('prev', 'text-gray-500', 'dark:text-white');\n        } else if (current > _this2.last) {\n          classList.add('next', 'text-gray-500', 'dark:text-white');\n        }\n        if (_this2.today === current) {\n          classList.add('today', 'bg-gray-100', 'dark:bg-gray-600');\n        }\n        if (current < _this2.minDate || current > _this2.maxDate || _this2.disabled.includes(current)) {\n          classList.add('disabled', 'cursor-not-allowed', 'text-gray-400', 'dark:text-gray-500');\n          classList.remove('hover:bg-gray-100', 'dark:hover:bg-gray-600', 'text-gray-900', 'dark:text-white', 'cursor-pointer');\n        }\n        if (_this2.daysOfWeekDisabled.includes(day)) {\n          classList.add('disabled', 'cursor-not-allowed', 'text-gray-400', 'dark:text-gray-500');\n          classList.remove('hover:bg-gray-100', 'dark:hover:bg-gray-600', 'text-gray-900', 'dark:text-white', 'cursor-pointer');\n          pushUnique(_this2.disabled, current);\n        }\n        if (_this2.daysOfWeekHighlighted.includes(day)) {\n          classList.add('highlighted');\n        }\n        if (_this2.range) {\n          var _this2$range = _slicedToArray(_this2.range, 2),\n            rangeStart = _this2$range[0],\n            rangeEnd = _this2$range[1];\n          if (current > rangeStart && current < rangeEnd) {\n            classList.add('range', 'bg-gray-200', 'dark:bg-gray-600');\n            classList.remove('rounded-lg', 'rounded-l-lg', 'rounded-r-lg');\n          }\n          if (current === rangeStart) {\n            classList.add('range-start', 'bg-gray-100', 'dark:bg-gray-600', 'rounded-l-lg');\n            classList.remove('rounded-lg', 'rounded-r-lg');\n          }\n          if (current === rangeEnd) {\n            classList.add('range-end', 'bg-gray-100', 'dark:bg-gray-600', 'rounded-r-lg');\n            classList.remove('rounded-lg', 'rounded-l-lg');\n          }\n        }\n        if (_this2.selected.includes(current)) {\n          classList.add('selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark:!bg-primary-600', 'dark:text-white');\n          classList.remove('text-gray-900', 'text-gray-500', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600', 'dark:bg-gray-600', 'bg-gray-100', 'bg-gray-200');\n        }\n        if (current === _this2.focused) {\n          classList.add('focused');\n        }\n        if (_this2.beforeShow) {\n          _this2.performBeforeHook(el, current, current);\n        }\n      });\n    }\n\n    // Update the view UI by applying the changes of selected and focused items\n  }, {\n    key: \"refresh\",\n    value: function refresh() {\n      var _this3 = this;\n      var _ref = this.range || [],\n        _ref2 = _slicedToArray(_ref, 2),\n        rangeStart = _ref2[0],\n        rangeEnd = _ref2[1];\n      this.grid.querySelectorAll('.range, .range-start, .range-end, .selected, .focused').forEach(function (el) {\n        el.classList.remove('range', 'range-start', 'range-end', 'selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark:!bg-primary-600', 'dark:text-white', 'focused');\n        el.classList.add('text-gray-900', 'rounded-lg', 'dark:text-white');\n      });\n      Array.from(this.grid.children).forEach(function (el) {\n        var current = Number(el.dataset.date);\n        var classList = el.classList;\n        classList.remove('bg-gray-200', 'dark:bg-gray-600', 'rounded-l-lg', 'rounded-r-lg');\n        if (current > rangeStart && current < rangeEnd) {\n          classList.add('range', 'bg-gray-200', 'dark:bg-gray-600');\n          classList.remove('rounded-lg');\n        }\n        if (current === rangeStart) {\n          classList.add('range-start', 'bg-gray-200', 'dark:bg-gray-600', 'rounded-l-lg');\n          classList.remove('rounded-lg');\n        }\n        if (current === rangeEnd) {\n          classList.add('range-end', 'bg-gray-200', 'dark:bg-gray-600', 'rounded-r-lg');\n          classList.remove('rounded-lg');\n        }\n        if (_this3.selected.includes(current)) {\n          classList.add('selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark:!bg-primary-600', 'dark:text-white');\n          classList.remove('text-gray-900', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600', 'bg-gray-100', 'bg-gray-200', 'dark:bg-gray-600');\n        }\n        if (current === _this3.focused) {\n          classList.add('focused');\n        }\n      });\n    }\n\n    // Update the view UI by applying the change of focused item\n  }, {\n    key: \"refreshFocus\",\n    value: function refreshFocus() {\n      var index = Math.round((this.focused - this.start) / 86400000);\n      this.grid.querySelectorAll('.focused').forEach(function (el) {\n        el.classList.remove('focused');\n      });\n      this.grid.children[index].classList.add('focused');\n    }\n  }]);\n}(View);\n\nfunction computeMonthRange(range, thisYear) {\n  if (!range || !range[0] || !range[1]) {\n    return;\n  }\n  var _range = _slicedToArray(range, 2),\n    _range$ = _slicedToArray(_range[0], 2),\n    startY = _range$[0],\n    startM = _range$[1],\n    _range$2 = _slicedToArray(_range[1], 2),\n    endY = _range$2[0],\n    endM = _range$2[1];\n  if (startY > thisYear || endY < thisYear) {\n    return;\n  }\n  return [startY === thisYear ? startM : -1, endY === thisYear ? endM : 12];\n}\nvar MonthsView = /*#__PURE__*/function (_View) {\n  function MonthsView(picker) {\n    _classCallCheck(this, MonthsView);\n    return _callSuper(this, MonthsView, [picker, {\n      id: 1,\n      name: 'months',\n      cellClass: 'month'\n    }]);\n  }\n  _inherits(MonthsView, _View);\n  return _createClass(MonthsView, [{\n    key: \"init\",\n    value: function init(options) {\n      var onConstruction = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;\n      if (onConstruction) {\n        this.grid = this.element;\n        this.element.classList.add('months', 'datepicker-grid', 'w-64', 'grid', 'grid-cols-4');\n        this.grid.appendChild(parseHTML(createTagRepeat('span', 12, {\n          'data-month': function dataMonth(ix) {\n            return ix;\n          }\n        })));\n      }\n      _get(_getPrototypeOf(MonthsView.prototype), \"init\", this).call(this, options);\n    }\n  }, {\n    key: \"setOptions\",\n    value: function setOptions(options) {\n      if (options.locale) {\n        this.monthNames = options.locale.monthsShort;\n      }\n      if (hasProperty(options, 'minDate')) {\n        if (options.minDate === undefined) {\n          this.minYear = this.minMonth = this.minDate = undefined;\n        } else {\n          var minDateObj = new Date(options.minDate);\n          this.minYear = minDateObj.getFullYear();\n          this.minMonth = minDateObj.getMonth();\n          this.minDate = minDateObj.setDate(1);\n        }\n      }\n      if (hasProperty(options, 'maxDate')) {\n        if (options.maxDate === undefined) {\n          this.maxYear = this.maxMonth = this.maxDate = undefined;\n        } else {\n          var maxDateObj = new Date(options.maxDate);\n          this.maxYear = maxDateObj.getFullYear();\n          this.maxMonth = maxDateObj.getMonth();\n          this.maxDate = dateValue(this.maxYear, this.maxMonth + 1, 0);\n        }\n      }\n      if (options.beforeShowMonth !== undefined) {\n        this.beforeShow = typeof options.beforeShowMonth === 'function' ? options.beforeShowMonth : undefined;\n      }\n    }\n\n    // Update view's settings to reflect the viewDate set on the picker\n  }, {\n    key: \"updateFocus\",\n    value: function updateFocus() {\n      var viewDate = new Date(this.picker.viewDate);\n      this.year = viewDate.getFullYear();\n      this.focused = viewDate.getMonth();\n    }\n\n    // Update view's settings to reflect the selected dates\n  }, {\n    key: \"updateSelection\",\n    value: function updateSelection() {\n      var _this$picker$datepick = this.picker.datepicker,\n        dates = _this$picker$datepick.dates,\n        rangepicker = _this$picker$datepick.rangepicker;\n      this.selected = dates.reduce(function (selected, timeValue) {\n        var date = new Date(timeValue);\n        var year = date.getFullYear();\n        var month = date.getMonth();\n        if (selected[year] === undefined) {\n          selected[year] = [month];\n        } else {\n          pushUnique(selected[year], month);\n        }\n        return selected;\n      }, {});\n      if (rangepicker && rangepicker.dates) {\n        this.range = rangepicker.dates.map(function (timeValue) {\n          var date = new Date(timeValue);\n          return isNaN(date) ? undefined : [date.getFullYear(), date.getMonth()];\n        });\n      }\n    }\n\n    // Update the entire view UI\n  }, {\n    key: \"render\",\n    value: function render() {\n      var _this = this;\n      // refresh disabled months on every render in order to clear the ones added\n      // by beforeShow hook at previous render\n      this.disabled = [];\n      this.picker.setViewSwitchLabel(this.year);\n      this.picker.setPrevBtnDisabled(this.year <= this.minYear);\n      this.picker.setNextBtnDisabled(this.year >= this.maxYear);\n      var selected = this.selected[this.year] || [];\n      var yrOutOfRange = this.year < this.minYear || this.year > this.maxYear;\n      var isMinYear = this.year === this.minYear;\n      var isMaxYear = this.year === this.maxYear;\n      var range = computeMonthRange(this.range, this.year);\n      Array.from(this.grid.children).forEach(function (el, index) {\n        var classList = el.classList;\n        var date = dateValue(_this.year, index, 1);\n        el.className = \"datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm \".concat(_this.cellClass);\n        if (_this.isMinView) {\n          el.dataset.date = date;\n        }\n        // reset text on every render to clear the custom content set\n        // by beforeShow hook at previous render\n        el.textContent = _this.monthNames[index];\n        if (yrOutOfRange || isMinYear && index < _this.minMonth || isMaxYear && index > _this.maxMonth) {\n          classList.add('disabled');\n        }\n        if (range) {\n          var _range2 = _slicedToArray(range, 2),\n            rangeStart = _range2[0],\n            rangeEnd = _range2[1];\n          if (index > rangeStart && index < rangeEnd) {\n            classList.add('range');\n          }\n          if (index === rangeStart) {\n            classList.add('range-start');\n          }\n          if (index === rangeEnd) {\n            classList.add('range-end');\n          }\n        }\n        if (selected.includes(index)) {\n          classList.add('selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark:!bg-primary-600', 'dark:text-white');\n          classList.remove('text-gray-900', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600');\n        }\n        if (index === _this.focused) {\n          classList.add('focused');\n        }\n        if (_this.beforeShow) {\n          _this.performBeforeHook(el, index, date);\n        }\n      });\n    }\n\n    // Update the view UI by applying the changes of selected and focused items\n  }, {\n    key: \"refresh\",\n    value: function refresh() {\n      var _this2 = this;\n      var selected = this.selected[this.year] || [];\n      var _ref = computeMonthRange(this.range, this.year) || [],\n        _ref2 = _slicedToArray(_ref, 2),\n        rangeStart = _ref2[0],\n        rangeEnd = _ref2[1];\n      this.grid.querySelectorAll('.range, .range-start, .range-end, .selected, .focused').forEach(function (el) {\n        el.classList.remove('range', 'range-start', 'range-end', 'selected', 'bg-blue-700', '!bg-primary-700', 'dark:bg-blue-600', 'dark:!bg-primary-700', 'dark:text-white', 'text-white', 'focused');\n        el.classList.add('text-gray-900', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600');\n      });\n      Array.from(this.grid.children).forEach(function (el, index) {\n        var classList = el.classList;\n        if (index > rangeStart && index < rangeEnd) {\n          classList.add('range');\n        }\n        if (index === rangeStart) {\n          classList.add('range-start');\n        }\n        if (index === rangeEnd) {\n          classList.add('range-end');\n        }\n        if (selected.includes(index)) {\n          classList.add('selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark:!bg-primary-600', 'dark:text-white');\n          classList.remove('text-gray-900', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600');\n        }\n        if (index === _this2.focused) {\n          classList.add('focused');\n        }\n      });\n    }\n\n    // Update the view UI by applying the change of focused item\n  }, {\n    key: \"refreshFocus\",\n    value: function refreshFocus() {\n      this.grid.querySelectorAll('.focused').forEach(function (el) {\n        el.classList.remove('focused');\n      });\n      this.grid.children[this.focused].classList.add('focused');\n    }\n  }]);\n}(View);\n\nfunction toTitleCase(word) {\n  return _toConsumableArray(word).reduce(function (str, ch, ix) {\n    return str += ix ? ch : ch.toUpperCase();\n  }, '');\n}\n\n// Class representing the years and decades view elements\nvar YearsView = /*#__PURE__*/function (_View) {\n  function YearsView(picker, config) {\n    _classCallCheck(this, YearsView);\n    return _callSuper(this, YearsView, [picker, config]);\n  }\n  _inherits(YearsView, _View);\n  return _createClass(YearsView, [{\n    key: \"init\",\n    value: function init(options) {\n      var onConstruction = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;\n      if (onConstruction) {\n        this.navStep = this.step * 10;\n        this.beforeShowOption = \"beforeShow\".concat(toTitleCase(this.cellClass));\n        this.grid = this.element;\n        this.element.classList.add(this.name, 'datepicker-grid', 'w-64', 'grid', 'grid-cols-4');\n        this.grid.appendChild(parseHTML(createTagRepeat('span', 12)));\n      }\n      _get(_getPrototypeOf(YearsView.prototype), \"init\", this).call(this, options);\n    }\n  }, {\n    key: \"setOptions\",\n    value: function setOptions(options) {\n      if (hasProperty(options, 'minDate')) {\n        if (options.minDate === undefined) {\n          this.minYear = this.minDate = undefined;\n        } else {\n          this.minYear = startOfYearPeriod(options.minDate, this.step);\n          this.minDate = dateValue(this.minYear, 0, 1);\n        }\n      }\n      if (hasProperty(options, 'maxDate')) {\n        if (options.maxDate === undefined) {\n          this.maxYear = this.maxDate = undefined;\n        } else {\n          this.maxYear = startOfYearPeriod(options.maxDate, this.step);\n          this.maxDate = dateValue(this.maxYear, 11, 31);\n        }\n      }\n      if (options[this.beforeShowOption] !== undefined) {\n        var beforeShow = options[this.beforeShowOption];\n        this.beforeShow = typeof beforeShow === 'function' ? beforeShow : undefined;\n      }\n    }\n\n    // Update view's settings to reflect the viewDate set on the picker\n  }, {\n    key: \"updateFocus\",\n    value: function updateFocus() {\n      var viewDate = new Date(this.picker.viewDate);\n      var first = startOfYearPeriod(viewDate, this.navStep);\n      var last = first + 9 * this.step;\n      this.first = first;\n      this.last = last;\n      this.start = first - this.step;\n      this.focused = startOfYearPeriod(viewDate, this.step);\n    }\n\n    // Update view's settings to reflect the selected dates\n  }, {\n    key: \"updateSelection\",\n    value: function updateSelection() {\n      var _this = this;\n      var _this$picker$datepick = this.picker.datepicker,\n        dates = _this$picker$datepick.dates,\n        rangepicker = _this$picker$datepick.rangepicker;\n      this.selected = dates.reduce(function (years, timeValue) {\n        return pushUnique(years, startOfYearPeriod(timeValue, _this.step));\n      }, []);\n      if (rangepicker && rangepicker.dates) {\n        this.range = rangepicker.dates.map(function (timeValue) {\n          if (timeValue !== undefined) {\n            return startOfYearPeriod(timeValue, _this.step);\n          }\n        });\n      }\n    }\n\n    // Update the entire view UI\n  }, {\n    key: \"render\",\n    value: function render() {\n      var _this2 = this;\n      // refresh disabled years on every render in order to clear the ones added\n      // by beforeShow hook at previous render\n      this.disabled = [];\n      this.picker.setViewSwitchLabel(\"\".concat(this.first, \"-\").concat(this.last));\n      this.picker.setPrevBtnDisabled(this.first <= this.minYear);\n      this.picker.setNextBtnDisabled(this.last >= this.maxYear);\n      Array.from(this.grid.children).forEach(function (el, index) {\n        var classList = el.classList;\n        var current = _this2.start + index * _this2.step;\n        var date = dateValue(current, 0, 1);\n        el.className = \"datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm \".concat(_this2.cellClass);\n        if (_this2.isMinView) {\n          el.dataset.date = date;\n        }\n        el.textContent = el.dataset.year = current;\n        if (index === 0) {\n          classList.add('prev');\n        } else if (index === 11) {\n          classList.add('next');\n        }\n        if (current < _this2.minYear || current > _this2.maxYear) {\n          classList.add('disabled');\n        }\n        if (_this2.range) {\n          var _this2$range = _slicedToArray(_this2.range, 2),\n            rangeStart = _this2$range[0],\n            rangeEnd = _this2$range[1];\n          if (current > rangeStart && current < rangeEnd) {\n            classList.add('range');\n          }\n          if (current === rangeStart) {\n            classList.add('range-start');\n          }\n          if (current === rangeEnd) {\n            classList.add('range-end');\n          }\n        }\n        if (_this2.selected.includes(current)) {\n          classList.add('selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark:!bg-primary-600', 'dark:text-white');\n          classList.remove('text-gray-900', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600');\n        }\n        if (current === _this2.focused) {\n          classList.add('focused');\n        }\n        if (_this2.beforeShow) {\n          _this2.performBeforeHook(el, current, date);\n        }\n      });\n    }\n\n    // Update the view UI by applying the changes of selected and focused items\n  }, {\n    key: \"refresh\",\n    value: function refresh() {\n      var _this3 = this;\n      var _ref = this.range || [],\n        _ref2 = _slicedToArray(_ref, 2),\n        rangeStart = _ref2[0],\n        rangeEnd = _ref2[1];\n      this.grid.querySelectorAll('.range, .range-start, .range-end, .selected, .focused').forEach(function (el) {\n        el.classList.remove('range', 'range-start', 'range-end', 'selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark!bg-primary-600', 'dark:text-white', 'focused');\n      });\n      Array.from(this.grid.children).forEach(function (el) {\n        var current = Number(el.textContent);\n        var classList = el.classList;\n        if (current > rangeStart && current < rangeEnd) {\n          classList.add('range');\n        }\n        if (current === rangeStart) {\n          classList.add('range-start');\n        }\n        if (current === rangeEnd) {\n          classList.add('range-end');\n        }\n        if (_this3.selected.includes(current)) {\n          classList.add('selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark:!bg-primary-600', 'dark:text-white');\n          classList.remove('text-gray-900', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600');\n        }\n        if (current === _this3.focused) {\n          classList.add('focused');\n        }\n      });\n    }\n\n    // Update the view UI by applying the change of focused item\n  }, {\n    key: \"refreshFocus\",\n    value: function refreshFocus() {\n      var index = Math.round((this.focused - this.start) / this.step);\n      this.grid.querySelectorAll('.focused').forEach(function (el) {\n        el.classList.remove('focused');\n      });\n      this.grid.children[index].classList.add('focused');\n    }\n  }]);\n}(View);\n\nfunction triggerDatepickerEvent(datepicker, type) {\n  var detail = {\n    date: datepicker.getDate(),\n    viewDate: new Date(datepicker.picker.viewDate),\n    viewId: datepicker.picker.currentView.id,\n    datepicker: datepicker\n  };\n  datepicker.element.dispatchEvent(new CustomEvent(type, {\n    detail: detail\n  }));\n}\n\n// direction: -1 (to previous), 1 (to next)\nfunction goToPrevOrNext(datepicker, direction) {\n  var _datepicker$config = datepicker.config,\n    minDate = _datepicker$config.minDate,\n    maxDate = _datepicker$config.maxDate;\n  var _datepicker$picker = datepicker.picker,\n    currentView = _datepicker$picker.currentView,\n    viewDate = _datepicker$picker.viewDate;\n  var newViewDate;\n  switch (currentView.id) {\n    case 0:\n      newViewDate = addMonths(viewDate, direction);\n      break;\n    case 1:\n      newViewDate = addYears(viewDate, direction);\n      break;\n    default:\n      newViewDate = addYears(viewDate, direction * currentView.navStep);\n  }\n  newViewDate = limitToRange(newViewDate, minDate, maxDate);\n  datepicker.picker.changeFocus(newViewDate).render();\n}\nfunction switchView(datepicker) {\n  var viewId = datepicker.picker.currentView.id;\n  if (viewId === datepicker.config.maxView) {\n    return;\n  }\n  datepicker.picker.changeView(viewId + 1).render();\n}\nfunction unfocus(datepicker) {\n  if (datepicker.config.updateOnBlur) {\n    datepicker.update({\n      autohide: true\n    });\n  } else {\n    datepicker.refresh('input');\n    datepicker.hide();\n  }\n}\n\nfunction goToSelectedMonthOrYear(datepicker, selection) {\n  var picker = datepicker.picker;\n  var viewDate = new Date(picker.viewDate);\n  var viewId = picker.currentView.id;\n  var newDate = viewId === 1 ? addMonths(viewDate, selection - viewDate.getMonth()) : addYears(viewDate, selection - viewDate.getFullYear());\n  picker.changeFocus(newDate).changeView(viewId - 1).render();\n}\nfunction onClickTodayBtn(datepicker) {\n  var picker = datepicker.picker;\n  var currentDate = today();\n  if (datepicker.config.todayBtnMode === 1) {\n    if (datepicker.config.autohide) {\n      datepicker.setDate(currentDate);\n      return;\n    }\n    datepicker.setDate(currentDate, {\n      render: false\n    });\n    picker.update();\n  }\n  if (picker.viewDate !== currentDate) {\n    picker.changeFocus(currentDate);\n  }\n  picker.changeView(0).render();\n}\nfunction onClickClearBtn(datepicker) {\n  datepicker.setDate({\n    clear: true\n  });\n}\nfunction onClickViewSwitch(datepicker) {\n  switchView(datepicker);\n}\nfunction onClickPrevBtn(datepicker) {\n  goToPrevOrNext(datepicker, -1);\n}\nfunction onClickNextBtn(datepicker) {\n  goToPrevOrNext(datepicker, 1);\n}\n\n// For the picker's main block to delegete the events from `datepicker-cell`s\nfunction onClickView(datepicker, ev) {\n  var target = findElementInEventPath(ev, '.datepicker-cell');\n  if (!target || target.classList.contains('disabled')) {\n    return;\n  }\n  var _datepicker$picker$cu = datepicker.picker.currentView,\n    id = _datepicker$picker$cu.id,\n    isMinView = _datepicker$picker$cu.isMinView;\n  if (isMinView) {\n    datepicker.setDate(Number(target.dataset.date));\n  } else if (id === 1) {\n    goToSelectedMonthOrYear(datepicker, Number(target.dataset.month));\n  } else {\n    goToSelectedMonthOrYear(datepicker, Number(target.dataset.year));\n  }\n}\nfunction onClickPicker(datepicker) {\n  if (!datepicker.inline && !datepicker.config.disableTouchKeyboard) {\n    datepicker.inputField.focus();\n  }\n}\n\nfunction processPickerOptions(picker, options) {\n  if (options.title !== undefined) {\n    if (options.title) {\n      picker.controls.title.textContent = options.title;\n      showElement(picker.controls.title);\n    } else {\n      picker.controls.title.textContent = '';\n      hideElement(picker.controls.title);\n    }\n  }\n  if (options.prevArrow) {\n    var prevBtn = picker.controls.prevBtn;\n    emptyChildNodes(prevBtn);\n    options.prevArrow.forEach(function (node) {\n      prevBtn.appendChild(node.cloneNode(true));\n    });\n  }\n  if (options.nextArrow) {\n    var nextBtn = picker.controls.nextBtn;\n    emptyChildNodes(nextBtn);\n    options.nextArrow.forEach(function (node) {\n      nextBtn.appendChild(node.cloneNode(true));\n    });\n  }\n  if (options.locale) {\n    picker.controls.todayBtn.textContent = options.locale.today;\n    picker.controls.clearBtn.textContent = options.locale.clear;\n  }\n  if (options.todayBtn !== undefined) {\n    if (options.todayBtn) {\n      showElement(picker.controls.todayBtn);\n    } else {\n      hideElement(picker.controls.todayBtn);\n    }\n  }\n  if (hasProperty(options, 'minDate') || hasProperty(options, 'maxDate')) {\n    var _picker$datepicker$co = picker.datepicker.config,\n      minDate = _picker$datepicker$co.minDate,\n      maxDate = _picker$datepicker$co.maxDate;\n    picker.controls.todayBtn.disabled = !isInRange(today(), minDate, maxDate);\n  }\n  if (options.clearBtn !== undefined) {\n    if (options.clearBtn) {\n      showElement(picker.controls.clearBtn);\n    } else {\n      hideElement(picker.controls.clearBtn);\n    }\n  }\n}\n\n// Compute view date to reset, which will be...\n// - the last item of the selected dates or defaultViewDate if no selection\n// - limitted to minDate or maxDate if it exceeds the range\nfunction computeResetViewDate(datepicker) {\n  var dates = datepicker.dates,\n    config = datepicker.config;\n  var viewDate = dates.length > 0 ? lastItemOf(dates) : config.defaultViewDate;\n  return limitToRange(viewDate, config.minDate, config.maxDate);\n}\n\n// Change current view's view date\nfunction setViewDate(picker, newDate) {\n  var oldViewDate = new Date(picker.viewDate);\n  var newViewDate = new Date(newDate);\n  var _picker$currentView = picker.currentView,\n    id = _picker$currentView.id,\n    year = _picker$currentView.year,\n    first = _picker$currentView.first,\n    last = _picker$currentView.last;\n  var viewYear = newViewDate.getFullYear();\n  picker.viewDate = newDate;\n  if (viewYear !== oldViewDate.getFullYear()) {\n    triggerDatepickerEvent(picker.datepicker, 'changeYear');\n  }\n  if (newViewDate.getMonth() !== oldViewDate.getMonth()) {\n    triggerDatepickerEvent(picker.datepicker, 'changeMonth');\n  }\n\n  // return whether the new date is in different period on time from the one\n  // displayed in the current view\n  // when true, the view needs to be re-rendered on the next UI refresh.\n  switch (id) {\n    case 0:\n      return newDate < first || newDate > last;\n    case 1:\n      return viewYear !== year;\n    default:\n      return viewYear < first || viewYear > last;\n  }\n}\nfunction getTextDirection(el) {\n  return window.getComputedStyle(el).direction;\n}\n\n// Class representing the picker UI\nvar Picker = /*#__PURE__*/function () {\n  function Picker(datepicker) {\n    _classCallCheck(this, Picker);\n    this.datepicker = datepicker;\n    var template = pickerTemplate.replace(/%buttonClass%/g, datepicker.config.buttonClass);\n    var element = this.element = parseHTML(template).firstChild;\n    var _element$firstChild$c = _slicedToArray(element.firstChild.children, 3),\n      header = _element$firstChild$c[0],\n      main = _element$firstChild$c[1],\n      footer = _element$firstChild$c[2];\n    var title = header.firstElementChild;\n    var _header$lastElementCh = _slicedToArray(header.lastElementChild.children, 3),\n      prevBtn = _header$lastElementCh[0],\n      viewSwitch = _header$lastElementCh[1],\n      nextBtn = _header$lastElementCh[2];\n    var _footer$firstChild$ch = _slicedToArray(footer.firstChild.children, 2),\n      todayBtn = _footer$firstChild$ch[0],\n      clearBtn = _footer$firstChild$ch[1];\n    var controls = {\n      title: title,\n      prevBtn: prevBtn,\n      viewSwitch: viewSwitch,\n      nextBtn: nextBtn,\n      todayBtn: todayBtn,\n      clearBtn: clearBtn\n    };\n    this.main = main;\n    this.controls = controls;\n    var elementClass = datepicker.inline ? 'inline' : 'dropdown';\n    element.classList.add(\"datepicker-\".concat(elementClass));\n    elementClass === 'dropdown' ? element.classList.add('dropdown', 'absolute', 'top-0', 'left-0', 'z-50', 'pt-2') : null;\n    processPickerOptions(this, datepicker.config);\n    this.viewDate = computeResetViewDate(datepicker);\n\n    // set up event listeners\n    registerListeners(datepicker, [[element, 'click', onClickPicker.bind(null, datepicker), {\n      capture: true\n    }], [main, 'click', onClickView.bind(null, datepicker)], [controls.viewSwitch, 'click', onClickViewSwitch.bind(null, datepicker)], [controls.prevBtn, 'click', onClickPrevBtn.bind(null, datepicker)], [controls.nextBtn, 'click', onClickNextBtn.bind(null, datepicker)], [controls.todayBtn, 'click', onClickTodayBtn.bind(null, datepicker)], [controls.clearBtn, 'click', onClickClearBtn.bind(null, datepicker)]]);\n\n    // set up views\n    this.views = [new DaysView(this), new MonthsView(this), new YearsView(this, {\n      id: 2,\n      name: 'years',\n      cellClass: 'year',\n      step: 1\n    }), new YearsView(this, {\n      id: 3,\n      name: 'decades',\n      cellClass: 'decade',\n      step: 10\n    })];\n    this.currentView = this.views[datepicker.config.startView];\n    this.currentView.render();\n    this.main.appendChild(this.currentView.element);\n    datepicker.config.container.appendChild(this.element);\n  }\n  return _createClass(Picker, [{\n    key: \"setOptions\",\n    value: function setOptions(options) {\n      processPickerOptions(this, options);\n      this.views.forEach(function (view) {\n        view.init(options, false);\n      });\n      this.currentView.render();\n    }\n  }, {\n    key: \"detach\",\n    value: function detach() {\n      this.datepicker.config.container.removeChild(this.element);\n    }\n  }, {\n    key: \"show\",\n    value: function show() {\n      if (this.active) {\n        return;\n      }\n      this.element.classList.add('active', 'block');\n      this.element.classList.remove('hidden');\n      this.active = true;\n      var datepicker = this.datepicker;\n      if (!datepicker.inline) {\n        // ensure picker's direction matches input's\n        var inputDirection = getTextDirection(datepicker.inputField);\n        if (inputDirection !== getTextDirection(datepicker.config.container)) {\n          this.element.dir = inputDirection;\n        } else if (this.element.dir) {\n          this.element.removeAttribute('dir');\n        }\n        this.place();\n        if (datepicker.config.disableTouchKeyboard) {\n          datepicker.inputField.blur();\n        }\n      }\n      triggerDatepickerEvent(datepicker, 'show');\n    }\n  }, {\n    key: \"hide\",\n    value: function hide() {\n      if (!this.active) {\n        return;\n      }\n      this.datepicker.exitEditMode();\n      this.element.classList.remove('active', 'block');\n      this.element.classList.add('active', 'block', 'hidden');\n      this.active = false;\n      triggerDatepickerEvent(this.datepicker, 'hide');\n    }\n  }, {\n    key: \"place\",\n    value: function place() {\n      var _this$element = this.element,\n        classList = _this$element.classList,\n        style = _this$element.style;\n      var _this$datepicker = this.datepicker,\n        config = _this$datepicker.config,\n        inputField = _this$datepicker.inputField;\n      var container = config.container;\n      var _this$element$getBoun = this.element.getBoundingClientRect(),\n        calendarWidth = _this$element$getBoun.width,\n        calendarHeight = _this$element$getBoun.height;\n      var _container$getBoundin = container.getBoundingClientRect(),\n        containerLeft = _container$getBoundin.left,\n        containerTop = _container$getBoundin.top,\n        containerWidth = _container$getBoundin.width;\n      var _inputField$getBoundi = inputField.getBoundingClientRect(),\n        inputLeft = _inputField$getBoundi.left,\n        inputTop = _inputField$getBoundi.top,\n        inputWidth = _inputField$getBoundi.width,\n        inputHeight = _inputField$getBoundi.height;\n      var _config$orientation = config.orientation,\n        orientX = _config$orientation.x,\n        orientY = _config$orientation.y;\n      var scrollTop;\n      var left;\n      var top;\n      if (container === document.body) {\n        scrollTop = window.scrollY;\n        left = inputLeft + window.scrollX;\n        top = inputTop + scrollTop;\n      } else {\n        scrollTop = container.scrollTop;\n        left = inputLeft - containerLeft;\n        top = inputTop - containerTop + scrollTop;\n      }\n      if (orientX === 'auto') {\n        if (left < 0) {\n          // align to the left and move into visible area if input's left edge < window's\n          orientX = 'left';\n          left = 10;\n        } else if (left + calendarWidth > containerWidth) {\n          // align to the right if canlendar's right edge > container's\n          orientX = 'right';\n        } else {\n          orientX = getTextDirection(inputField) === 'rtl' ? 'right' : 'left';\n        }\n      }\n      if (orientX === 'right') {\n        left -= calendarWidth - inputWidth;\n      }\n      if (orientY === 'auto') {\n        orientY = top - calendarHeight < scrollTop ? 'bottom' : 'top';\n      }\n      if (orientY === 'top') {\n        top -= calendarHeight;\n      } else {\n        top += inputHeight;\n      }\n      classList.remove('datepicker-orient-top', 'datepicker-orient-bottom', 'datepicker-orient-right', 'datepicker-orient-left');\n      classList.add(\"datepicker-orient-\".concat(orientY), \"datepicker-orient-\".concat(orientX));\n      style.top = top ? \"\".concat(top, \"px\") : top;\n      style.left = left ? \"\".concat(left, \"px\") : left;\n    }\n  }, {\n    key: \"setViewSwitchLabel\",\n    value: function setViewSwitchLabel(labelText) {\n      this.controls.viewSwitch.textContent = labelText;\n    }\n  }, {\n    key: \"setPrevBtnDisabled\",\n    value: function setPrevBtnDisabled(disabled) {\n      this.controls.prevBtn.disabled = disabled;\n    }\n  }, {\n    key: \"setNextBtnDisabled\",\n    value: function setNextBtnDisabled(disabled) {\n      this.controls.nextBtn.disabled = disabled;\n    }\n  }, {\n    key: \"changeView\",\n    value: function changeView(viewId) {\n      var oldView = this.currentView;\n      var newView = this.views[viewId];\n      if (newView.id !== oldView.id) {\n        this.currentView = newView;\n        this._renderMethod = 'render';\n        triggerDatepickerEvent(this.datepicker, 'changeView');\n        this.main.replaceChild(newView.element, oldView.element);\n      }\n      return this;\n    }\n\n    // Change the focused date (view date)\n  }, {\n    key: \"changeFocus\",\n    value: function changeFocus(newViewDate) {\n      this._renderMethod = setViewDate(this, newViewDate) ? 'render' : 'refreshFocus';\n      this.views.forEach(function (view) {\n        view.updateFocus();\n      });\n      return this;\n    }\n\n    // Apply the change of the selected dates\n  }, {\n    key: \"update\",\n    value: function update() {\n      var newViewDate = computeResetViewDate(this.datepicker);\n      this._renderMethod = setViewDate(this, newViewDate) ? 'render' : 'refresh';\n      this.views.forEach(function (view) {\n        view.updateFocus();\n        view.updateSelection();\n      });\n      return this;\n    }\n\n    // Refresh the picker UI\n  }, {\n    key: \"render\",\n    value: function render() {\n      var quickRender = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;\n      var renderMethod = quickRender && this._renderMethod || 'render';\n      delete this._renderMethod;\n      this.currentView[renderMethod]();\n    }\n  }]);\n}();\n\n// Find the closest date that doesn't meet the condition for unavailable date\n// Returns undefined if no available date is found\n// addFn: function to calculate the next date\n//   - args: time value, amount\n// increase: amount to pass to addFn\n// testFn: function to test the unavailablity of the date\n//   - args: time value; retun: true if unavailable\nfunction findNextAvailableOne(date, addFn, increase, testFn, min, max) {\n  if (!isInRange(date, min, max)) {\n    return;\n  }\n  if (testFn(date)) {\n    var newDate = addFn(date, increase);\n    return findNextAvailableOne(newDate, addFn, increase, testFn, min, max);\n  }\n  return date;\n}\n\n// direction: -1 (left/up), 1 (right/down)\n// vertical: true for up/down, false for left/right\nfunction moveByArrowKey(datepicker, ev, direction, vertical) {\n  var picker = datepicker.picker;\n  var currentView = picker.currentView;\n  var step = currentView.step || 1;\n  var viewDate = picker.viewDate;\n  var addFn;\n  var testFn;\n  switch (currentView.id) {\n    case 0:\n      if (vertical) {\n        viewDate = addDays(viewDate, direction * 7);\n      } else if (ev.ctrlKey || ev.metaKey) {\n        viewDate = addYears(viewDate, direction);\n      } else {\n        viewDate = addDays(viewDate, direction);\n      }\n      addFn = addDays;\n      testFn = function testFn(date) {\n        return currentView.disabled.includes(date);\n      };\n      break;\n    case 1:\n      viewDate = addMonths(viewDate, vertical ? direction * 4 : direction);\n      addFn = addMonths;\n      testFn = function testFn(date) {\n        var dt = new Date(date);\n        var year = currentView.year,\n          disabled = currentView.disabled;\n        return dt.getFullYear() === year && disabled.includes(dt.getMonth());\n      };\n      break;\n    default:\n      viewDate = addYears(viewDate, direction * (vertical ? 4 : 1) * step);\n      addFn = addYears;\n      testFn = function testFn(date) {\n        return currentView.disabled.includes(startOfYearPeriod(date, step));\n      };\n  }\n  viewDate = findNextAvailableOne(viewDate, addFn, direction < 0 ? -step : step, testFn, currentView.minDate, currentView.maxDate);\n  if (viewDate !== undefined) {\n    picker.changeFocus(viewDate).render();\n  }\n}\nfunction onKeydown(datepicker, ev) {\n  if (ev.key === 'Tab') {\n    unfocus(datepicker);\n    return;\n  }\n  var picker = datepicker.picker;\n  var _picker$currentView = picker.currentView,\n    id = _picker$currentView.id,\n    isMinView = _picker$currentView.isMinView;\n  if (!picker.active) {\n    switch (ev.key) {\n      case 'ArrowDown':\n      case 'Escape':\n        picker.show();\n        break;\n      case 'Enter':\n        datepicker.update();\n        break;\n      default:\n        return;\n    }\n  } else if (datepicker.editMode) {\n    switch (ev.key) {\n      case 'Escape':\n        picker.hide();\n        break;\n      case 'Enter':\n        datepicker.exitEditMode({\n          update: true,\n          autohide: datepicker.config.autohide\n        });\n        break;\n      default:\n        return;\n    }\n  } else {\n    switch (ev.key) {\n      case 'Escape':\n        picker.hide();\n        break;\n      case 'ArrowLeft':\n        if (ev.ctrlKey || ev.metaKey) {\n          goToPrevOrNext(datepicker, -1);\n        } else if (ev.shiftKey) {\n          datepicker.enterEditMode();\n          return;\n        } else {\n          moveByArrowKey(datepicker, ev, -1, false);\n        }\n        break;\n      case 'ArrowRight':\n        if (ev.ctrlKey || ev.metaKey) {\n          goToPrevOrNext(datepicker, 1);\n        } else if (ev.shiftKey) {\n          datepicker.enterEditMode();\n          return;\n        } else {\n          moveByArrowKey(datepicker, ev, 1, false);\n        }\n        break;\n      case 'ArrowUp':\n        if (ev.ctrlKey || ev.metaKey) {\n          switchView(datepicker);\n        } else if (ev.shiftKey) {\n          datepicker.enterEditMode();\n          return;\n        } else {\n          moveByArrowKey(datepicker, ev, -1, true);\n        }\n        break;\n      case 'ArrowDown':\n        if (ev.shiftKey && !ev.ctrlKey && !ev.metaKey) {\n          datepicker.enterEditMode();\n          return;\n        }\n        moveByArrowKey(datepicker, ev, 1, true);\n        break;\n      case 'Enter':\n        if (isMinView) {\n          datepicker.setDate(picker.viewDate);\n        } else {\n          picker.changeView(id - 1).render();\n        }\n        break;\n      case 'Backspace':\n      case 'Delete':\n        datepicker.enterEditMode();\n        return;\n      default:\n        if (ev.key.length === 1 && !ev.ctrlKey && !ev.metaKey) {\n          datepicker.enterEditMode();\n        }\n        return;\n    }\n  }\n  ev.preventDefault();\n  ev.stopPropagation();\n}\nfunction onFocus(datepicker) {\n  if (datepicker.config.showOnFocus && !datepicker._showing) {\n    datepicker.show();\n  }\n}\n\n// for the prevention for entering edit mode while getting focus on click\nfunction onMousedown(datepicker, ev) {\n  var el = ev.target;\n  if (datepicker.picker.active || datepicker.config.showOnClick) {\n    el._active = el === document.activeElement;\n    el._clicking = setTimeout(function () {\n      delete el._active;\n      delete el._clicking;\n    }, 2000);\n  }\n}\nfunction onClickInput(datepicker, ev) {\n  var el = ev.target;\n  if (!el._clicking) {\n    return;\n  }\n  clearTimeout(el._clicking);\n  delete el._clicking;\n  if (el._active) {\n    datepicker.enterEditMode();\n  }\n  delete el._active;\n  if (datepicker.config.showOnClick) {\n    datepicker.show();\n  }\n}\nfunction onPaste(datepicker, ev) {\n  if (ev.clipboardData.types.includes('text/plain')) {\n    datepicker.enterEditMode();\n  }\n}\n\n// for the `document` to delegate the events from outside the picker/input field\nfunction onClickOutside(datepicker, ev) {\n  var element = datepicker.element;\n  if (element !== document.activeElement) {\n    return;\n  }\n  var pickerElem = datepicker.picker.element;\n  if (findElementInEventPath(ev, function (el) {\n    return el === element || el === pickerElem;\n  })) {\n    return;\n  }\n  unfocus(datepicker);\n}\n\nfunction stringifyDates(dates, config) {\n  return dates.map(function (dt) {\n    return formatDate(dt, config.format, config.locale);\n  }).join(config.dateDelimiter);\n}\n\n// parse input dates and create an array of time values for selection\n// returns undefined if there are no valid dates in inputDates\n// when origDates (current selection) is passed, the function works to mix\n// the input dates into the current selection\nfunction processInputDates(datepicker, inputDates) {\n  var clear = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;\n  var config = datepicker.config,\n    origDates = datepicker.dates,\n    rangepicker = datepicker.rangepicker;\n  if (inputDates.length === 0) {\n    // empty input is considered valid unless origiDates is passed\n    return clear ? [] : undefined;\n  }\n  var rangeEnd = rangepicker && datepicker === rangepicker.datepickers[1];\n  var newDates = inputDates.reduce(function (dates, dt) {\n    var date = parseDate(dt, config.format, config.locale);\n    if (date === undefined) {\n      return dates;\n    }\n    if (config.pickLevel > 0) {\n      // adjust to 1st of the month/Jan 1st of the year\n      // or to the last day of the monh/Dec 31st of the year if the datepicker\n      // is the range-end picker of a rangepicker\n      var _dt = new Date(date);\n      if (config.pickLevel === 1) {\n        date = rangeEnd ? _dt.setMonth(_dt.getMonth() + 1, 0) : _dt.setDate(1);\n      } else {\n        date = rangeEnd ? _dt.setFullYear(_dt.getFullYear() + 1, 0, 0) : _dt.setMonth(0, 1);\n      }\n    }\n    if (isInRange(date, config.minDate, config.maxDate) && !dates.includes(date) && !config.datesDisabled.includes(date) && !config.daysOfWeekDisabled.includes(new Date(date).getDay())) {\n      dates.push(date);\n    }\n    return dates;\n  }, []);\n  if (newDates.length === 0) {\n    return;\n  }\n  if (config.multidate && !clear) {\n    // get the synmetric difference between origDates and newDates\n    newDates = newDates.reduce(function (dates, date) {\n      if (!origDates.includes(date)) {\n        dates.push(date);\n      }\n      return dates;\n    }, origDates.filter(function (date) {\n      return !newDates.includes(date);\n    }));\n  }\n  // do length check always because user can input multiple dates regardless of the mode\n  return config.maxNumberOfDates && newDates.length > config.maxNumberOfDates ? newDates.slice(config.maxNumberOfDates * -1) : newDates;\n}\n\n// refresh the UI elements\n// modes: 1: input only, 2, picker only, 3 both\nfunction refreshUI(datepicker) {\n  var mode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3;\n  var quickRender = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;\n  var config = datepicker.config,\n    picker = datepicker.picker,\n    inputField = datepicker.inputField;\n  if (mode & 2) {\n    var newView = picker.active ? config.pickLevel : config.startView;\n    picker.update().changeView(newView).render(quickRender);\n  }\n  if (mode & 1 && inputField) {\n    inputField.value = stringifyDates(datepicker.dates, config);\n  }\n}\nfunction _setDate(datepicker, inputDates, options) {\n  var clear = options.clear,\n    render = options.render,\n    autohide = options.autohide;\n  if (render === undefined) {\n    render = true;\n  }\n  if (!render) {\n    autohide = false;\n  } else if (autohide === undefined) {\n    autohide = datepicker.config.autohide;\n  }\n  var newDates = processInputDates(datepicker, inputDates, clear);\n  if (!newDates) {\n    return;\n  }\n  if (newDates.toString() !== datepicker.dates.toString()) {\n    datepicker.dates = newDates;\n    refreshUI(datepicker, render ? 3 : 1);\n    triggerDatepickerEvent(datepicker, 'changeDate');\n  } else {\n    refreshUI(datepicker, 1);\n  }\n  if (autohide) {\n    datepicker.hide();\n  }\n}\n\n/**\r\n * Class representing a date picker\r\n */\nvar Datepicker = /*#__PURE__*/function () {\n  /**\r\n   * Create a date picker\r\n   * @param  {Element} element - element to bind a date picker\r\n   * @param  {Object} [options] - config options\r\n   * @param  {DateRangePicker} [rangepicker] - DateRangePicker instance the\r\n   * date picker belongs to. Use this only when creating date picker as a part\r\n   * of date range picker\r\n   */\n  function Datepicker(element) {\n    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};\n    var rangepicker = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;\n    _classCallCheck(this, Datepicker);\n    element.datepicker = this;\n    this.element = element;\n\n    // set up config\n    var config = this.config = Object.assign({\n      buttonClass: options.buttonClass && String(options.buttonClass) || 'button',\n      container: document.body,\n      defaultViewDate: today(),\n      maxDate: undefined,\n      minDate: undefined\n    }, processOptions(defaultOptions, this));\n    this._options = options;\n    Object.assign(config, processOptions(options, this));\n\n    // configure by type\n    var inline = this.inline = element.tagName !== 'INPUT';\n    var inputField;\n    var initialDates;\n    if (inline) {\n      config.container = element;\n      initialDates = stringToArray(element.dataset.date, config.dateDelimiter);\n      delete element.dataset.date;\n    } else {\n      var container = options.container ? document.querySelector(options.container) : null;\n      if (container) {\n        config.container = container;\n      }\n      inputField = this.inputField = element;\n      inputField.classList.add('datepicker-input');\n      initialDates = stringToArray(inputField.value, config.dateDelimiter);\n    }\n    if (rangepicker) {\n      // check validiry\n      var index = rangepicker.inputs.indexOf(inputField);\n      var datepickers = rangepicker.datepickers;\n      if (index < 0 || index > 1 || !Array.isArray(datepickers)) {\n        throw Error('Invalid rangepicker object.');\n      }\n      // attach itaelf to the rangepicker here so that processInputDates() can\n      // determine if this is the range-end picker of the rangepicker while\n      // setting inital values when pickLevel > 0\n      datepickers[index] = this;\n      // add getter for rangepicker\n      Object.defineProperty(this, 'rangepicker', {\n        get: function get() {\n          return rangepicker;\n        }\n      });\n    }\n\n    // set initial dates\n    this.dates = [];\n    // process initial value\n    var inputDateValues = processInputDates(this, initialDates);\n    if (inputDateValues && inputDateValues.length > 0) {\n      this.dates = inputDateValues;\n    }\n    if (inputField) {\n      inputField.value = stringifyDates(this.dates, config);\n    }\n    var picker = this.picker = new Picker(this);\n    if (inline) {\n      this.show();\n    } else {\n      // set up event listeners in other modes\n      var onMousedownDocument = onClickOutside.bind(null, this);\n      var listeners = [[inputField, 'keydown', onKeydown.bind(null, this)], [inputField, 'focus', onFocus.bind(null, this)], [inputField, 'mousedown', onMousedown.bind(null, this)], [inputField, 'click', onClickInput.bind(null, this)], [inputField, 'paste', onPaste.bind(null, this)], [document, 'mousedown', onMousedownDocument], [document, 'touchstart', onMousedownDocument], [window, 'resize', picker.place.bind(picker)]];\n      registerListeners(this, listeners);\n    }\n  }\n\n  /**\r\n   * Format Date object or time value in given format and language\r\n   * @param  {Date|Number} date - date or time value to format\r\n   * @param  {String|Object} format - format string or object that contains\r\n   * toDisplay() custom formatter, whose signature is\r\n   * - args:\r\n   *   - date: {Date} - Date instance of the date passed to the method\r\n   *   - format: {Object} - the format object passed to the method\r\n   *   - locale: {Object} - locale for the language specified by `lang`\r\n   * - return:\r\n   *     {String} formatted date\r\n   * @param  {String} [lang=en] - language code for the locale to use\r\n   * @return {String} formatted date\r\n   */\n  return _createClass(Datepicker, [{\n    key: \"active\",\n    get:\n    /**\r\n     * @type {Boolean} - Whether the picker element is shown. `true` whne shown\r\n     */\n    function get() {\n      return !!(this.picker && this.picker.active);\n    }\n\n    /**\r\n     * @type {HTMLDivElement} - DOM object of picker element\r\n     */\n  }, {\n    key: \"pickerElement\",\n    get: function get() {\n      return this.picker ? this.picker.element : undefined;\n    }\n\n    /**\r\n     * Set new values to the config options\r\n     * @param {Object} options - config options to update\r\n     */\n  }, {\n    key: \"setOptions\",\n    value: function setOptions(options) {\n      var picker = this.picker;\n      var newOptions = processOptions(options, this);\n      Object.assign(this._options, options);\n      Object.assign(this.config, newOptions);\n      picker.setOptions(newOptions);\n      refreshUI(this, 3);\n    }\n\n    /**\r\n     * Show the picker element\r\n     */\n  }, {\n    key: \"show\",\n    value: function show() {\n      if (this.inputField) {\n        if (this.inputField.disabled) {\n          return;\n        }\n        if (this.inputField !== document.activeElement) {\n          this._showing = true;\n          this.inputField.focus();\n          delete this._showing;\n        }\n      }\n      this.picker.show();\n    }\n\n    /**\r\n     * Hide the picker element\r\n     * Not available on inline picker\r\n     */\n  }, {\n    key: \"hide\",\n    value: function hide() {\n      if (this.inline) {\n        return;\n      }\n      this.picker.hide();\n      this.picker.update().changeView(this.config.startView).render();\n    }\n\n    /**\r\n     * Destroy the Datepicker instance\r\n     * @return {Detepicker} - the instance destroyed\r\n     */\n  }, {\n    key: \"destroy\",\n    value: function destroy() {\n      this.hide();\n      unregisterListeners(this);\n      this.picker.detach();\n      if (!this.inline) {\n        this.inputField.classList.remove('datepicker-input');\n      }\n      delete this.element.datepicker;\n      return this;\n    }\n\n    /**\r\n     * Get the selected date(s)\r\n     *\r\n     * The method returns a Date object of selected date by default, and returns\r\n     * an array of selected dates in multidate mode. If format string is passed,\r\n     * it returns date string(s) formatted in given format.\r\n     *\r\n     * @param  {String} [format] - Format string to stringify the date(s)\r\n     * @return {Date|String|Date[]|String[]} - selected date(s), or if none is\r\n     * selected, empty array in multidate mode and untitled in sigledate mode\r\n     */\n  }, {\n    key: \"getDate\",\n    value: function getDate() {\n      var _this = this;\n      var format = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;\n      var callback = format ? function (date) {\n        return formatDate(date, format, _this.config.locale);\n      } : function (date) {\n        return new Date(date);\n      };\n      if (this.config.multidate) {\n        return this.dates.map(callback);\n      }\n      if (this.dates.length > 0) {\n        return callback(this.dates[0]);\n      }\n    }\n\n    /**\r\n     * Set selected date(s)\r\n     *\r\n     * In multidate mode, you can pass multiple dates as a series of arguments\r\n     * or an array. (Since each date is parsed individually, the type of the\r\n     * dates doesn't have to be the same.)\r\n     * The given dates are used to toggle the select status of each date. The\r\n     * number of selected dates is kept from exceeding the length set to\r\n     * maxNumberOfDates.\r\n     *\r\n     * With clear: true option, the method can be used to clear the selection\r\n     * and to replace the selection instead of toggling in multidate mode.\r\n     * If the option is passed with no date arguments or an empty dates array,\r\n     * it works as \"clear\" (clear the selection then set nothing), and if the\r\n     * option is passed with new dates to select, it works as \"replace\" (clear\r\n     * the selection then set the given dates)\r\n     *\r\n     * When render: false option is used, the method omits re-rendering the\r\n     * picker element. In this case, you need to call refresh() method later in\r\n     * order for the picker element to reflect the changes. The input field is\r\n     * refreshed always regardless of this option.\r\n     *\r\n     * When invalid (unparsable, repeated, disabled or out-of-range) dates are\r\n     * passed, the method ignores them and applies only valid ones. In the case\r\n     * that all the given dates are invalid, which is distinguished from passing\r\n     * no dates, the method considers it as an error and leaves the selection\r\n     * untouched.\r\n     *\r\n     * @param {...(Date|Number|String)|Array} [dates] - Date strings, Date\r\n     * objects, time values or mix of those for new selection\r\n     * @param {Object} [options] - function options\r\n     * - clear: {boolean} - Whether to clear the existing selection\r\n     *     defualt: false\r\n     * - render: {boolean} - Whether to re-render the picker element\r\n     *     default: true\r\n     * - autohide: {boolean} - Whether to hide the picker element after re-render\r\n     *     Ignored when used with render: false\r\n     *     default: config.autohide\r\n     */\n  }, {\n    key: \"setDate\",\n    value: function setDate() {\n      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {\n        args[_key] = arguments[_key];\n      }\n      var dates = [].concat(args);\n      var opts = {};\n      var lastArg = lastItemOf(args);\n      if (_typeof(lastArg) === 'object' && !Array.isArray(lastArg) && !(lastArg instanceof Date) && lastArg) {\n        Object.assign(opts, dates.pop());\n      }\n      var inputDates = Array.isArray(dates[0]) ? dates[0] : dates;\n      _setDate(this, inputDates, opts);\n    }\n\n    /**\r\n     * Update the selected date(s) with input field's value\r\n     * Not available on inline picker\r\n     *\r\n     * The input field will be refreshed with properly formatted date string.\r\n     *\r\n     * @param  {Object} [options] - function options\r\n     * - autohide: {boolean} - whether to hide the picker element after refresh\r\n     *     default: false\r\n     */\n  }, {\n    key: \"update\",\n    value: function update() {\n      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;\n      if (this.inline) {\n        return;\n      }\n      var opts = {\n        clear: true,\n        autohide: !!(options && options.autohide)\n      };\n      var inputDates = stringToArray(this.inputField.value, this.config.dateDelimiter);\n      _setDate(this, inputDates, opts);\n    }\n\n    /**\r\n     * Refresh the picker element and the associated input field\r\n     * @param {String} [target] - target item when refreshing one item only\r\n     * 'picker' or 'input'\r\n     * @param {Boolean} [forceRender] - whether to re-render the picker element\r\n     * regardless of its state instead of optimized refresh\r\n     */\n  }, {\n    key: \"refresh\",\n    value: function refresh() {\n      var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;\n      var forceRender = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;\n      if (target && typeof target !== 'string') {\n        forceRender = target;\n        target = undefined;\n      }\n      var mode;\n      if (target === 'picker') {\n        mode = 2;\n      } else if (target === 'input') {\n        mode = 1;\n      } else {\n        mode = 3;\n      }\n      refreshUI(this, mode, !forceRender);\n    }\n\n    /**\r\n     * Enter edit mode\r\n     * Not available on inline picker or when the picker element is hidden\r\n     */\n  }, {\n    key: \"enterEditMode\",\n    value: function enterEditMode() {\n      if (this.inline || !this.picker.active || this.editMode) {\n        return;\n      }\n      this.editMode = true;\n      this.inputField.classList.add('in-edit', 'border-blue-700', '!border-primary-700');\n    }\n\n    /**\r\n     * Exit from edit mode\r\n     * Not available on inline picker\r\n     * @param  {Object} [options] - function options\r\n     * - update: {boolean} - whether to call update() after exiting\r\n     *     If false, input field is revert to the existing selection\r\n     *     default: false\r\n     */\n  }, {\n    key: \"exitEditMode\",\n    value: function exitEditMode() {\n      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;\n      if (this.inline || !this.editMode) {\n        return;\n      }\n      var opts = Object.assign({\n        update: false\n      }, options);\n      delete this.editMode;\n      this.inputField.classList.remove('in-edit', 'border-blue-700', '!border-primary-700');\n      if (opts.update) {\n        this.update(opts);\n      }\n    }\n  }], [{\n    key: \"formatDate\",\n    value: function formatDate$1(date, format, lang) {\n      return formatDate(date, format, lang && locales[lang] || locales.en);\n    }\n\n    /**\r\n     * Parse date string\r\n     * @param  {String|Date|Number} dateStr - date string, Date object or time\r\n     * value to parse\r\n     * @param  {String|Object} format - format string or object that contains\r\n     * toValue() custom parser, whose signature is\r\n     * - args:\r\n     *   - dateStr: {String|Date|Number} - the dateStr passed to the method\r\n     *   - format: {Object} - the format object passed to the method\r\n     *   - locale: {Object} - locale for the language specified by `lang`\r\n     * - return:\r\n     *     {Date|Number} parsed date or its time value\r\n     * @param  {String} [lang=en] - language code for the locale to use\r\n     * @return {Number} time value of parsed date\r\n     */\n  }, {\n    key: \"parseDate\",\n    value: function parseDate$1(dateStr, format, lang) {\n      return parseDate(dateStr, format, lang && locales[lang] || locales.en);\n    }\n\n    /**\r\n     * @type {Object} - Installed locales in `[languageCode]: localeObject` format\r\n     * en`:_English (US)_ is pre-installed.\r\n     */\n  }, {\n    key: \"locales\",\n    get: function get() {\n      return locales;\n    }\n  }]);\n}();\n\n// filter out the config options inapproprite to pass to Datepicker\nfunction filterOptions(options) {\n  var newOpts = Object.assign({}, options);\n  delete newOpts.inputs;\n  delete newOpts.allowOneSidedRange;\n  delete newOpts.maxNumberOfDates; // to ensure each datepicker handles a single date\n\n  return newOpts;\n}\nfunction setupDatepicker(rangepicker, changeDateListener, el, options) {\n  registerListeners(rangepicker, [[el, 'changeDate', changeDateListener]]);\n  new Datepicker(el, options, rangepicker);\n}\nfunction onChangeDate(rangepicker, ev) {\n  // to prevent both datepickers trigger the other side's update each other\n  if (rangepicker._updating) {\n    return;\n  }\n  rangepicker._updating = true;\n  var target = ev.target;\n  if (target.datepicker === undefined) {\n    return;\n  }\n  var datepickers = rangepicker.datepickers;\n  var setDateOptions = {\n    render: false\n  };\n  var changedSide = rangepicker.inputs.indexOf(target);\n  var otherSide = changedSide === 0 ? 1 : 0;\n  var changedDate = datepickers[changedSide].dates[0];\n  var otherDate = datepickers[otherSide].dates[0];\n  if (changedDate !== undefined && otherDate !== undefined) {\n    // if the start of the range > the end, swap them\n    if (changedSide === 0 && changedDate > otherDate) {\n      datepickers[0].setDate(otherDate, setDateOptions);\n      datepickers[1].setDate(changedDate, setDateOptions);\n    } else if (changedSide === 1 && changedDate < otherDate) {\n      datepickers[0].setDate(changedDate, setDateOptions);\n      datepickers[1].setDate(otherDate, setDateOptions);\n    }\n  } else if (!rangepicker.allowOneSidedRange) {\n    // to prevent the range from becoming one-sided, copy changed side's\n    // selection (no matter if it's empty) to the other side\n    if (changedDate !== undefined || otherDate !== undefined) {\n      setDateOptions.clear = true;\n      datepickers[otherSide].setDate(datepickers[changedSide].dates, setDateOptions);\n    }\n  }\n  datepickers[0].picker.update().render();\n  datepickers[1].picker.update().render();\n  delete rangepicker._updating;\n}\n\n/**\r\n * Class representing a date range picker\r\n */\nvar DateRangePicker = /*#__PURE__*/function () {\n  /**\r\n   * Create a date range picker\r\n   * @param  {Element} element - element to bind a date range picker\r\n   * @param  {Object} [options] - config options\r\n   */\n  function DateRangePicker(element) {\n    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};\n    _classCallCheck(this, DateRangePicker);\n    var inputs = Array.isArray(options.inputs) ? options.inputs : Array.from(element.querySelectorAll('input'));\n    if (inputs.length < 2) {\n      return;\n    }\n    element.rangepicker = this;\n    this.element = element;\n    this.inputs = inputs.slice(0, 2);\n    this.allowOneSidedRange = !!options.allowOneSidedRange;\n    var changeDateListener = onChangeDate.bind(null, this);\n    var cleanOptions = filterOptions(options);\n    // in order for initial date setup to work right when pcicLvel > 0,\n    // let Datepicker constructor add the instance to the rangepicker\n    var datepickers = [];\n    Object.defineProperty(this, 'datepickers', {\n      get: function get() {\n        return datepickers;\n      }\n    });\n    setupDatepicker(this, changeDateListener, this.inputs[0], cleanOptions);\n    setupDatepicker(this, changeDateListener, this.inputs[1], cleanOptions);\n    Object.freeze(datepickers);\n    // normalize the range if inital dates are given\n    if (datepickers[0].dates.length > 0) {\n      onChangeDate(this, {\n        target: this.inputs[0]\n      });\n    } else if (datepickers[1].dates.length > 0) {\n      onChangeDate(this, {\n        target: this.inputs[1]\n      });\n    }\n  }\n\n  /**\r\n   * @type {Array} - selected date of the linked date pickers\r\n   */\n  return _createClass(DateRangePicker, [{\n    key: \"dates\",\n    get: function get() {\n      return this.datepickers.length === 2 ? [this.datepickers[0].dates[0], this.datepickers[1].dates[0]] : undefined;\n    }\n\n    /**\r\n     * Set new values to the config options\r\n     * @param {Object} options - config options to update\r\n     */\n  }, {\n    key: \"setOptions\",\n    value: function setOptions(options) {\n      this.allowOneSidedRange = !!options.allowOneSidedRange;\n      var cleanOptions = filterOptions(options);\n      this.datepickers[0].setOptions(cleanOptions);\n      this.datepickers[1].setOptions(cleanOptions);\n    }\n\n    /**\r\n     * Destroy the DateRangePicker instance\r\n     * @return {DateRangePicker} - the instance destroyed\r\n     */\n  }, {\n    key: \"destroy\",\n    value: function destroy() {\n      this.datepickers[0].destroy();\n      this.datepickers[1].destroy();\n      unregisterListeners(this);\n      delete this.element.rangepicker;\n    }\n\n    /**\r\n     * Get the start and end dates of the date range\r\n     *\r\n     * The method returns Date objects by default. If format string is passed,\r\n     * it returns date strings formatted in given format.\r\n     * The result array always contains 2 items (start date/end date) and\r\n     * undefined is used for unselected side. (e.g. If none is selected,\r\n     * the result will be [undefined, undefined]. If only the end date is set\r\n     * when allowOneSidedRange config option is true, [undefined, endDate] will\r\n     * be returned.)\r\n     *\r\n     * @param  {String} [format] - Format string to stringify the dates\r\n     * @return {Array} - Start and end dates\r\n     */\n  }, {\n    key: \"getDates\",\n    value: function getDates() {\n      var _this = this;\n      var format = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;\n      var callback = format ? function (date) {\n        return formatDate(date, format, _this.datepickers[0].config.locale);\n      } : function (date) {\n        return new Date(date);\n      };\n      return this.dates.map(function (date) {\n        return date === undefined ? date : callback(date);\n      });\n    }\n\n    /**\r\n     * Set the start and end dates of the date range\r\n     *\r\n     * The method calls datepicker.setDate() internally using each of the\r\n     * arguments in start→end order.\r\n     *\r\n     * When a clear: true option object is passed instead of a date, the method\r\n     * clears the date.\r\n     *\r\n     * If an invalid date, the same date as the current one or an option object\r\n     * without clear: true is passed, the method considers that argument as an\r\n     * \"ineffective\" argument because calling datepicker.setDate() with those\r\n     * values makes no changes to the date selection.\r\n     *\r\n     * When the allowOneSidedRange config option is false, passing {clear: true}\r\n     * to clear the range works only when it is done to the last effective\r\n     * argument (in other words, passed to rangeEnd or to rangeStart along with\r\n     * ineffective rangeEnd). This is because when the date range is changed,\r\n     * it gets normalized based on the last change at the end of the changing\r\n     * process.\r\n     *\r\n     * @param {Date|Number|String|Object} rangeStart - Start date of the range\r\n     * or {clear: true} to clear the date\r\n     * @param {Date|Number|String|Object} rangeEnd - End date of the range\r\n     * or {clear: true} to clear the date\r\n     */\n  }, {\n    key: \"setDates\",\n    value: function setDates(rangeStart, rangeEnd) {\n      var _this$datepickers = _slicedToArray(this.datepickers, 2),\n        datepicker0 = _this$datepickers[0],\n        datepicker1 = _this$datepickers[1];\n      var origDates = this.dates;\n\n      // If range normalization runs on every change, we can't set a new range\n      // that starts after the end of the current range correctly because the\n      // normalization process swaps start↔︎end right after setting the new start\n      // date. To prevent this, the normalization process needs to run once after\n      // both of the new dates are set.\n      this._updating = true;\n      datepicker0.setDate(rangeStart);\n      datepicker1.setDate(rangeEnd);\n      delete this._updating;\n      if (datepicker1.dates[0] !== origDates[1]) {\n        onChangeDate(this, {\n          target: this.inputs[1]\n        });\n      } else if (datepicker0.dates[0] !== origDates[0]) {\n        onChangeDate(this, {\n          target: this.inputs[0]\n        });\n      }\n    }\n  }]);\n}();\n\n\n\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite-datepicker/dist/main.esm.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/accordion/index.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/accordion/index.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   initAccordions: () => (/* binding */ initAccordions)\n/* harmony export */ });\n/* harmony import */ var _dom_instances__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dom/instances */ \"./node_modules/flowbite/lib/esm/dom/instances.js\");\nvar __assign = (undefined && undefined.__assign) || function () {\n    __assign = Object.assign || function(t) {\n        for (var s, i = 1, n = arguments.length; i < n; i++) {\n            s = arguments[i];\n            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n                t[p] = s[p];\n        }\n        return t;\n    };\n    return __assign.apply(this, arguments);\n};\n\nvar Default = {\n    alwaysOpen: false,\n    activeClasses: 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white',\n    inactiveClasses: 'text-gray-500 dark:text-gray-400',\n    onOpen: function () { },\n    onClose: function () { },\n    onToggle: function () { },\n};\nvar DefaultInstanceOptions = {\n    id: null,\n    override: true,\n};\nvar Accordion = /** @class */ (function () {\n    function Accordion(accordionEl, items, options, instanceOptions) {\n        if (accordionEl === void 0) { accordionEl = null; }\n        if (items === void 0) { items = []; }\n        if (options === void 0) { options = Default; }\n        if (instanceOptions === void 0) { instanceOptions = DefaultInstanceOptions; }\n        this._instanceId = instanceOptions.id\n            ? instanceOptions.id\n            : accordionEl.id;\n        this._accordionEl = accordionEl;\n        this._items = items;\n        this._options = __assign(__assign({}, Default), options);\n        this._initialized = false;\n        this.init();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addInstance('Accordion', this, this._instanceId, instanceOptions.override);\n    }\n    Accordion.prototype.init = function () {\n        var _this = this;\n        if (this._items.length && !this._initialized) {\n            // show accordion item based on click\n            this._items.forEach(function (item) {\n                if (item.active) {\n                    _this.open(item.id);\n                }\n                var clickHandler = function () {\n                    _this.toggle(item.id);\n                };\n                item.triggerEl.addEventListener('click', clickHandler);\n                // Store the clickHandler in a property of the item for removal later\n                item.clickHandler = clickHandler;\n            });\n            this._initialized = true;\n        }\n    };\n    Accordion.prototype.destroy = function () {\n        if (this._items.length && this._initialized) {\n            this._items.forEach(function (item) {\n                item.triggerEl.removeEventListener('click', item.clickHandler);\n                // Clean up by deleting the clickHandler property from the item\n                delete item.clickHandler;\n            });\n            this._initialized = false;\n        }\n    };\n    Accordion.prototype.removeInstance = function () {\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].removeInstance('Accordion', this._instanceId);\n    };\n    Accordion.prototype.destroyAndRemoveInstance = function () {\n        this.destroy();\n        this.removeInstance();\n    };\n    Accordion.prototype.getItem = function (id) {\n        return this._items.filter(function (item) { return item.id === id; })[0];\n    };\n    Accordion.prototype.open = function (id) {\n        var _a, _b;\n        var _this = this;\n        var item = this.getItem(id);\n        // don't hide other accordions if always open\n        if (!this._options.alwaysOpen) {\n            this._items.map(function (i) {\n                var _a, _b;\n                if (i !== item) {\n                    (_a = i.triggerEl.classList).remove.apply(_a, _this._options.activeClasses.split(' '));\n                    (_b = i.triggerEl.classList).add.apply(_b, _this._options.inactiveClasses.split(' '));\n                    i.targetEl.classList.add('hidden');\n                    i.triggerEl.setAttribute('aria-expanded', 'false');\n                    i.active = false;\n                    // rotate icon if set\n                    if (i.iconEl) {\n                        i.iconEl.classList.add('rotate-180');\n                    }\n                }\n            });\n        }\n        // show active item\n        (_a = item.triggerEl.classList).add.apply(_a, this._options.activeClasses.split(' '));\n        (_b = item.triggerEl.classList).remove.apply(_b, this._options.inactiveClasses.split(' '));\n        item.triggerEl.setAttribute('aria-expanded', 'true');\n        item.targetEl.classList.remove('hidden');\n        item.active = true;\n        // rotate icon if set\n        if (item.iconEl) {\n            item.iconEl.classList.remove('rotate-180');\n        }\n        // callback function\n        this._options.onOpen(this, item);\n    };\n    Accordion.prototype.toggle = function (id) {\n        var item = this.getItem(id);\n        if (item.active) {\n            this.close(id);\n        }\n        else {\n            this.open(id);\n        }\n        // callback function\n        this._options.onToggle(this, item);\n    };\n    Accordion.prototype.close = function (id) {\n        var _a, _b;\n        var item = this.getItem(id);\n        (_a = item.triggerEl.classList).remove.apply(_a, this._options.activeClasses.split(' '));\n        (_b = item.triggerEl.classList).add.apply(_b, this._options.inactiveClasses.split(' '));\n        item.targetEl.classList.add('hidden');\n        item.triggerEl.setAttribute('aria-expanded', 'false');\n        item.active = false;\n        // rotate icon if set\n        if (item.iconEl) {\n            item.iconEl.classList.add('rotate-180');\n        }\n        // callback function\n        this._options.onClose(this, item);\n    };\n    Accordion.prototype.updateOnOpen = function (callback) {\n        this._options.onOpen = callback;\n    };\n    Accordion.prototype.updateOnClose = function (callback) {\n        this._options.onClose = callback;\n    };\n    Accordion.prototype.updateOnToggle = function (callback) {\n        this._options.onToggle = callback;\n    };\n    return Accordion;\n}());\nfunction initAccordions() {\n    document.querySelectorAll('[data-accordion]').forEach(function ($accordionEl) {\n        var alwaysOpen = $accordionEl.getAttribute('data-accordion');\n        var activeClasses = $accordionEl.getAttribute('data-active-classes');\n        var inactiveClasses = $accordionEl.getAttribute('data-inactive-classes');\n        var items = [];\n        $accordionEl\n            .querySelectorAll('[data-accordion-target]')\n            .forEach(function ($triggerEl) {\n            // Consider only items that directly belong to $accordionEl\n            // (to make nested accordions work).\n            if ($triggerEl.closest('[data-accordion]') === $accordionEl) {\n                var item = {\n                    id: $triggerEl.getAttribute('data-accordion-target'),\n                    triggerEl: $triggerEl,\n                    targetEl: document.querySelector($triggerEl.getAttribute('data-accordion-target')),\n                    iconEl: $triggerEl.querySelector('[data-accordion-icon]'),\n                    active: $triggerEl.getAttribute('aria-expanded') === 'true'\n                        ? true\n                        : false,\n                };\n                items.push(item);\n            }\n        });\n        new Accordion($accordionEl, items, {\n            alwaysOpen: alwaysOpen === 'open' ? true : false,\n            activeClasses: activeClasses\n                ? activeClasses\n                : Default.activeClasses,\n            inactiveClasses: inactiveClasses\n                ? inactiveClasses\n                : Default.inactiveClasses,\n        });\n    });\n}\nif (typeof window !== 'undefined') {\n    window.Accordion = Accordion;\n    window.initAccordions = initAccordions;\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Accordion);\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/accordion/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/accordion/interface.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/accordion/interface.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=interface.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/accordion/interface.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/accordion/types.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/accordion/types.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=types.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/accordion/types.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/carousel/index.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/carousel/index.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   initCarousels: () => (/* binding */ initCarousels)\n/* harmony export */ });\n/* harmony import */ var _dom_instances__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dom/instances */ \"./node_modules/flowbite/lib/esm/dom/instances.js\");\nvar __assign = (undefined && undefined.__assign) || function () {\n    __assign = Object.assign || function(t) {\n        for (var s, i = 1, n = arguments.length; i < n; i++) {\n            s = arguments[i];\n            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n                t[p] = s[p];\n        }\n        return t;\n    };\n    return __assign.apply(this, arguments);\n};\n\nvar Default = {\n    defaultPosition: 0,\n    indicators: {\n        items: [],\n        activeClasses: 'bg-white dark:bg-gray-800',\n        inactiveClasses: 'bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800',\n    },\n    interval: 3000,\n    onNext: function () { },\n    onPrev: function () { },\n    onChange: function () { },\n};\nvar DefaultInstanceOptions = {\n    id: null,\n    override: true,\n};\nvar Carousel = /** @class */ (function () {\n    function Carousel(carouselEl, items, options, instanceOptions) {\n        if (carouselEl === void 0) { carouselEl = null; }\n        if (items === void 0) { items = []; }\n        if (options === void 0) { options = Default; }\n        if (instanceOptions === void 0) { instanceOptions = DefaultInstanceOptions; }\n        this._instanceId = instanceOptions.id\n            ? instanceOptions.id\n            : carouselEl.id;\n        this._carouselEl = carouselEl;\n        this._items = items;\n        this._options = __assign(__assign(__assign({}, Default), options), { indicators: __assign(__assign({}, Default.indicators), options.indicators) });\n        this._activeItem = this.getItem(this._options.defaultPosition);\n        this._indicators = this._options.indicators.items;\n        this._intervalDuration = this._options.interval;\n        this._intervalInstance = null;\n        this._initialized = false;\n        this.init();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addInstance('Carousel', this, this._instanceId, instanceOptions.override);\n    }\n    /**\n     * initialize carousel and items based on active one\n     */\n    Carousel.prototype.init = function () {\n        var _this = this;\n        if (this._items.length && !this._initialized) {\n            this._items.map(function (item) {\n                item.el.classList.add('absolute', 'inset-0', 'transition-transform', 'transform');\n            });\n            // if no active item is set then first position is default\n            if (this.getActiveItem()) {\n                this.slideTo(this.getActiveItem().position);\n            }\n            else {\n                this.slideTo(0);\n            }\n            this._indicators.map(function (indicator, position) {\n                indicator.el.addEventListener('click', function () {\n                    _this.slideTo(position);\n                });\n            });\n            this._initialized = true;\n        }\n    };\n    Carousel.prototype.destroy = function () {\n        if (this._initialized) {\n            this._initialized = false;\n        }\n    };\n    Carousel.prototype.removeInstance = function () {\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].removeInstance('Carousel', this._instanceId);\n    };\n    Carousel.prototype.destroyAndRemoveInstance = function () {\n        this.destroy();\n        this.removeInstance();\n    };\n    Carousel.prototype.getItem = function (position) {\n        return this._items[position];\n    };\n    /**\n     * Slide to the element based on id\n     * @param {*} position\n     */\n    Carousel.prototype.slideTo = function (position) {\n        var nextItem = this._items[position];\n        var rotationItems = {\n            left: nextItem.position === 0\n                ? this._items[this._items.length - 1]\n                : this._items[nextItem.position - 1],\n            middle: nextItem,\n            right: nextItem.position === this._items.length - 1\n                ? this._items[0]\n                : this._items[nextItem.position + 1],\n        };\n        this._rotate(rotationItems);\n        this._setActiveItem(nextItem);\n        if (this._intervalInstance) {\n            this.pause();\n            this.cycle();\n        }\n        this._options.onChange(this);\n    };\n    /**\n     * Based on the currently active item it will go to the next position\n     */\n    Carousel.prototype.next = function () {\n        var activeItem = this.getActiveItem();\n        var nextItem = null;\n        // check if last item\n        if (activeItem.position === this._items.length - 1) {\n            nextItem = this._items[0];\n        }\n        else {\n            nextItem = this._items[activeItem.position + 1];\n        }\n        this.slideTo(nextItem.position);\n        // callback function\n        this._options.onNext(this);\n    };\n    /**\n     * Based on the currently active item it will go to the previous position\n     */\n    Carousel.prototype.prev = function () {\n        var activeItem = this.getActiveItem();\n        var prevItem = null;\n        // check if first item\n        if (activeItem.position === 0) {\n            prevItem = this._items[this._items.length - 1];\n        }\n        else {\n            prevItem = this._items[activeItem.position - 1];\n        }\n        this.slideTo(prevItem.position);\n        // callback function\n        this._options.onPrev(this);\n    };\n    /**\n     * This method applies the transform classes based on the left, middle, and right rotation carousel items\n     * @param {*} rotationItems\n     */\n    Carousel.prototype._rotate = function (rotationItems) {\n        // reset\n        this._items.map(function (item) {\n            item.el.classList.add('hidden');\n        });\n        // Handling the case when there is only one item\n        if (this._items.length === 1) {\n            rotationItems.middle.el.classList.remove('-translate-x-full', 'translate-x-full', 'translate-x-0', 'hidden', 'z-10');\n            rotationItems.middle.el.classList.add('translate-x-0', 'z-20');\n            return;\n        }\n        // left item (previously active)\n        rotationItems.left.el.classList.remove('-translate-x-full', 'translate-x-full', 'translate-x-0', 'hidden', 'z-20');\n        rotationItems.left.el.classList.add('-translate-x-full', 'z-10');\n        // currently active item\n        rotationItems.middle.el.classList.remove('-translate-x-full', 'translate-x-full', 'translate-x-0', 'hidden', 'z-10');\n        rotationItems.middle.el.classList.add('translate-x-0', 'z-30');\n        // right item (upcoming active)\n        rotationItems.right.el.classList.remove('-translate-x-full', 'translate-x-full', 'translate-x-0', 'hidden', 'z-30');\n        rotationItems.right.el.classList.add('translate-x-full', 'z-20');\n    };\n    /**\n     * Set an interval to cycle through the carousel items\n     */\n    Carousel.prototype.cycle = function () {\n        var _this = this;\n        if (typeof window !== 'undefined') {\n            this._intervalInstance = window.setInterval(function () {\n                _this.next();\n            }, this._intervalDuration);\n        }\n    };\n    /**\n     * Clears the cycling interval\n     */\n    Carousel.prototype.pause = function () {\n        clearInterval(this._intervalInstance);\n    };\n    /**\n     * Get the currently active item\n     */\n    Carousel.prototype.getActiveItem = function () {\n        return this._activeItem;\n    };\n    /**\n     * Set the currently active item and data attribute\n     * @param {*} position\n     */\n    Carousel.prototype._setActiveItem = function (item) {\n        var _a, _b;\n        var _this = this;\n        this._activeItem = item;\n        var position = item.position;\n        // update the indicators if available\n        if (this._indicators.length) {\n            this._indicators.map(function (indicator) {\n                var _a, _b;\n                indicator.el.setAttribute('aria-current', 'false');\n                (_a = indicator.el.classList).remove.apply(_a, _this._options.indicators.activeClasses.split(' '));\n                (_b = indicator.el.classList).add.apply(_b, _this._options.indicators.inactiveClasses.split(' '));\n            });\n            (_a = this._indicators[position].el.classList).add.apply(_a, this._options.indicators.activeClasses.split(' '));\n            (_b = this._indicators[position].el.classList).remove.apply(_b, this._options.indicators.inactiveClasses.split(' '));\n            this._indicators[position].el.setAttribute('aria-current', 'true');\n        }\n    };\n    Carousel.prototype.updateOnNext = function (callback) {\n        this._options.onNext = callback;\n    };\n    Carousel.prototype.updateOnPrev = function (callback) {\n        this._options.onPrev = callback;\n    };\n    Carousel.prototype.updateOnChange = function (callback) {\n        this._options.onChange = callback;\n    };\n    return Carousel;\n}());\nfunction initCarousels() {\n    document.querySelectorAll('[data-carousel]').forEach(function ($carouselEl) {\n        var interval = $carouselEl.getAttribute('data-carousel-interval');\n        var slide = $carouselEl.getAttribute('data-carousel') === 'slide'\n            ? true\n            : false;\n        var items = [];\n        var defaultPosition = 0;\n        if ($carouselEl.querySelectorAll('[data-carousel-item]').length) {\n            Array.from($carouselEl.querySelectorAll('[data-carousel-item]')).map(function ($carouselItemEl, position) {\n                items.push({\n                    position: position,\n                    el: $carouselItemEl,\n                });\n                if ($carouselItemEl.getAttribute('data-carousel-item') ===\n                    'active') {\n                    defaultPosition = position;\n                }\n            });\n        }\n        var indicators = [];\n        if ($carouselEl.querySelectorAll('[data-carousel-slide-to]').length) {\n            Array.from($carouselEl.querySelectorAll('[data-carousel-slide-to]')).map(function ($indicatorEl) {\n                indicators.push({\n                    position: parseInt($indicatorEl.getAttribute('data-carousel-slide-to')),\n                    el: $indicatorEl,\n                });\n            });\n        }\n        var carousel = new Carousel($carouselEl, items, {\n            defaultPosition: defaultPosition,\n            indicators: {\n                items: indicators,\n            },\n            interval: interval ? interval : Default.interval,\n        });\n        if (slide) {\n            carousel.cycle();\n        }\n        // check for controls\n        var carouselNextEl = $carouselEl.querySelector('[data-carousel-next]');\n        var carouselPrevEl = $carouselEl.querySelector('[data-carousel-prev]');\n        if (carouselNextEl) {\n            carouselNextEl.addEventListener('click', function () {\n                carousel.next();\n            });\n        }\n        if (carouselPrevEl) {\n            carouselPrevEl.addEventListener('click', function () {\n                carousel.prev();\n            });\n        }\n    });\n}\nif (typeof window !== 'undefined') {\n    window.Carousel = Carousel;\n    window.initCarousels = initCarousels;\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Carousel);\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/carousel/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/carousel/interface.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/carousel/interface.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=interface.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/carousel/interface.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/carousel/types.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/carousel/types.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=types.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/carousel/types.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/clipboard/index.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/clipboard/index.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   initCopyClipboards: () => (/* binding */ initCopyClipboards)\n/* harmony export */ });\n/* harmony import */ var _dom_instances__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dom/instances */ \"./node_modules/flowbite/lib/esm/dom/instances.js\");\nvar __assign = (undefined && undefined.__assign) || function () {\n    __assign = Object.assign || function(t) {\n        for (var s, i = 1, n = arguments.length; i < n; i++) {\n            s = arguments[i];\n            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n                t[p] = s[p];\n        }\n        return t;\n    };\n    return __assign.apply(this, arguments);\n};\n\nvar Default = {\n    htmlEntities: false,\n    contentType: 'input',\n    onCopy: function () { },\n};\nvar DefaultInstanceOptions = {\n    id: null,\n    override: true,\n};\nvar CopyClipboard = /** @class */ (function () {\n    function CopyClipboard(triggerEl, targetEl, options, instanceOptions) {\n        if (triggerEl === void 0) { triggerEl = null; }\n        if (targetEl === void 0) { targetEl = null; }\n        if (options === void 0) { options = Default; }\n        if (instanceOptions === void 0) { instanceOptions = DefaultInstanceOptions; }\n        this._instanceId = instanceOptions.id\n            ? instanceOptions.id\n            : targetEl.id;\n        this._triggerEl = triggerEl;\n        this._targetEl = targetEl;\n        this._options = __assign(__assign({}, Default), options);\n        this._initialized = false;\n        this.init();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addInstance('CopyClipboard', this, this._instanceId, instanceOptions.override);\n    }\n    CopyClipboard.prototype.init = function () {\n        var _this = this;\n        if (this._targetEl && this._triggerEl && !this._initialized) {\n            this._triggerElClickHandler = function () {\n                _this.copy();\n            };\n            // clicking on the trigger element should copy the value of the target element\n            if (this._triggerEl) {\n                this._triggerEl.addEventListener('click', this._triggerElClickHandler);\n            }\n            this._initialized = true;\n        }\n    };\n    CopyClipboard.prototype.destroy = function () {\n        if (this._triggerEl && this._targetEl && this._initialized) {\n            if (this._triggerEl) {\n                this._triggerEl.removeEventListener('click', this._triggerElClickHandler);\n            }\n            this._initialized = false;\n        }\n    };\n    CopyClipboard.prototype.removeInstance = function () {\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].removeInstance('CopyClipboard', this._instanceId);\n    };\n    CopyClipboard.prototype.destroyAndRemoveInstance = function () {\n        this.destroy();\n        this.removeInstance();\n    };\n    CopyClipboard.prototype.getTargetValue = function () {\n        if (this._options.contentType === 'input') {\n            return this._targetEl.value;\n        }\n        if (this._options.contentType === 'innerHTML') {\n            return this._targetEl.innerHTML;\n        }\n        if (this._options.contentType === 'textContent') {\n            return this._targetEl.textContent.replace(/\\s+/g, ' ').trim();\n        }\n    };\n    CopyClipboard.prototype.copy = function () {\n        var textToCopy = this.getTargetValue();\n        // Check if HTMLEntities option is enabled\n        if (this._options.htmlEntities) {\n            // Encode the text using HTML entities\n            textToCopy = this.decodeHTML(textToCopy);\n        }\n        // Create a temporary textarea element\n        var tempTextArea = document.createElement('textarea');\n        tempTextArea.value = textToCopy;\n        document.body.appendChild(tempTextArea);\n        // Select the text inside the textarea and copy it to the clipboard\n        tempTextArea.select();\n        document.execCommand('copy');\n        // Remove the temporary textarea\n        document.body.removeChild(tempTextArea);\n        // Callback function\n        this._options.onCopy(this);\n        return textToCopy;\n    };\n    // Function to encode text into HTML entities\n    CopyClipboard.prototype.decodeHTML = function (html) {\n        var textarea = document.createElement('textarea');\n        textarea.innerHTML = html;\n        return textarea.textContent;\n    };\n    CopyClipboard.prototype.updateOnCopyCallback = function (callback) {\n        this._options.onCopy = callback;\n    };\n    return CopyClipboard;\n}());\nfunction initCopyClipboards() {\n    document\n        .querySelectorAll('[data-copy-to-clipboard-target]')\n        .forEach(function ($triggerEl) {\n        var targetId = $triggerEl.getAttribute('data-copy-to-clipboard-target');\n        var $targetEl = document.getElementById(targetId);\n        var contentType = $triggerEl.getAttribute('data-copy-to-clipboard-content-type');\n        var htmlEntities = $triggerEl.getAttribute('data-copy-to-clipboard-html-entities');\n        // check if the target element exists\n        if ($targetEl) {\n            if (!_dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].instanceExists('CopyClipboard', $targetEl.getAttribute('id'))) {\n                new CopyClipboard($triggerEl, $targetEl, {\n                    htmlEntities: htmlEntities && htmlEntities === 'true'\n                        ? true\n                        : Default.htmlEntities,\n                    contentType: contentType\n                        ? contentType\n                        : Default.contentType,\n                });\n            }\n        }\n        else {\n            console.error(\"The target element with id \\\"\".concat(targetId, \"\\\" does not exist. Please check the data-copy-to-clipboard-target attribute.\"));\n        }\n    });\n}\nif (typeof window !== 'undefined') {\n    window.CopyClipboard = CopyClipboard;\n    window.initClipboards = initCopyClipboards;\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CopyClipboard);\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/clipboard/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/clipboard/interface.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/clipboard/interface.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=interface.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/clipboard/interface.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/clipboard/types.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/clipboard/types.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=types.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/clipboard/types.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/collapse/index.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/collapse/index.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   initCollapses: () => (/* binding */ initCollapses)\n/* harmony export */ });\n/* harmony import */ var _dom_instances__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dom/instances */ \"./node_modules/flowbite/lib/esm/dom/instances.js\");\nvar __assign = (undefined && undefined.__assign) || function () {\n    __assign = Object.assign || function(t) {\n        for (var s, i = 1, n = arguments.length; i < n; i++) {\n            s = arguments[i];\n            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n                t[p] = s[p];\n        }\n        return t;\n    };\n    return __assign.apply(this, arguments);\n};\n\nvar Default = {\n    onCollapse: function () { },\n    onExpand: function () { },\n    onToggle: function () { },\n};\nvar DefaultInstanceOptions = {\n    id: null,\n    override: true,\n};\nvar Collapse = /** @class */ (function () {\n    function Collapse(targetEl, triggerEl, options, instanceOptions) {\n        if (targetEl === void 0) { targetEl = null; }\n        if (triggerEl === void 0) { triggerEl = null; }\n        if (options === void 0) { options = Default; }\n        if (instanceOptions === void 0) { instanceOptions = DefaultInstanceOptions; }\n        this._instanceId = instanceOptions.id\n            ? instanceOptions.id\n            : targetEl.id;\n        this._targetEl = targetEl;\n        this._triggerEl = triggerEl;\n        this._options = __assign(__assign({}, Default), options);\n        this._visible = false;\n        this._initialized = false;\n        this.init();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addInstance('Collapse', this, this._instanceId, instanceOptions.override);\n    }\n    Collapse.prototype.init = function () {\n        var _this = this;\n        if (this._triggerEl && this._targetEl && !this._initialized) {\n            if (this._triggerEl.hasAttribute('aria-expanded')) {\n                this._visible =\n                    this._triggerEl.getAttribute('aria-expanded') === 'true';\n            }\n            else {\n                // fix until v2 not to break previous single collapses which became dismiss\n                this._visible = !this._targetEl.classList.contains('hidden');\n            }\n            this._clickHandler = function () {\n                _this.toggle();\n            };\n            this._triggerEl.addEventListener('click', this._clickHandler);\n            this._initialized = true;\n        }\n    };\n    Collapse.prototype.destroy = function () {\n        if (this._triggerEl && this._initialized) {\n            this._triggerEl.removeEventListener('click', this._clickHandler);\n            this._initialized = false;\n        }\n    };\n    Collapse.prototype.removeInstance = function () {\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].removeInstance('Collapse', this._instanceId);\n    };\n    Collapse.prototype.destroyAndRemoveInstance = function () {\n        this.destroy();\n        this.removeInstance();\n    };\n    Collapse.prototype.collapse = function () {\n        this._targetEl.classList.add('hidden');\n        if (this._triggerEl) {\n            this._triggerEl.setAttribute('aria-expanded', 'false');\n        }\n        this._visible = false;\n        // callback function\n        this._options.onCollapse(this);\n    };\n    Collapse.prototype.expand = function () {\n        this._targetEl.classList.remove('hidden');\n        if (this._triggerEl) {\n            this._triggerEl.setAttribute('aria-expanded', 'true');\n        }\n        this._visible = true;\n        // callback function\n        this._options.onExpand(this);\n    };\n    Collapse.prototype.toggle = function () {\n        if (this._visible) {\n            this.collapse();\n        }\n        else {\n            this.expand();\n        }\n        // callback function\n        this._options.onToggle(this);\n    };\n    Collapse.prototype.updateOnCollapse = function (callback) {\n        this._options.onCollapse = callback;\n    };\n    Collapse.prototype.updateOnExpand = function (callback) {\n        this._options.onExpand = callback;\n    };\n    Collapse.prototype.updateOnToggle = function (callback) {\n        this._options.onToggle = callback;\n    };\n    return Collapse;\n}());\nfunction initCollapses() {\n    document\n        .querySelectorAll('[data-collapse-toggle]')\n        .forEach(function ($triggerEl) {\n        var targetId = $triggerEl.getAttribute('data-collapse-toggle');\n        var $targetEl = document.getElementById(targetId);\n        // check if the target element exists\n        if ($targetEl) {\n            if (!_dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].instanceExists('Collapse', $targetEl.getAttribute('id'))) {\n                new Collapse($targetEl, $triggerEl);\n            }\n            else {\n                // if instance exists already for the same target element then create a new one with a different trigger element\n                new Collapse($targetEl, $triggerEl, {}, {\n                    id: $targetEl.getAttribute('id') +\n                        '_' +\n                        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"]._generateRandomId(),\n                });\n            }\n        }\n        else {\n            console.error(\"The target element with id \\\"\".concat(targetId, \"\\\" does not exist. Please check the data-collapse-toggle attribute.\"));\n        }\n    });\n}\nif (typeof window !== 'undefined') {\n    window.Collapse = Collapse;\n    window.initCollapses = initCollapses;\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Collapse);\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/collapse/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/collapse/interface.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/collapse/interface.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=interface.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/collapse/interface.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/collapse/types.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/collapse/types.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=types.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/collapse/types.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/datepicker/index.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/datepicker/index.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   initDatepickers: () => (/* binding */ initDatepickers)\n/* harmony export */ });\n/* harmony import */ var _dom_instances__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dom/instances */ \"./node_modules/flowbite/lib/esm/dom/instances.js\");\n/* harmony import */ var flowbite_datepicker__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flowbite-datepicker */ \"./node_modules/flowbite-datepicker/dist/main.esm.js\");\nvar __assign = (undefined && undefined.__assign) || function () {\n    __assign = Object.assign || function(t) {\n        for (var s, i = 1, n = arguments.length; i < n; i++) {\n            s = arguments[i];\n            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n                t[p] = s[p];\n        }\n        return t;\n    };\n    return __assign.apply(this, arguments);\n};\n\n\nvar Default = {\n    defaultDatepickerId: null,\n    autohide: false,\n    format: 'mm/dd/yyyy',\n    maxDate: null,\n    minDate: null,\n    orientation: 'bottom',\n    buttons: false,\n    autoSelectToday: 0,\n    title: null,\n    language: 'en',\n    rangePicker: false,\n    onShow: function () { },\n    onHide: function () { },\n};\nvar DefaultInstanceOptions = {\n    id: null,\n    override: true,\n};\nvar Datepicker = /** @class */ (function () {\n    function Datepicker(datepickerEl, options, instanceOptions) {\n        if (datepickerEl === void 0) { datepickerEl = null; }\n        if (options === void 0) { options = Default; }\n        if (instanceOptions === void 0) { instanceOptions = DefaultInstanceOptions; }\n        this._instanceId = instanceOptions.id\n            ? instanceOptions.id\n            : datepickerEl.id;\n        this._datepickerEl = datepickerEl;\n        this._datepickerInstance = null;\n        this._options = __assign(__assign({}, Default), options);\n        this._initialized = false;\n        this.init();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addInstance('Datepicker', this, this._instanceId, instanceOptions.override);\n    }\n    Datepicker.prototype.init = function () {\n        if (this._datepickerEl && !this._initialized) {\n            if (this._options.rangePicker) {\n                this._datepickerInstance = new flowbite_datepicker__WEBPACK_IMPORTED_MODULE_1__.DateRangePicker(this._datepickerEl, this._getDatepickerOptions(this._options));\n            }\n            else {\n                this._datepickerInstance = new flowbite_datepicker__WEBPACK_IMPORTED_MODULE_1__.Datepicker(this._datepickerEl, this._getDatepickerOptions(this._options));\n            }\n            this._initialized = true;\n        }\n    };\n    Datepicker.prototype.destroy = function () {\n        if (this._initialized) {\n            this._initialized = false;\n            this._datepickerInstance.destroy();\n        }\n    };\n    Datepicker.prototype.removeInstance = function () {\n        this.destroy();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].removeInstance('Datepicker', this._instanceId);\n    };\n    Datepicker.prototype.destroyAndRemoveInstance = function () {\n        this.destroy();\n        this.removeInstance();\n    };\n    Datepicker.prototype.getDatepickerInstance = function () {\n        return this._datepickerInstance;\n    };\n    Datepicker.prototype.getDate = function () {\n        if (this._options.rangePicker &&\n            this._datepickerInstance instanceof flowbite_datepicker__WEBPACK_IMPORTED_MODULE_1__.DateRangePicker) {\n            return this._datepickerInstance.getDates();\n        }\n        if (!this._options.rangePicker &&\n            this._datepickerInstance instanceof flowbite_datepicker__WEBPACK_IMPORTED_MODULE_1__.Datepicker) {\n            return this._datepickerInstance.getDate();\n        }\n    };\n    Datepicker.prototype.setDate = function (date) {\n        if (this._options.rangePicker &&\n            this._datepickerInstance instanceof flowbite_datepicker__WEBPACK_IMPORTED_MODULE_1__.DateRangePicker) {\n            return this._datepickerInstance.setDates(date);\n        }\n        if (!this._options.rangePicker &&\n            this._datepickerInstance instanceof flowbite_datepicker__WEBPACK_IMPORTED_MODULE_1__.Datepicker) {\n            return this._datepickerInstance.setDate(date);\n        }\n    };\n    Datepicker.prototype.show = function () {\n        this._datepickerInstance.show();\n        this._options.onShow(this);\n    };\n    Datepicker.prototype.hide = function () {\n        this._datepickerInstance.hide();\n        this._options.onHide(this);\n    };\n    Datepicker.prototype._getDatepickerOptions = function (options) {\n        var datepickerOptions = {};\n        if (options.buttons) {\n            datepickerOptions.todayBtn = true;\n            datepickerOptions.clearBtn = true;\n            if (options.autoSelectToday) {\n                datepickerOptions.todayBtnMode = 1;\n            }\n        }\n        if (options.autohide) {\n            datepickerOptions.autohide = true;\n        }\n        if (options.format) {\n            datepickerOptions.format = options.format;\n        }\n        if (options.maxDate) {\n            datepickerOptions.maxDate = options.maxDate;\n        }\n        if (options.minDate) {\n            datepickerOptions.minDate = options.minDate;\n        }\n        if (options.orientation) {\n            datepickerOptions.orientation = options.orientation;\n        }\n        if (options.title) {\n            datepickerOptions.title = options.title;\n        }\n        if (options.language) {\n            datepickerOptions.language = options.language;\n        }\n        return datepickerOptions;\n    };\n    Datepicker.prototype.updateOnShow = function (callback) {\n        this._options.onShow = callback;\n    };\n    Datepicker.prototype.updateOnHide = function (callback) {\n        this._options.onHide = callback;\n    };\n    return Datepicker;\n}());\nfunction initDatepickers() {\n    document\n        .querySelectorAll('[datepicker], [inline-datepicker], [date-rangepicker]')\n        .forEach(function ($datepickerEl) {\n        if ($datepickerEl) {\n            var buttons = $datepickerEl.hasAttribute('datepicker-buttons');\n            var autoselectToday = $datepickerEl.hasAttribute('datepicker-autoselect-today');\n            var autohide = $datepickerEl.hasAttribute('datepicker-autohide');\n            var format = $datepickerEl.getAttribute('datepicker-format');\n            var maxDate = $datepickerEl.getAttribute('datepicker-max-date');\n            var minDate = $datepickerEl.getAttribute('datepicker-min-date');\n            var orientation_1 = $datepickerEl.getAttribute('datepicker-orientation');\n            var title = $datepickerEl.getAttribute('datepicker-title');\n            var language = $datepickerEl.getAttribute('datepicker-language');\n            var rangePicker = $datepickerEl.hasAttribute('date-rangepicker');\n            new Datepicker($datepickerEl, {\n                buttons: buttons ? buttons : Default.buttons,\n                autoSelectToday: autoselectToday\n                    ? autoselectToday\n                    : Default.autoSelectToday,\n                autohide: autohide ? autohide : Default.autohide,\n                format: format ? format : Default.format,\n                maxDate: maxDate ? maxDate : Default.maxDate,\n                minDate: minDate ? minDate : Default.minDate,\n                orientation: orientation_1\n                    ? orientation_1\n                    : Default.orientation,\n                title: title ? title : Default.title,\n                language: language ? language : Default.language,\n                rangePicker: rangePicker\n                    ? rangePicker\n                    : Default.rangePicker,\n            });\n        }\n        else {\n            console.error(\"The datepicker element does not exist. Please check the datepicker attribute.\");\n        }\n    });\n}\nif (typeof window !== 'undefined') {\n    window.Datepicker = Datepicker;\n    window.initDatepickers = initDatepickers;\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Datepicker);\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/datepicker/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/datepicker/interface.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/datepicker/interface.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=interface.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/datepicker/interface.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/datepicker/types.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/datepicker/types.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=types.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/datepicker/types.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/dial/index.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/dial/index.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   initDials: () => (/* binding */ initDials)\n/* harmony export */ });\n/* harmony import */ var _dom_instances__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dom/instances */ \"./node_modules/flowbite/lib/esm/dom/instances.js\");\nvar __assign = (undefined && undefined.__assign) || function () {\n    __assign = Object.assign || function(t) {\n        for (var s, i = 1, n = arguments.length; i < n; i++) {\n            s = arguments[i];\n            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n                t[p] = s[p];\n        }\n        return t;\n    };\n    return __assign.apply(this, arguments);\n};\n\nvar Default = {\n    triggerType: 'hover',\n    onShow: function () { },\n    onHide: function () { },\n    onToggle: function () { },\n};\nvar DefaultInstanceOptions = {\n    id: null,\n    override: true,\n};\nvar Dial = /** @class */ (function () {\n    function Dial(parentEl, triggerEl, targetEl, options, instanceOptions) {\n        if (parentEl === void 0) { parentEl = null; }\n        if (triggerEl === void 0) { triggerEl = null; }\n        if (targetEl === void 0) { targetEl = null; }\n        if (options === void 0) { options = Default; }\n        if (instanceOptions === void 0) { instanceOptions = DefaultInstanceOptions; }\n        this._instanceId = instanceOptions.id\n            ? instanceOptions.id\n            : targetEl.id;\n        this._parentEl = parentEl;\n        this._triggerEl = triggerEl;\n        this._targetEl = targetEl;\n        this._options = __assign(__assign({}, Default), options);\n        this._visible = false;\n        this._initialized = false;\n        this.init();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addInstance('Dial', this, this._instanceId, instanceOptions.override);\n    }\n    Dial.prototype.init = function () {\n        var _this = this;\n        if (this._triggerEl && this._targetEl && !this._initialized) {\n            var triggerEventTypes = this._getTriggerEventTypes(this._options.triggerType);\n            this._showEventHandler = function () {\n                _this.show();\n            };\n            triggerEventTypes.showEvents.forEach(function (ev) {\n                _this._triggerEl.addEventListener(ev, _this._showEventHandler);\n                _this._targetEl.addEventListener(ev, _this._showEventHandler);\n            });\n            this._hideEventHandler = function () {\n                if (!_this._parentEl.matches(':hover')) {\n                    _this.hide();\n                }\n            };\n            triggerEventTypes.hideEvents.forEach(function (ev) {\n                _this._parentEl.addEventListener(ev, _this._hideEventHandler);\n            });\n            this._initialized = true;\n        }\n    };\n    Dial.prototype.destroy = function () {\n        var _this = this;\n        if (this._initialized) {\n            var triggerEventTypes = this._getTriggerEventTypes(this._options.triggerType);\n            triggerEventTypes.showEvents.forEach(function (ev) {\n                _this._triggerEl.removeEventListener(ev, _this._showEventHandler);\n                _this._targetEl.removeEventListener(ev, _this._showEventHandler);\n            });\n            triggerEventTypes.hideEvents.forEach(function (ev) {\n                _this._parentEl.removeEventListener(ev, _this._hideEventHandler);\n            });\n            this._initialized = false;\n        }\n    };\n    Dial.prototype.removeInstance = function () {\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].removeInstance('Dial', this._instanceId);\n    };\n    Dial.prototype.destroyAndRemoveInstance = function () {\n        this.destroy();\n        this.removeInstance();\n    };\n    Dial.prototype.hide = function () {\n        this._targetEl.classList.add('hidden');\n        if (this._triggerEl) {\n            this._triggerEl.setAttribute('aria-expanded', 'false');\n        }\n        this._visible = false;\n        // callback function\n        this._options.onHide(this);\n    };\n    Dial.prototype.show = function () {\n        this._targetEl.classList.remove('hidden');\n        if (this._triggerEl) {\n            this._triggerEl.setAttribute('aria-expanded', 'true');\n        }\n        this._visible = true;\n        // callback function\n        this._options.onShow(this);\n    };\n    Dial.prototype.toggle = function () {\n        if (this._visible) {\n            this.hide();\n        }\n        else {\n            this.show();\n        }\n    };\n    Dial.prototype.isHidden = function () {\n        return !this._visible;\n    };\n    Dial.prototype.isVisible = function () {\n        return this._visible;\n    };\n    Dial.prototype._getTriggerEventTypes = function (triggerType) {\n        switch (triggerType) {\n            case 'hover':\n                return {\n                    showEvents: ['mouseenter', 'focus'],\n                    hideEvents: ['mouseleave', 'blur'],\n                };\n            case 'click':\n                return {\n                    showEvents: ['click', 'focus'],\n                    hideEvents: ['focusout', 'blur'],\n                };\n            case 'none':\n                return {\n                    showEvents: [],\n                    hideEvents: [],\n                };\n            default:\n                return {\n                    showEvents: ['mouseenter', 'focus'],\n                    hideEvents: ['mouseleave', 'blur'],\n                };\n        }\n    };\n    Dial.prototype.updateOnShow = function (callback) {\n        this._options.onShow = callback;\n    };\n    Dial.prototype.updateOnHide = function (callback) {\n        this._options.onHide = callback;\n    };\n    Dial.prototype.updateOnToggle = function (callback) {\n        this._options.onToggle = callback;\n    };\n    return Dial;\n}());\nfunction initDials() {\n    document.querySelectorAll('[data-dial-init]').forEach(function ($parentEl) {\n        var $triggerEl = $parentEl.querySelector('[data-dial-toggle]');\n        if ($triggerEl) {\n            var dialId = $triggerEl.getAttribute('data-dial-toggle');\n            var $dialEl = document.getElementById(dialId);\n            if ($dialEl) {\n                var triggerType = $triggerEl.getAttribute('data-dial-trigger');\n                new Dial($parentEl, $triggerEl, $dialEl, {\n                    triggerType: triggerType\n                        ? triggerType\n                        : Default.triggerType,\n                });\n            }\n            else {\n                console.error(\"Dial with id \".concat(dialId, \" does not exist. Are you sure that the data-dial-toggle attribute points to the correct modal id?\"));\n            }\n        }\n        else {\n            console.error(\"Dial with id \".concat($parentEl.id, \" does not have a trigger element. Are you sure that the data-dial-toggle attribute exists?\"));\n        }\n    });\n}\nif (typeof window !== 'undefined') {\n    window.Dial = Dial;\n    window.initDials = initDials;\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Dial);\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/dial/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/dial/interface.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/dial/interface.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=interface.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/dial/interface.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/dial/types.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/dial/types.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=types.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/dial/types.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/dismiss/index.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/dismiss/index.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   initDismisses: () => (/* binding */ initDismisses)\n/* harmony export */ });\n/* harmony import */ var _dom_instances__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dom/instances */ \"./node_modules/flowbite/lib/esm/dom/instances.js\");\nvar __assign = (undefined && undefined.__assign) || function () {\n    __assign = Object.assign || function(t) {\n        for (var s, i = 1, n = arguments.length; i < n; i++) {\n            s = arguments[i];\n            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n                t[p] = s[p];\n        }\n        return t;\n    };\n    return __assign.apply(this, arguments);\n};\n\nvar Default = {\n    transition: 'transition-opacity',\n    duration: 300,\n    timing: 'ease-out',\n    onHide: function () { },\n};\nvar DefaultInstanceOptions = {\n    id: null,\n    override: true,\n};\nvar Dismiss = /** @class */ (function () {\n    function Dismiss(targetEl, triggerEl, options, instanceOptions) {\n        if (targetEl === void 0) { targetEl = null; }\n        if (triggerEl === void 0) { triggerEl = null; }\n        if (options === void 0) { options = Default; }\n        if (instanceOptions === void 0) { instanceOptions = DefaultInstanceOptions; }\n        this._instanceId = instanceOptions.id\n            ? instanceOptions.id\n            : targetEl.id;\n        this._targetEl = targetEl;\n        this._triggerEl = triggerEl;\n        this._options = __assign(__assign({}, Default), options);\n        this._initialized = false;\n        this.init();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addInstance('Dismiss', this, this._instanceId, instanceOptions.override);\n    }\n    Dismiss.prototype.init = function () {\n        var _this = this;\n        if (this._triggerEl && this._targetEl && !this._initialized) {\n            this._clickHandler = function () {\n                _this.hide();\n            };\n            this._triggerEl.addEventListener('click', this._clickHandler);\n            this._initialized = true;\n        }\n    };\n    Dismiss.prototype.destroy = function () {\n        if (this._triggerEl && this._initialized) {\n            this._triggerEl.removeEventListener('click', this._clickHandler);\n            this._initialized = false;\n        }\n    };\n    Dismiss.prototype.removeInstance = function () {\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].removeInstance('Dismiss', this._instanceId);\n    };\n    Dismiss.prototype.destroyAndRemoveInstance = function () {\n        this.destroy();\n        this.removeInstance();\n    };\n    Dismiss.prototype.hide = function () {\n        var _this = this;\n        this._targetEl.classList.add(this._options.transition, \"duration-\".concat(this._options.duration), this._options.timing, 'opacity-0');\n        setTimeout(function () {\n            _this._targetEl.classList.add('hidden');\n        }, this._options.duration);\n        // callback function\n        this._options.onHide(this, this._targetEl);\n    };\n    Dismiss.prototype.updateOnHide = function (callback) {\n        this._options.onHide = callback;\n    };\n    return Dismiss;\n}());\nfunction initDismisses() {\n    document.querySelectorAll('[data-dismiss-target]').forEach(function ($triggerEl) {\n        var targetId = $triggerEl.getAttribute('data-dismiss-target');\n        var $dismissEl = document.querySelector(targetId);\n        if ($dismissEl) {\n            new Dismiss($dismissEl, $triggerEl);\n        }\n        else {\n            console.error(\"The dismiss element with id \\\"\".concat(targetId, \"\\\" does not exist. Please check the data-dismiss-target attribute.\"));\n        }\n    });\n}\nif (typeof window !== 'undefined') {\n    window.Dismiss = Dismiss;\n    window.initDismisses = initDismisses;\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Dismiss);\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/dismiss/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/dismiss/interface.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/dismiss/interface.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=interface.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/dismiss/interface.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/dismiss/types.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/dismiss/types.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=types.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/dismiss/types.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/drawer/index.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/drawer/index.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   initDrawers: () => (/* binding */ initDrawers)\n/* harmony export */ });\n/* harmony import */ var _dom_instances__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dom/instances */ \"./node_modules/flowbite/lib/esm/dom/instances.js\");\nvar __assign = (undefined && undefined.__assign) || function () {\n    __assign = Object.assign || function(t) {\n        for (var s, i = 1, n = arguments.length; i < n; i++) {\n            s = arguments[i];\n            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n                t[p] = s[p];\n        }\n        return t;\n    };\n    return __assign.apply(this, arguments);\n};\n\nvar Default = {\n    placement: 'left',\n    bodyScrolling: false,\n    backdrop: true,\n    edge: false,\n    edgeOffset: 'bottom-[60px]',\n    backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-30',\n    onShow: function () { },\n    onHide: function () { },\n    onToggle: function () { },\n};\nvar DefaultInstanceOptions = {\n    id: null,\n    override: true,\n};\nvar Drawer = /** @class */ (function () {\n    function Drawer(targetEl, options, instanceOptions) {\n        if (targetEl === void 0) { targetEl = null; }\n        if (options === void 0) { options = Default; }\n        if (instanceOptions === void 0) { instanceOptions = DefaultInstanceOptions; }\n        this._eventListenerInstances = [];\n        this._instanceId = instanceOptions.id\n            ? instanceOptions.id\n            : targetEl.id;\n        this._targetEl = targetEl;\n        this._options = __assign(__assign({}, Default), options);\n        this._visible = false;\n        this._initialized = false;\n        this.init();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addInstance('Drawer', this, this._instanceId, instanceOptions.override);\n    }\n    Drawer.prototype.init = function () {\n        var _this = this;\n        // set initial accessibility attributes\n        if (this._targetEl && !this._initialized) {\n            this._targetEl.setAttribute('aria-hidden', 'true');\n            this._targetEl.classList.add('transition-transform');\n            // set base placement classes\n            this._getPlacementClasses(this._options.placement).base.map(function (c) {\n                _this._targetEl.classList.add(c);\n            });\n            this._handleEscapeKey = function (event) {\n                if (event.key === 'Escape') {\n                    // if 'Escape' key is pressed\n                    if (_this.isVisible()) {\n                        // if the Drawer is visible\n                        _this.hide(); // hide the Drawer\n                    }\n                }\n            };\n            // add keyboard event listener to document\n            document.addEventListener('keydown', this._handleEscapeKey);\n            this._initialized = true;\n        }\n    };\n    Drawer.prototype.destroy = function () {\n        if (this._initialized) {\n            this.removeAllEventListenerInstances();\n            this._destroyBackdropEl();\n            // Remove the keyboard event listener\n            document.removeEventListener('keydown', this._handleEscapeKey);\n            this._initialized = false;\n        }\n    };\n    Drawer.prototype.removeInstance = function () {\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].removeInstance('Drawer', this._instanceId);\n    };\n    Drawer.prototype.destroyAndRemoveInstance = function () {\n        this.destroy();\n        this.removeInstance();\n    };\n    Drawer.prototype.hide = function () {\n        var _this = this;\n        // based on the edge option show placement classes\n        if (this._options.edge) {\n            this._getPlacementClasses(this._options.placement + '-edge').active.map(function (c) {\n                _this._targetEl.classList.remove(c);\n            });\n            this._getPlacementClasses(this._options.placement + '-edge').inactive.map(function (c) {\n                _this._targetEl.classList.add(c);\n            });\n        }\n        else {\n            this._getPlacementClasses(this._options.placement).active.map(function (c) {\n                _this._targetEl.classList.remove(c);\n            });\n            this._getPlacementClasses(this._options.placement).inactive.map(function (c) {\n                _this._targetEl.classList.add(c);\n            });\n        }\n        // set accessibility attributes\n        this._targetEl.setAttribute('aria-hidden', 'true');\n        this._targetEl.removeAttribute('aria-modal');\n        this._targetEl.removeAttribute('role');\n        // enable body scroll\n        if (!this._options.bodyScrolling) {\n            document.body.classList.remove('overflow-hidden');\n        }\n        // destroy backdrop\n        if (this._options.backdrop) {\n            this._destroyBackdropEl();\n        }\n        this._visible = false;\n        // callback function\n        this._options.onHide(this);\n    };\n    Drawer.prototype.show = function () {\n        var _this = this;\n        if (this._options.edge) {\n            this._getPlacementClasses(this._options.placement + '-edge').active.map(function (c) {\n                _this._targetEl.classList.add(c);\n            });\n            this._getPlacementClasses(this._options.placement + '-edge').inactive.map(function (c) {\n                _this._targetEl.classList.remove(c);\n            });\n        }\n        else {\n            this._getPlacementClasses(this._options.placement).active.map(function (c) {\n                _this._targetEl.classList.add(c);\n            });\n            this._getPlacementClasses(this._options.placement).inactive.map(function (c) {\n                _this._targetEl.classList.remove(c);\n            });\n        }\n        // set accessibility attributes\n        this._targetEl.setAttribute('aria-modal', 'true');\n        this._targetEl.setAttribute('role', 'dialog');\n        this._targetEl.removeAttribute('aria-hidden');\n        // disable body scroll\n        if (!this._options.bodyScrolling) {\n            document.body.classList.add('overflow-hidden');\n        }\n        // show backdrop\n        if (this._options.backdrop) {\n            this._createBackdrop();\n        }\n        this._visible = true;\n        // callback function\n        this._options.onShow(this);\n    };\n    Drawer.prototype.toggle = function () {\n        if (this.isVisible()) {\n            this.hide();\n        }\n        else {\n            this.show();\n        }\n    };\n    Drawer.prototype._createBackdrop = function () {\n        var _a;\n        var _this = this;\n        if (!this._visible) {\n            var backdropEl = document.createElement('div');\n            backdropEl.setAttribute('drawer-backdrop', '');\n            (_a = backdropEl.classList).add.apply(_a, this._options.backdropClasses.split(' '));\n            document.querySelector('body').append(backdropEl);\n            backdropEl.addEventListener('click', function () {\n                _this.hide();\n            });\n        }\n    };\n    Drawer.prototype._destroyBackdropEl = function () {\n        if (this._visible &&\n            document.querySelector('[drawer-backdrop]') !== null) {\n            document.querySelector('[drawer-backdrop]').remove();\n        }\n    };\n    Drawer.prototype._getPlacementClasses = function (placement) {\n        switch (placement) {\n            case 'top':\n                return {\n                    base: ['top-0', 'left-0', 'right-0'],\n                    active: ['transform-none'],\n                    inactive: ['-translate-y-full'],\n                };\n            case 'right':\n                return {\n                    base: ['right-0', 'top-0'],\n                    active: ['transform-none'],\n                    inactive: ['translate-x-full'],\n                };\n            case 'bottom':\n                return {\n                    base: ['bottom-0', 'left-0', 'right-0'],\n                    active: ['transform-none'],\n                    inactive: ['translate-y-full'],\n                };\n            case 'left':\n                return {\n                    base: ['left-0', 'top-0'],\n                    active: ['transform-none'],\n                    inactive: ['-translate-x-full'],\n                };\n            case 'bottom-edge':\n                return {\n                    base: ['left-0', 'top-0'],\n                    active: ['transform-none'],\n                    inactive: ['translate-y-full', this._options.edgeOffset],\n                };\n            default:\n                return {\n                    base: ['left-0', 'top-0'],\n                    active: ['transform-none'],\n                    inactive: ['-translate-x-full'],\n                };\n        }\n    };\n    Drawer.prototype.isHidden = function () {\n        return !this._visible;\n    };\n    Drawer.prototype.isVisible = function () {\n        return this._visible;\n    };\n    Drawer.prototype.addEventListenerInstance = function (element, type, handler) {\n        this._eventListenerInstances.push({\n            element: element,\n            type: type,\n            handler: handler,\n        });\n    };\n    Drawer.prototype.removeAllEventListenerInstances = function () {\n        this._eventListenerInstances.map(function (eventListenerInstance) {\n            eventListenerInstance.element.removeEventListener(eventListenerInstance.type, eventListenerInstance.handler);\n        });\n        this._eventListenerInstances = [];\n    };\n    Drawer.prototype.getAllEventListenerInstances = function () {\n        return this._eventListenerInstances;\n    };\n    Drawer.prototype.updateOnShow = function (callback) {\n        this._options.onShow = callback;\n    };\n    Drawer.prototype.updateOnHide = function (callback) {\n        this._options.onHide = callback;\n    };\n    Drawer.prototype.updateOnToggle = function (callback) {\n        this._options.onToggle = callback;\n    };\n    return Drawer;\n}());\nfunction initDrawers() {\n    document.querySelectorAll('[data-drawer-target]').forEach(function ($triggerEl) {\n        // mandatory\n        var drawerId = $triggerEl.getAttribute('data-drawer-target');\n        var $drawerEl = document.getElementById(drawerId);\n        if ($drawerEl) {\n            var placement = $triggerEl.getAttribute('data-drawer-placement');\n            var bodyScrolling = $triggerEl.getAttribute('data-drawer-body-scrolling');\n            var backdrop = $triggerEl.getAttribute('data-drawer-backdrop');\n            var edge = $triggerEl.getAttribute('data-drawer-edge');\n            var edgeOffset = $triggerEl.getAttribute('data-drawer-edge-offset');\n            new Drawer($drawerEl, {\n                placement: placement ? placement : Default.placement,\n                bodyScrolling: bodyScrolling\n                    ? bodyScrolling === 'true'\n                        ? true\n                        : false\n                    : Default.bodyScrolling,\n                backdrop: backdrop\n                    ? backdrop === 'true'\n                        ? true\n                        : false\n                    : Default.backdrop,\n                edge: edge ? (edge === 'true' ? true : false) : Default.edge,\n                edgeOffset: edgeOffset ? edgeOffset : Default.edgeOffset,\n            });\n        }\n        else {\n            console.error(\"Drawer with id \".concat(drawerId, \" not found. Are you sure that the data-drawer-target attribute points to the correct drawer id?\"));\n        }\n    });\n    document.querySelectorAll('[data-drawer-toggle]').forEach(function ($triggerEl) {\n        var drawerId = $triggerEl.getAttribute('data-drawer-toggle');\n        var $drawerEl = document.getElementById(drawerId);\n        if ($drawerEl) {\n            var drawer_1 = _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getInstance('Drawer', drawerId);\n            if (drawer_1) {\n                var toggleDrawer = function () {\n                    drawer_1.toggle();\n                };\n                $triggerEl.addEventListener('click', toggleDrawer);\n                drawer_1.addEventListenerInstance($triggerEl, 'click', toggleDrawer);\n            }\n            else {\n                console.error(\"Drawer with id \".concat(drawerId, \" has not been initialized. Please initialize it using the data-drawer-target attribute.\"));\n            }\n        }\n        else {\n            console.error(\"Drawer with id \".concat(drawerId, \" not found. Are you sure that the data-drawer-target attribute points to the correct drawer id?\"));\n        }\n    });\n    document\n        .querySelectorAll('[data-drawer-dismiss], [data-drawer-hide]')\n        .forEach(function ($triggerEl) {\n        var drawerId = $triggerEl.getAttribute('data-drawer-dismiss')\n            ? $triggerEl.getAttribute('data-drawer-dismiss')\n            : $triggerEl.getAttribute('data-drawer-hide');\n        var $drawerEl = document.getElementById(drawerId);\n        if ($drawerEl) {\n            var drawer_2 = _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getInstance('Drawer', drawerId);\n            if (drawer_2) {\n                var hideDrawer = function () {\n                    drawer_2.hide();\n                };\n                $triggerEl.addEventListener('click', hideDrawer);\n                drawer_2.addEventListenerInstance($triggerEl, 'click', hideDrawer);\n            }\n            else {\n                console.error(\"Drawer with id \".concat(drawerId, \" has not been initialized. Please initialize it using the data-drawer-target attribute.\"));\n            }\n        }\n        else {\n            console.error(\"Drawer with id \".concat(drawerId, \" not found. Are you sure that the data-drawer-target attribute points to the correct drawer id\"));\n        }\n    });\n    document.querySelectorAll('[data-drawer-show]').forEach(function ($triggerEl) {\n        var drawerId = $triggerEl.getAttribute('data-drawer-show');\n        var $drawerEl = document.getElementById(drawerId);\n        if ($drawerEl) {\n            var drawer_3 = _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getInstance('Drawer', drawerId);\n            if (drawer_3) {\n                var showDrawer = function () {\n                    drawer_3.show();\n                };\n                $triggerEl.addEventListener('click', showDrawer);\n                drawer_3.addEventListenerInstance($triggerEl, 'click', showDrawer);\n            }\n            else {\n                console.error(\"Drawer with id \".concat(drawerId, \" has not been initialized. Please initialize it using the data-drawer-target attribute.\"));\n            }\n        }\n        else {\n            console.error(\"Drawer with id \".concat(drawerId, \" not found. Are you sure that the data-drawer-target attribute points to the correct drawer id?\"));\n        }\n    });\n}\nif (typeof window !== 'undefined') {\n    window.Drawer = Drawer;\n    window.initDrawers = initDrawers;\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Drawer);\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/drawer/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/drawer/interface.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/drawer/interface.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=interface.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/drawer/interface.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/drawer/types.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/drawer/types.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=types.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/drawer/types.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/dropdown/index.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/dropdown/index.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   initDropdowns: () => (/* binding */ initDropdowns)\n/* harmony export */ });\n/* harmony import */ var _popperjs_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @popperjs/core */ \"./node_modules/@popperjs/core/lib/popper.js\");\n/* harmony import */ var _dom_instances__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dom/instances */ \"./node_modules/flowbite/lib/esm/dom/instances.js\");\nvar __assign = (undefined && undefined.__assign) || function () {\n    __assign = Object.assign || function(t) {\n        for (var s, i = 1, n = arguments.length; i < n; i++) {\n            s = arguments[i];\n            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n                t[p] = s[p];\n        }\n        return t;\n    };\n    return __assign.apply(this, arguments);\n};\nvar __spreadArray = (undefined && undefined.__spreadArray) || function (to, from, pack) {\n    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {\n        if (ar || !(i in from)) {\n            if (!ar) ar = Array.prototype.slice.call(from, 0, i);\n            ar[i] = from[i];\n        }\n    }\n    return to.concat(ar || Array.prototype.slice.call(from));\n};\n/* eslint-disable @typescript-eslint/no-empty-function */\n\n\nvar Default = {\n    placement: 'bottom',\n    triggerType: 'click',\n    offsetSkidding: 0,\n    offsetDistance: 10,\n    delay: 300,\n    ignoreClickOutsideClass: false,\n    onShow: function () { },\n    onHide: function () { },\n    onToggle: function () { },\n};\nvar DefaultInstanceOptions = {\n    id: null,\n    override: true,\n};\nvar Dropdown = /** @class */ (function () {\n    function Dropdown(targetElement, triggerElement, options, instanceOptions) {\n        if (targetElement === void 0) { targetElement = null; }\n        if (triggerElement === void 0) { triggerElement = null; }\n        if (options === void 0) { options = Default; }\n        if (instanceOptions === void 0) { instanceOptions = DefaultInstanceOptions; }\n        this._instanceId = instanceOptions.id\n            ? instanceOptions.id\n            : targetElement.id;\n        this._targetEl = targetElement;\n        this._triggerEl = triggerElement;\n        this._options = __assign(__assign({}, Default), options);\n        this._popperInstance = null;\n        this._visible = false;\n        this._initialized = false;\n        this.init();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addInstance('Dropdown', this, this._instanceId, instanceOptions.override);\n    }\n    Dropdown.prototype.init = function () {\n        if (this._triggerEl && this._targetEl && !this._initialized) {\n            this._popperInstance = this._createPopperInstance();\n            this._setupEventListeners();\n            this._initialized = true;\n        }\n    };\n    Dropdown.prototype.destroy = function () {\n        var _this = this;\n        var triggerEvents = this._getTriggerEvents();\n        // Remove click event listeners for trigger element\n        if (this._options.triggerType === 'click') {\n            triggerEvents.showEvents.forEach(function (ev) {\n                _this._triggerEl.removeEventListener(ev, _this._clickHandler);\n            });\n        }\n        // Remove hover event listeners for trigger and target elements\n        if (this._options.triggerType === 'hover') {\n            triggerEvents.showEvents.forEach(function (ev) {\n                _this._triggerEl.removeEventListener(ev, _this._hoverShowTriggerElHandler);\n                _this._targetEl.removeEventListener(ev, _this._hoverShowTargetElHandler);\n            });\n            triggerEvents.hideEvents.forEach(function (ev) {\n                _this._triggerEl.removeEventListener(ev, _this._hoverHideHandler);\n                _this._targetEl.removeEventListener(ev, _this._hoverHideHandler);\n            });\n        }\n        this._popperInstance.destroy();\n        this._initialized = false;\n    };\n    Dropdown.prototype.removeInstance = function () {\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].removeInstance('Dropdown', this._instanceId);\n    };\n    Dropdown.prototype.destroyAndRemoveInstance = function () {\n        this.destroy();\n        this.removeInstance();\n    };\n    Dropdown.prototype._setupEventListeners = function () {\n        var _this = this;\n        var triggerEvents = this._getTriggerEvents();\n        this._clickHandler = function () {\n            _this.toggle();\n        };\n        // click event handling for trigger element\n        if (this._options.triggerType === 'click') {\n            triggerEvents.showEvents.forEach(function (ev) {\n                _this._triggerEl.addEventListener(ev, _this._clickHandler);\n            });\n        }\n        this._hoverShowTriggerElHandler = function (ev) {\n            if (ev.type === 'click') {\n                _this.toggle();\n            }\n            else {\n                setTimeout(function () {\n                    _this.show();\n                }, _this._options.delay);\n            }\n        };\n        this._hoverShowTargetElHandler = function () {\n            _this.show();\n        };\n        this._hoverHideHandler = function () {\n            setTimeout(function () {\n                if (!_this._targetEl.matches(':hover')) {\n                    _this.hide();\n                }\n            }, _this._options.delay);\n        };\n        // hover event handling for trigger element\n        if (this._options.triggerType === 'hover') {\n            triggerEvents.showEvents.forEach(function (ev) {\n                _this._triggerEl.addEventListener(ev, _this._hoverShowTriggerElHandler);\n                _this._targetEl.addEventListener(ev, _this._hoverShowTargetElHandler);\n            });\n            triggerEvents.hideEvents.forEach(function (ev) {\n                _this._triggerEl.addEventListener(ev, _this._hoverHideHandler);\n                _this._targetEl.addEventListener(ev, _this._hoverHideHandler);\n            });\n        }\n    };\n    Dropdown.prototype._createPopperInstance = function () {\n        return (0,_popperjs_core__WEBPACK_IMPORTED_MODULE_1__.createPopper)(this._triggerEl, this._targetEl, {\n            placement: this._options.placement,\n            modifiers: [\n                {\n                    name: 'offset',\n                    options: {\n                        offset: [\n                            this._options.offsetSkidding,\n                            this._options.offsetDistance,\n                        ],\n                    },\n                },\n            ],\n        });\n    };\n    Dropdown.prototype._setupClickOutsideListener = function () {\n        var _this = this;\n        this._clickOutsideEventListener = function (ev) {\n            _this._handleClickOutside(ev, _this._targetEl);\n        };\n        document.body.addEventListener('click', this._clickOutsideEventListener, true);\n    };\n    Dropdown.prototype._removeClickOutsideListener = function () {\n        document.body.removeEventListener('click', this._clickOutsideEventListener, true);\n    };\n    Dropdown.prototype._handleClickOutside = function (ev, targetEl) {\n        var clickedEl = ev.target;\n        // Ignore clicks on the trigger element (ie. a datepicker input)\n        var ignoreClickOutsideClass = this._options.ignoreClickOutsideClass;\n        var isIgnored = false;\n        if (ignoreClickOutsideClass) {\n            var ignoredClickOutsideEls = document.querySelectorAll(\".\".concat(ignoreClickOutsideClass));\n            ignoredClickOutsideEls.forEach(function (el) {\n                if (el.contains(clickedEl)) {\n                    isIgnored = true;\n                    return;\n                }\n            });\n        }\n        // Ignore clicks on the target element (ie. dropdown itself)\n        if (clickedEl !== targetEl &&\n            !targetEl.contains(clickedEl) &&\n            !this._triggerEl.contains(clickedEl) &&\n            !isIgnored &&\n            this.isVisible()) {\n            this.hide();\n        }\n    };\n    Dropdown.prototype._getTriggerEvents = function () {\n        switch (this._options.triggerType) {\n            case 'hover':\n                return {\n                    showEvents: ['mouseenter', 'click'],\n                    hideEvents: ['mouseleave'],\n                };\n            case 'click':\n                return {\n                    showEvents: ['click'],\n                    hideEvents: [],\n                };\n            case 'none':\n                return {\n                    showEvents: [],\n                    hideEvents: [],\n                };\n            default:\n                return {\n                    showEvents: ['click'],\n                    hideEvents: [],\n                };\n        }\n    };\n    Dropdown.prototype.toggle = function () {\n        if (this.isVisible()) {\n            this.hide();\n        }\n        else {\n            this.show();\n        }\n        this._options.onToggle(this);\n    };\n    Dropdown.prototype.isVisible = function () {\n        return this._visible;\n    };\n    Dropdown.prototype.show = function () {\n        this._targetEl.classList.remove('hidden');\n        this._targetEl.classList.add('block');\n        this._targetEl.removeAttribute('aria-hidden');\n        // Enable the event listeners\n        this._popperInstance.setOptions(function (options) { return (__assign(__assign({}, options), { modifiers: __spreadArray(__spreadArray([], options.modifiers, true), [\n                { name: 'eventListeners', enabled: true },\n            ], false) })); });\n        this._setupClickOutsideListener();\n        // Update its position\n        this._popperInstance.update();\n        this._visible = true;\n        // callback function\n        this._options.onShow(this);\n    };\n    Dropdown.prototype.hide = function () {\n        this._targetEl.classList.remove('block');\n        this._targetEl.classList.add('hidden');\n        this._targetEl.setAttribute('aria-hidden', 'true');\n        // Disable the event listeners\n        this._popperInstance.setOptions(function (options) { return (__assign(__assign({}, options), { modifiers: __spreadArray(__spreadArray([], options.modifiers, true), [\n                { name: 'eventListeners', enabled: false },\n            ], false) })); });\n        this._visible = false;\n        this._removeClickOutsideListener();\n        // callback function\n        this._options.onHide(this);\n    };\n    Dropdown.prototype.updateOnShow = function (callback) {\n        this._options.onShow = callback;\n    };\n    Dropdown.prototype.updateOnHide = function (callback) {\n        this._options.onHide = callback;\n    };\n    Dropdown.prototype.updateOnToggle = function (callback) {\n        this._options.onToggle = callback;\n    };\n    return Dropdown;\n}());\nfunction initDropdowns() {\n    document\n        .querySelectorAll('[data-dropdown-toggle]')\n        .forEach(function ($triggerEl) {\n        var dropdownId = $triggerEl.getAttribute('data-dropdown-toggle');\n        var $dropdownEl = document.getElementById(dropdownId);\n        if ($dropdownEl) {\n            var placement = $triggerEl.getAttribute('data-dropdown-placement');\n            var offsetSkidding = $triggerEl.getAttribute('data-dropdown-offset-skidding');\n            var offsetDistance = $triggerEl.getAttribute('data-dropdown-offset-distance');\n            var triggerType = $triggerEl.getAttribute('data-dropdown-trigger');\n            var delay = $triggerEl.getAttribute('data-dropdown-delay');\n            var ignoreClickOutsideClass = $triggerEl.getAttribute('data-dropdown-ignore-click-outside-class');\n            new Dropdown($dropdownEl, $triggerEl, {\n                placement: placement ? placement : Default.placement,\n                triggerType: triggerType\n                    ? triggerType\n                    : Default.triggerType,\n                offsetSkidding: offsetSkidding\n                    ? parseInt(offsetSkidding)\n                    : Default.offsetSkidding,\n                offsetDistance: offsetDistance\n                    ? parseInt(offsetDistance)\n                    : Default.offsetDistance,\n                delay: delay ? parseInt(delay) : Default.delay,\n                ignoreClickOutsideClass: ignoreClickOutsideClass\n                    ? ignoreClickOutsideClass\n                    : Default.ignoreClickOutsideClass,\n            });\n        }\n        else {\n            console.error(\"The dropdown element with id \\\"\".concat(dropdownId, \"\\\" does not exist. Please check the data-dropdown-toggle attribute.\"));\n        }\n    });\n}\nif (typeof window !== 'undefined') {\n    window.Dropdown = Dropdown;\n    window.initDropdowns = initDropdowns;\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Dropdown);\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/dropdown/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/dropdown/interface.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/dropdown/interface.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=interface.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/dropdown/interface.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/dropdown/types.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/dropdown/types.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=types.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/dropdown/types.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/index.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/index.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   initFlowbite: () => (/* binding */ initFlowbite)\n/* harmony export */ });\n/* harmony import */ var _accordion__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./accordion */ \"./node_modules/flowbite/lib/esm/components/accordion/index.js\");\n/* harmony import */ var _carousel__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./carousel */ \"./node_modules/flowbite/lib/esm/components/carousel/index.js\");\n/* harmony import */ var _clipboard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./clipboard */ \"./node_modules/flowbite/lib/esm/components/clipboard/index.js\");\n/* harmony import */ var _collapse__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./collapse */ \"./node_modules/flowbite/lib/esm/components/collapse/index.js\");\n/* harmony import */ var _dial__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./dial */ \"./node_modules/flowbite/lib/esm/components/dial/index.js\");\n/* harmony import */ var _dismiss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./dismiss */ \"./node_modules/flowbite/lib/esm/components/dismiss/index.js\");\n/* harmony import */ var _drawer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./drawer */ \"./node_modules/flowbite/lib/esm/components/drawer/index.js\");\n/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./dropdown */ \"./node_modules/flowbite/lib/esm/components/dropdown/index.js\");\n/* harmony import */ var _input_counter__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./input-counter */ \"./node_modules/flowbite/lib/esm/components/input-counter/index.js\");\n/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modal */ \"./node_modules/flowbite/lib/esm/components/modal/index.js\");\n/* harmony import */ var _popover__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./popover */ \"./node_modules/flowbite/lib/esm/components/popover/index.js\");\n/* harmony import */ var _tabs__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./tabs */ \"./node_modules/flowbite/lib/esm/components/tabs/index.js\");\n/* harmony import */ var _tooltip__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./tooltip */ \"./node_modules/flowbite/lib/esm/components/tooltip/index.js\");\n/* harmony import */ var _datepicker__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./datepicker */ \"./node_modules/flowbite/lib/esm/components/datepicker/index.js\");\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nfunction initFlowbite() {\n    (0,_accordion__WEBPACK_IMPORTED_MODULE_0__.initAccordions)();\n    (0,_collapse__WEBPACK_IMPORTED_MODULE_3__.initCollapses)();\n    (0,_carousel__WEBPACK_IMPORTED_MODULE_1__.initCarousels)();\n    (0,_dismiss__WEBPACK_IMPORTED_MODULE_5__.initDismisses)();\n    (0,_dropdown__WEBPACK_IMPORTED_MODULE_7__.initDropdowns)();\n    (0,_modal__WEBPACK_IMPORTED_MODULE_9__.initModals)();\n    (0,_drawer__WEBPACK_IMPORTED_MODULE_6__.initDrawers)();\n    (0,_tabs__WEBPACK_IMPORTED_MODULE_11__.initTabs)();\n    (0,_tooltip__WEBPACK_IMPORTED_MODULE_12__.initTooltips)();\n    (0,_popover__WEBPACK_IMPORTED_MODULE_10__.initPopovers)();\n    (0,_dial__WEBPACK_IMPORTED_MODULE_4__.initDials)();\n    (0,_input_counter__WEBPACK_IMPORTED_MODULE_8__.initInputCounters)();\n    (0,_clipboard__WEBPACK_IMPORTED_MODULE_2__.initCopyClipboards)();\n    (0,_datepicker__WEBPACK_IMPORTED_MODULE_13__.initDatepickers)();\n}\nif (typeof window !== 'undefined') {\n    window.initFlowbite = initFlowbite;\n}\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/input-counter/index.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/input-counter/index.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   initInputCounters: () => (/* binding */ initInputCounters)\n/* harmony export */ });\n/* harmony import */ var _dom_instances__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dom/instances */ \"./node_modules/flowbite/lib/esm/dom/instances.js\");\nvar __assign = (undefined && undefined.__assign) || function () {\n    __assign = Object.assign || function(t) {\n        for (var s, i = 1, n = arguments.length; i < n; i++) {\n            s = arguments[i];\n            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n                t[p] = s[p];\n        }\n        return t;\n    };\n    return __assign.apply(this, arguments);\n};\n\nvar Default = {\n    minValue: null,\n    maxValue: null,\n    onIncrement: function () { },\n    onDecrement: function () { },\n};\nvar DefaultInstanceOptions = {\n    id: null,\n    override: true,\n};\nvar InputCounter = /** @class */ (function () {\n    function InputCounter(targetEl, incrementEl, decrementEl, options, instanceOptions) {\n        if (targetEl === void 0) { targetEl = null; }\n        if (incrementEl === void 0) { incrementEl = null; }\n        if (decrementEl === void 0) { decrementEl = null; }\n        if (options === void 0) { options = Default; }\n        if (instanceOptions === void 0) { instanceOptions = DefaultInstanceOptions; }\n        this._instanceId = instanceOptions.id\n            ? instanceOptions.id\n            : targetEl.id;\n        this._targetEl = targetEl;\n        this._incrementEl = incrementEl;\n        this._decrementEl = decrementEl;\n        this._options = __assign(__assign({}, Default), options);\n        this._initialized = false;\n        this.init();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addInstance('InputCounter', this, this._instanceId, instanceOptions.override);\n    }\n    InputCounter.prototype.init = function () {\n        var _this = this;\n        if (this._targetEl && !this._initialized) {\n            this._inputHandler = function (event) {\n                {\n                    var target = event.target;\n                    // check if the value is numeric\n                    if (!/^\\d*$/.test(target.value)) {\n                        // Regex to check if the value is numeric\n                        target.value = target.value.replace(/[^\\d]/g, ''); // Remove non-numeric characters\n                    }\n                    // check for max value\n                    if (_this._options.maxValue !== null &&\n                        parseInt(target.value) > _this._options.maxValue) {\n                        target.value = _this._options.maxValue.toString();\n                    }\n                    // check for min value\n                    if (_this._options.minValue !== null &&\n                        parseInt(target.value) < _this._options.minValue) {\n                        target.value = _this._options.minValue.toString();\n                    }\n                }\n            };\n            this._incrementClickHandler = function () {\n                _this.increment();\n            };\n            this._decrementClickHandler = function () {\n                _this.decrement();\n            };\n            // Add event listener to restrict input to numeric values only\n            this._targetEl.addEventListener('input', this._inputHandler);\n            if (this._incrementEl) {\n                this._incrementEl.addEventListener('click', this._incrementClickHandler);\n            }\n            if (this._decrementEl) {\n                this._decrementEl.addEventListener('click', this._decrementClickHandler);\n            }\n            this._initialized = true;\n        }\n    };\n    InputCounter.prototype.destroy = function () {\n        if (this._targetEl && this._initialized) {\n            this._targetEl.removeEventListener('input', this._inputHandler);\n            if (this._incrementEl) {\n                this._incrementEl.removeEventListener('click', this._incrementClickHandler);\n            }\n            if (this._decrementEl) {\n                this._decrementEl.removeEventListener('click', this._decrementClickHandler);\n            }\n            this._initialized = false;\n        }\n    };\n    InputCounter.prototype.removeInstance = function () {\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].removeInstance('InputCounter', this._instanceId);\n    };\n    InputCounter.prototype.destroyAndRemoveInstance = function () {\n        this.destroy();\n        this.removeInstance();\n    };\n    InputCounter.prototype.getCurrentValue = function () {\n        return parseInt(this._targetEl.value) || 0;\n    };\n    InputCounter.prototype.increment = function () {\n        // don't increment if the value is already at the maximum value\n        if (this._options.maxValue !== null &&\n            this.getCurrentValue() >= this._options.maxValue) {\n            return;\n        }\n        this._targetEl.value = (this.getCurrentValue() + 1).toString();\n        this._options.onIncrement(this);\n    };\n    InputCounter.prototype.decrement = function () {\n        // don't decrement if the value is already at the minimum value\n        if (this._options.minValue !== null &&\n            this.getCurrentValue() <= this._options.minValue) {\n            return;\n        }\n        this._targetEl.value = (this.getCurrentValue() - 1).toString();\n        this._options.onDecrement(this);\n    };\n    InputCounter.prototype.updateOnIncrement = function (callback) {\n        this._options.onIncrement = callback;\n    };\n    InputCounter.prototype.updateOnDecrement = function (callback) {\n        this._options.onDecrement = callback;\n    };\n    return InputCounter;\n}());\nfunction initInputCounters() {\n    document.querySelectorAll('[data-input-counter]').forEach(function ($targetEl) {\n        var targetId = $targetEl.id;\n        var $incrementEl = document.querySelector('[data-input-counter-increment=\"' + targetId + '\"]');\n        var $decrementEl = document.querySelector('[data-input-counter-decrement=\"' + targetId + '\"]');\n        var minValue = $targetEl.getAttribute('data-input-counter-min');\n        var maxValue = $targetEl.getAttribute('data-input-counter-max');\n        // check if the target element exists\n        if ($targetEl) {\n            if (!_dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].instanceExists('InputCounter', $targetEl.getAttribute('id'))) {\n                new InputCounter($targetEl, $incrementEl ? $incrementEl : null, $decrementEl ? $decrementEl : null, {\n                    minValue: minValue ? parseInt(minValue) : null,\n                    maxValue: maxValue ? parseInt(maxValue) : null,\n                });\n            }\n        }\n        else {\n            console.error(\"The target element with id \\\"\".concat(targetId, \"\\\" does not exist. Please check the data-input-counter attribute.\"));\n        }\n    });\n}\nif (typeof window !== 'undefined') {\n    window.InputCounter = InputCounter;\n    window.initInputCounters = initInputCounters;\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (InputCounter);\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/input-counter/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/input-counter/interface.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/input-counter/interface.js ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=interface.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/input-counter/interface.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/input-counter/types.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/input-counter/types.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=types.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/input-counter/types.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/modal/index.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/modal/index.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   initModals: () => (/* binding */ initModals)\n/* harmony export */ });\n/* harmony import */ var _dom_instances__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dom/instances */ \"./node_modules/flowbite/lib/esm/dom/instances.js\");\nvar __assign = (undefined && undefined.__assign) || function () {\n    __assign = Object.assign || function(t) {\n        for (var s, i = 1, n = arguments.length; i < n; i++) {\n            s = arguments[i];\n            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n                t[p] = s[p];\n        }\n        return t;\n    };\n    return __assign.apply(this, arguments);\n};\n\nvar Default = {\n    placement: 'center',\n    backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',\n    backdrop: 'dynamic',\n    closable: true,\n    onHide: function () { },\n    onShow: function () { },\n    onToggle: function () { },\n};\nvar DefaultInstanceOptions = {\n    id: null,\n    override: true,\n};\nvar Modal = /** @class */ (function () {\n    function Modal(targetEl, options, instanceOptions) {\n        if (targetEl === void 0) { targetEl = null; }\n        if (options === void 0) { options = Default; }\n        if (instanceOptions === void 0) { instanceOptions = DefaultInstanceOptions; }\n        this._eventListenerInstances = [];\n        this._instanceId = instanceOptions.id\n            ? instanceOptions.id\n            : targetEl.id;\n        this._targetEl = targetEl;\n        this._options = __assign(__assign({}, Default), options);\n        this._isHidden = true;\n        this._backdropEl = null;\n        this._initialized = false;\n        this.init();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addInstance('Modal', this, this._instanceId, instanceOptions.override);\n    }\n    Modal.prototype.init = function () {\n        var _this = this;\n        if (this._targetEl && !this._initialized) {\n            this._getPlacementClasses().map(function (c) {\n                _this._targetEl.classList.add(c);\n            });\n            this._initialized = true;\n        }\n    };\n    Modal.prototype.destroy = function () {\n        if (this._initialized) {\n            this.removeAllEventListenerInstances();\n            this._destroyBackdropEl();\n            this._initialized = false;\n        }\n    };\n    Modal.prototype.removeInstance = function () {\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].removeInstance('Modal', this._instanceId);\n    };\n    Modal.prototype.destroyAndRemoveInstance = function () {\n        this.destroy();\n        this.removeInstance();\n    };\n    Modal.prototype._createBackdrop = function () {\n        var _a;\n        if (this._isHidden) {\n            var backdropEl = document.createElement('div');\n            (_a = backdropEl.classList).add.apply(_a, this._options.backdropClasses.split(' '));\n            document.querySelector('body').append(backdropEl);\n            this._backdropEl = backdropEl;\n        }\n    };\n    Modal.prototype._destroyBackdropEl = function () {\n        if (!this._isHidden && this._backdropEl) {\n            this._backdropEl.remove();\n            this._backdropEl = null;\n        }\n    };\n    Modal.prototype._setupModalCloseEventListeners = function () {\n        var _this = this;\n        if (this._options.backdrop === 'dynamic') {\n            this._clickOutsideEventListener = function (ev) {\n                _this._handleOutsideClick(ev.target);\n            };\n            this._targetEl.addEventListener('click', this._clickOutsideEventListener, true);\n        }\n        this._keydownEventListener = function (ev) {\n            if (ev.key === 'Escape') {\n                _this.hide();\n            }\n        };\n        document.body.addEventListener('keydown', this._keydownEventListener, true);\n    };\n    Modal.prototype._removeModalCloseEventListeners = function () {\n        if (this._options.backdrop === 'dynamic') {\n            this._targetEl.removeEventListener('click', this._clickOutsideEventListener, true);\n        }\n        document.body.removeEventListener('keydown', this._keydownEventListener, true);\n    };\n    Modal.prototype._handleOutsideClick = function (target) {\n        if (target === this._targetEl ||\n            (target === this._backdropEl && this.isVisible())) {\n            this.hide();\n        }\n    };\n    Modal.prototype._getPlacementClasses = function () {\n        switch (this._options.placement) {\n            // top\n            case 'top-left':\n                return ['justify-start', 'items-start'];\n            case 'top-center':\n                return ['justify-center', 'items-start'];\n            case 'top-right':\n                return ['justify-end', 'items-start'];\n            // center\n            case 'center-left':\n                return ['justify-start', 'items-center'];\n            case 'center':\n                return ['justify-center', 'items-center'];\n            case 'center-right':\n                return ['justify-end', 'items-center'];\n            // bottom\n            case 'bottom-left':\n                return ['justify-start', 'items-end'];\n            case 'bottom-center':\n                return ['justify-center', 'items-end'];\n            case 'bottom-right':\n                return ['justify-end', 'items-end'];\n            default:\n                return ['justify-center', 'items-center'];\n        }\n    };\n    Modal.prototype.toggle = function () {\n        if (this._isHidden) {\n            this.show();\n        }\n        else {\n            this.hide();\n        }\n        // callback function\n        this._options.onToggle(this);\n    };\n    Modal.prototype.show = function () {\n        if (this.isHidden) {\n            this._targetEl.classList.add('flex');\n            this._targetEl.classList.remove('hidden');\n            this._targetEl.setAttribute('aria-modal', 'true');\n            this._targetEl.setAttribute('role', 'dialog');\n            this._targetEl.removeAttribute('aria-hidden');\n            this._createBackdrop();\n            this._isHidden = false;\n            // Add keyboard event listener to the document\n            if (this._options.closable) {\n                this._setupModalCloseEventListeners();\n            }\n            // prevent body scroll\n            document.body.classList.add('overflow-hidden');\n            // callback function\n            this._options.onShow(this);\n        }\n    };\n    Modal.prototype.hide = function () {\n        if (this.isVisible) {\n            this._targetEl.classList.add('hidden');\n            this._targetEl.classList.remove('flex');\n            this._targetEl.setAttribute('aria-hidden', 'true');\n            this._targetEl.removeAttribute('aria-modal');\n            this._targetEl.removeAttribute('role');\n            this._destroyBackdropEl();\n            this._isHidden = true;\n            // re-apply body scroll\n            document.body.classList.remove('overflow-hidden');\n            if (this._options.closable) {\n                this._removeModalCloseEventListeners();\n            }\n            // callback function\n            this._options.onHide(this);\n        }\n    };\n    Modal.prototype.isVisible = function () {\n        return !this._isHidden;\n    };\n    Modal.prototype.isHidden = function () {\n        return this._isHidden;\n    };\n    Modal.prototype.addEventListenerInstance = function (element, type, handler) {\n        this._eventListenerInstances.push({\n            element: element,\n            type: type,\n            handler: handler,\n        });\n    };\n    Modal.prototype.removeAllEventListenerInstances = function () {\n        this._eventListenerInstances.map(function (eventListenerInstance) {\n            eventListenerInstance.element.removeEventListener(eventListenerInstance.type, eventListenerInstance.handler);\n        });\n        this._eventListenerInstances = [];\n    };\n    Modal.prototype.getAllEventListenerInstances = function () {\n        return this._eventListenerInstances;\n    };\n    Modal.prototype.updateOnShow = function (callback) {\n        this._options.onShow = callback;\n    };\n    Modal.prototype.updateOnHide = function (callback) {\n        this._options.onHide = callback;\n    };\n    Modal.prototype.updateOnToggle = function (callback) {\n        this._options.onToggle = callback;\n    };\n    return Modal;\n}());\nfunction initModals() {\n    // initiate modal based on data-modal-target\n    document.querySelectorAll('[data-modal-target]').forEach(function ($triggerEl) {\n        var modalId = $triggerEl.getAttribute('data-modal-target');\n        var $modalEl = document.getElementById(modalId);\n        if ($modalEl) {\n            var placement = $modalEl.getAttribute('data-modal-placement');\n            var backdrop = $modalEl.getAttribute('data-modal-backdrop');\n            new Modal($modalEl, {\n                placement: placement ? placement : Default.placement,\n                backdrop: backdrop ? backdrop : Default.backdrop,\n            });\n        }\n        else {\n            console.error(\"Modal with id \".concat(modalId, \" does not exist. Are you sure that the data-modal-target attribute points to the correct modal id?.\"));\n        }\n    });\n    // toggle modal visibility\n    document.querySelectorAll('[data-modal-toggle]').forEach(function ($triggerEl) {\n        var modalId = $triggerEl.getAttribute('data-modal-toggle');\n        var $modalEl = document.getElementById(modalId);\n        if ($modalEl) {\n            var modal_1 = _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getInstance('Modal', modalId);\n            if (modal_1) {\n                var toggleModal = function () {\n                    modal_1.toggle();\n                };\n                $triggerEl.addEventListener('click', toggleModal);\n                modal_1.addEventListenerInstance($triggerEl, 'click', toggleModal);\n            }\n            else {\n                console.error(\"Modal with id \".concat(modalId, \" has not been initialized. Please initialize it using the data-modal-target attribute.\"));\n            }\n        }\n        else {\n            console.error(\"Modal with id \".concat(modalId, \" does not exist. Are you sure that the data-modal-toggle attribute points to the correct modal id?\"));\n        }\n    });\n    // show modal on click if exists based on id\n    document.querySelectorAll('[data-modal-show]').forEach(function ($triggerEl) {\n        var modalId = $triggerEl.getAttribute('data-modal-show');\n        var $modalEl = document.getElementById(modalId);\n        if ($modalEl) {\n            var modal_2 = _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getInstance('Modal', modalId);\n            if (modal_2) {\n                var showModal = function () {\n                    modal_2.show();\n                };\n                $triggerEl.addEventListener('click', showModal);\n                modal_2.addEventListenerInstance($triggerEl, 'click', showModal);\n            }\n            else {\n                console.error(\"Modal with id \".concat(modalId, \" has not been initialized. Please initialize it using the data-modal-target attribute.\"));\n            }\n        }\n        else {\n            console.error(\"Modal with id \".concat(modalId, \" does not exist. Are you sure that the data-modal-show attribute points to the correct modal id?\"));\n        }\n    });\n    // hide modal on click if exists based on id\n    document.querySelectorAll('[data-modal-hide]').forEach(function ($triggerEl) {\n        var modalId = $triggerEl.getAttribute('data-modal-hide');\n        var $modalEl = document.getElementById(modalId);\n        if ($modalEl) {\n            var modal_3 = _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].getInstance('Modal', modalId);\n            if (modal_3) {\n                var hideModal = function () {\n                    modal_3.hide();\n                };\n                $triggerEl.addEventListener('click', hideModal);\n                modal_3.addEventListenerInstance($triggerEl, 'click', hideModal);\n            }\n            else {\n                console.error(\"Modal with id \".concat(modalId, \" has not been initialized. Please initialize it using the data-modal-target attribute.\"));\n            }\n        }\n        else {\n            console.error(\"Modal with id \".concat(modalId, \" does not exist. Are you sure that the data-modal-hide attribute points to the correct modal id?\"));\n        }\n    });\n}\nif (typeof window !== 'undefined') {\n    window.Modal = Modal;\n    window.initModals = initModals;\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Modal);\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/modal/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/modal/interface.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/modal/interface.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=interface.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/modal/interface.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/modal/types.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/modal/types.js ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=types.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/modal/types.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/popover/index.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/popover/index.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   initPopovers: () => (/* binding */ initPopovers)\n/* harmony export */ });\n/* harmony import */ var _popperjs_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @popperjs/core */ \"./node_modules/@popperjs/core/lib/popper.js\");\n/* harmony import */ var _dom_instances__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dom/instances */ \"./node_modules/flowbite/lib/esm/dom/instances.js\");\nvar __assign = (undefined && undefined.__assign) || function () {\n    __assign = Object.assign || function(t) {\n        for (var s, i = 1, n = arguments.length; i < n; i++) {\n            s = arguments[i];\n            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n                t[p] = s[p];\n        }\n        return t;\n    };\n    return __assign.apply(this, arguments);\n};\nvar __spreadArray = (undefined && undefined.__spreadArray) || function (to, from, pack) {\n    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {\n        if (ar || !(i in from)) {\n            if (!ar) ar = Array.prototype.slice.call(from, 0, i);\n            ar[i] = from[i];\n        }\n    }\n    return to.concat(ar || Array.prototype.slice.call(from));\n};\n/* eslint-disable @typescript-eslint/no-empty-function */\n\n\nvar Default = {\n    placement: 'top',\n    offset: 10,\n    triggerType: 'hover',\n    onShow: function () { },\n    onHide: function () { },\n    onToggle: function () { },\n};\nvar DefaultInstanceOptions = {\n    id: null,\n    override: true,\n};\nvar Popover = /** @class */ (function () {\n    function Popover(targetEl, triggerEl, options, instanceOptions) {\n        if (targetEl === void 0) { targetEl = null; }\n        if (triggerEl === void 0) { triggerEl = null; }\n        if (options === void 0) { options = Default; }\n        if (instanceOptions === void 0) { instanceOptions = DefaultInstanceOptions; }\n        this._instanceId = instanceOptions.id\n            ? instanceOptions.id\n            : targetEl.id;\n        this._targetEl = targetEl;\n        this._triggerEl = triggerEl;\n        this._options = __assign(__assign({}, Default), options);\n        this._popperInstance = null;\n        this._visible = false;\n        this._initialized = false;\n        this.init();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addInstance('Popover', this, instanceOptions.id ? instanceOptions.id : this._targetEl.id, instanceOptions.override);\n    }\n    Popover.prototype.init = function () {\n        if (this._triggerEl && this._targetEl && !this._initialized) {\n            this._setupEventListeners();\n            this._popperInstance = this._createPopperInstance();\n            this._initialized = true;\n        }\n    };\n    Popover.prototype.destroy = function () {\n        var _this = this;\n        if (this._initialized) {\n            // remove event listeners associated with the trigger element and target element\n            var triggerEvents = this._getTriggerEvents();\n            triggerEvents.showEvents.forEach(function (ev) {\n                _this._triggerEl.removeEventListener(ev, _this._showHandler);\n                _this._targetEl.removeEventListener(ev, _this._showHandler);\n            });\n            triggerEvents.hideEvents.forEach(function (ev) {\n                _this._triggerEl.removeEventListener(ev, _this._hideHandler);\n                _this._targetEl.removeEventListener(ev, _this._hideHandler);\n            });\n            // remove event listeners for keydown\n            this._removeKeydownListener();\n            // remove event listeners for click outside\n            this._removeClickOutsideListener();\n            // destroy the Popper instance if you have one (assuming this._popperInstance is the Popper instance)\n            if (this._popperInstance) {\n                this._popperInstance.destroy();\n            }\n            this._initialized = false;\n        }\n    };\n    Popover.prototype.removeInstance = function () {\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].removeInstance('Popover', this._instanceId);\n    };\n    Popover.prototype.destroyAndRemoveInstance = function () {\n        this.destroy();\n        this.removeInstance();\n    };\n    Popover.prototype._setupEventListeners = function () {\n        var _this = this;\n        var triggerEvents = this._getTriggerEvents();\n        this._showHandler = function () {\n            _this.show();\n        };\n        this._hideHandler = function () {\n            setTimeout(function () {\n                if (!_this._targetEl.matches(':hover')) {\n                    _this.hide();\n                }\n            }, 100);\n        };\n        triggerEvents.showEvents.forEach(function (ev) {\n            _this._triggerEl.addEventListener(ev, _this._showHandler);\n            _this._targetEl.addEventListener(ev, _this._showHandler);\n        });\n        triggerEvents.hideEvents.forEach(function (ev) {\n            _this._triggerEl.addEventListener(ev, _this._hideHandler);\n            _this._targetEl.addEventListener(ev, _this._hideHandler);\n        });\n    };\n    Popover.prototype._createPopperInstance = function () {\n        return (0,_popperjs_core__WEBPACK_IMPORTED_MODULE_1__.createPopper)(this._triggerEl, this._targetEl, {\n            placement: this._options.placement,\n            modifiers: [\n                {\n                    name: 'offset',\n                    options: {\n                        offset: [0, this._options.offset],\n                    },\n                },\n            ],\n        });\n    };\n    Popover.prototype._getTriggerEvents = function () {\n        switch (this._options.triggerType) {\n            case 'hover':\n                return {\n                    showEvents: ['mouseenter', 'focus'],\n                    hideEvents: ['mouseleave', 'blur'],\n                };\n            case 'click':\n                return {\n                    showEvents: ['click', 'focus'],\n                    hideEvents: ['focusout', 'blur'],\n                };\n            case 'none':\n                return {\n                    showEvents: [],\n                    hideEvents: [],\n                };\n            default:\n                return {\n                    showEvents: ['mouseenter', 'focus'],\n                    hideEvents: ['mouseleave', 'blur'],\n                };\n        }\n    };\n    Popover.prototype._setupKeydownListener = function () {\n        var _this = this;\n        this._keydownEventListener = function (ev) {\n            if (ev.key === 'Escape') {\n                _this.hide();\n            }\n        };\n        document.body.addEventListener('keydown', this._keydownEventListener, true);\n    };\n    Popover.prototype._removeKeydownListener = function () {\n        document.body.removeEventListener('keydown', this._keydownEventListener, true);\n    };\n    Popover.prototype._setupClickOutsideListener = function () {\n        var _this = this;\n        this._clickOutsideEventListener = function (ev) {\n            _this._handleClickOutside(ev, _this._targetEl);\n        };\n        document.body.addEventListener('click', this._clickOutsideEventListener, true);\n    };\n    Popover.prototype._removeClickOutsideListener = function () {\n        document.body.removeEventListener('click', this._clickOutsideEventListener, true);\n    };\n    Popover.prototype._handleClickOutside = function (ev, targetEl) {\n        var clickedEl = ev.target;\n        if (clickedEl !== targetEl &&\n            !targetEl.contains(clickedEl) &&\n            !this._triggerEl.contains(clickedEl) &&\n            this.isVisible()) {\n            this.hide();\n        }\n    };\n    Popover.prototype.isVisible = function () {\n        return this._visible;\n    };\n    Popover.prototype.toggle = function () {\n        if (this.isVisible()) {\n            this.hide();\n        }\n        else {\n            this.show();\n        }\n        this._options.onToggle(this);\n    };\n    Popover.prototype.show = function () {\n        this._targetEl.classList.remove('opacity-0', 'invisible');\n        this._targetEl.classList.add('opacity-100', 'visible');\n        // Enable the event listeners\n        this._popperInstance.setOptions(function (options) { return (__assign(__assign({}, options), { modifiers: __spreadArray(__spreadArray([], options.modifiers, true), [\n                { name: 'eventListeners', enabled: true },\n            ], false) })); });\n        // handle click outside\n        this._setupClickOutsideListener();\n        // handle esc keydown\n        this._setupKeydownListener();\n        // Update its position\n        this._popperInstance.update();\n        // set visibility to true\n        this._visible = true;\n        // callback function\n        this._options.onShow(this);\n    };\n    Popover.prototype.hide = function () {\n        this._targetEl.classList.remove('opacity-100', 'visible');\n        this._targetEl.classList.add('opacity-0', 'invisible');\n        // Disable the event listeners\n        this._popperInstance.setOptions(function (options) { return (__assign(__assign({}, options), { modifiers: __spreadArray(__spreadArray([], options.modifiers, true), [\n                { name: 'eventListeners', enabled: false },\n            ], false) })); });\n        // handle click outside\n        this._removeClickOutsideListener();\n        // handle esc keydown\n        this._removeKeydownListener();\n        // set visibility to false\n        this._visible = false;\n        // callback function\n        this._options.onHide(this);\n    };\n    Popover.prototype.updateOnShow = function (callback) {\n        this._options.onShow = callback;\n    };\n    Popover.prototype.updateOnHide = function (callback) {\n        this._options.onHide = callback;\n    };\n    Popover.prototype.updateOnToggle = function (callback) {\n        this._options.onToggle = callback;\n    };\n    return Popover;\n}());\nfunction initPopovers() {\n    document.querySelectorAll('[data-popover-target]').forEach(function ($triggerEl) {\n        var popoverID = $triggerEl.getAttribute('data-popover-target');\n        var $popoverEl = document.getElementById(popoverID);\n        if ($popoverEl) {\n            var triggerType = $triggerEl.getAttribute('data-popover-trigger');\n            var placement = $triggerEl.getAttribute('data-popover-placement');\n            var offset = $triggerEl.getAttribute('data-popover-offset');\n            new Popover($popoverEl, $triggerEl, {\n                placement: placement ? placement : Default.placement,\n                offset: offset ? parseInt(offset) : Default.offset,\n                triggerType: triggerType\n                    ? triggerType\n                    : Default.triggerType,\n            });\n        }\n        else {\n            console.error(\"The popover element with id \\\"\".concat(popoverID, \"\\\" does not exist. Please check the data-popover-target attribute.\"));\n        }\n    });\n}\nif (typeof window !== 'undefined') {\n    window.Popover = Popover;\n    window.initPopovers = initPopovers;\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Popover);\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/popover/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/popover/interface.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/popover/interface.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=interface.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/popover/interface.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/popover/types.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/popover/types.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=types.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/popover/types.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/tabs/index.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/tabs/index.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   initTabs: () => (/* binding */ initTabs)\n/* harmony export */ });\n/* harmony import */ var _dom_instances__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dom/instances */ \"./node_modules/flowbite/lib/esm/dom/instances.js\");\nvar __assign = (undefined && undefined.__assign) || function () {\n    __assign = Object.assign || function(t) {\n        for (var s, i = 1, n = arguments.length; i < n; i++) {\n            s = arguments[i];\n            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n                t[p] = s[p];\n        }\n        return t;\n    };\n    return __assign.apply(this, arguments);\n};\n\nvar Default = {\n    defaultTabId: null,\n    activeClasses: 'text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500',\n    inactiveClasses: 'dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300',\n    onShow: function () { },\n};\nvar DefaultInstanceOptions = {\n    id: null,\n    override: true,\n};\nvar Tabs = /** @class */ (function () {\n    function Tabs(tabsEl, items, options, instanceOptions) {\n        if (tabsEl === void 0) { tabsEl = null; }\n        if (items === void 0) { items = []; }\n        if (options === void 0) { options = Default; }\n        if (instanceOptions === void 0) { instanceOptions = DefaultInstanceOptions; }\n        this._instanceId = instanceOptions.id ? instanceOptions.id : tabsEl.id;\n        this._tabsEl = tabsEl;\n        this._items = items;\n        this._activeTab = options ? this.getTab(options.defaultTabId) : null;\n        this._options = __assign(__assign({}, Default), options);\n        this._initialized = false;\n        this.init();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addInstance('Tabs', this, this._instanceId, instanceOptions.override);\n    }\n    Tabs.prototype.init = function () {\n        var _this = this;\n        if (this._items.length && !this._initialized) {\n            // set the first tab as active if not set by explicitly\n            if (!this._activeTab) {\n                this.setActiveTab(this._items[0]);\n            }\n            // force show the first default tab\n            this.show(this._activeTab.id, true);\n            // show tab content based on click\n            this._items.map(function (tab) {\n                tab.triggerEl.addEventListener('click', function (event) {\n                    event.preventDefault();\n                    _this.show(tab.id);\n                });\n            });\n        }\n    };\n    Tabs.prototype.destroy = function () {\n        if (this._initialized) {\n            this._initialized = false;\n        }\n    };\n    Tabs.prototype.removeInstance = function () {\n        this.destroy();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].removeInstance('Tabs', this._instanceId);\n    };\n    Tabs.prototype.destroyAndRemoveInstance = function () {\n        this.destroy();\n        this.removeInstance();\n    };\n    Tabs.prototype.getActiveTab = function () {\n        return this._activeTab;\n    };\n    Tabs.prototype.setActiveTab = function (tab) {\n        this._activeTab = tab;\n    };\n    Tabs.prototype.getTab = function (id) {\n        return this._items.filter(function (t) { return t.id === id; })[0];\n    };\n    Tabs.prototype.show = function (id, forceShow) {\n        var _a, _b;\n        var _this = this;\n        if (forceShow === void 0) { forceShow = false; }\n        var tab = this.getTab(id);\n        // don't do anything if already active\n        if (tab === this._activeTab && !forceShow) {\n            return;\n        }\n        // hide other tabs\n        this._items.map(function (t) {\n            var _a, _b;\n            if (t !== tab) {\n                (_a = t.triggerEl.classList).remove.apply(_a, _this._options.activeClasses.split(' '));\n                (_b = t.triggerEl.classList).add.apply(_b, _this._options.inactiveClasses.split(' '));\n                t.targetEl.classList.add('hidden');\n                t.triggerEl.setAttribute('aria-selected', 'false');\n            }\n        });\n        // show active tab\n        (_a = tab.triggerEl.classList).add.apply(_a, this._options.activeClasses.split(' '));\n        (_b = tab.triggerEl.classList).remove.apply(_b, this._options.inactiveClasses.split(' '));\n        tab.triggerEl.setAttribute('aria-selected', 'true');\n        tab.targetEl.classList.remove('hidden');\n        this.setActiveTab(tab);\n        // callback function\n        this._options.onShow(this, tab);\n    };\n    Tabs.prototype.updateOnShow = function (callback) {\n        this._options.onShow = callback;\n    };\n    return Tabs;\n}());\nfunction initTabs() {\n    document.querySelectorAll('[data-tabs-toggle]').forEach(function ($parentEl) {\n        var tabItems = [];\n        var activeClasses = $parentEl.getAttribute('data-tabs-active-classes');\n        var inactiveClasses = $parentEl.getAttribute('data-tabs-inactive-classes');\n        var defaultTabId = null;\n        $parentEl\n            .querySelectorAll('[role=\"tab\"]')\n            .forEach(function ($triggerEl) {\n            var isActive = $triggerEl.getAttribute('aria-selected') === 'true';\n            var tab = {\n                id: $triggerEl.getAttribute('data-tabs-target'),\n                triggerEl: $triggerEl,\n                targetEl: document.querySelector($triggerEl.getAttribute('data-tabs-target')),\n            };\n            tabItems.push(tab);\n            if (isActive) {\n                defaultTabId = tab.id;\n            }\n        });\n        new Tabs($parentEl, tabItems, {\n            defaultTabId: defaultTabId,\n            activeClasses: activeClasses\n                ? activeClasses\n                : Default.activeClasses,\n            inactiveClasses: inactiveClasses\n                ? inactiveClasses\n                : Default.inactiveClasses,\n        });\n    });\n}\nif (typeof window !== 'undefined') {\n    window.Tabs = Tabs;\n    window.initTabs = initTabs;\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Tabs);\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/tabs/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/tabs/interface.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/tabs/interface.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=interface.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/tabs/interface.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/tabs/types.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/tabs/types.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=types.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/tabs/types.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/tooltip/index.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/tooltip/index.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   initTooltips: () => (/* binding */ initTooltips)\n/* harmony export */ });\n/* harmony import */ var _popperjs_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @popperjs/core */ \"./node_modules/@popperjs/core/lib/popper.js\");\n/* harmony import */ var _dom_instances__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../dom/instances */ \"./node_modules/flowbite/lib/esm/dom/instances.js\");\nvar __assign = (undefined && undefined.__assign) || function () {\n    __assign = Object.assign || function(t) {\n        for (var s, i = 1, n = arguments.length; i < n; i++) {\n            s = arguments[i];\n            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))\n                t[p] = s[p];\n        }\n        return t;\n    };\n    return __assign.apply(this, arguments);\n};\nvar __spreadArray = (undefined && undefined.__spreadArray) || function (to, from, pack) {\n    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {\n        if (ar || !(i in from)) {\n            if (!ar) ar = Array.prototype.slice.call(from, 0, i);\n            ar[i] = from[i];\n        }\n    }\n    return to.concat(ar || Array.prototype.slice.call(from));\n};\n/* eslint-disable @typescript-eslint/no-empty-function */\n\n\nvar Default = {\n    placement: 'top',\n    triggerType: 'hover',\n    onShow: function () { },\n    onHide: function () { },\n    onToggle: function () { },\n};\nvar DefaultInstanceOptions = {\n    id: null,\n    override: true,\n};\nvar Tooltip = /** @class */ (function () {\n    function Tooltip(targetEl, triggerEl, options, instanceOptions) {\n        if (targetEl === void 0) { targetEl = null; }\n        if (triggerEl === void 0) { triggerEl = null; }\n        if (options === void 0) { options = Default; }\n        if (instanceOptions === void 0) { instanceOptions = DefaultInstanceOptions; }\n        this._instanceId = instanceOptions.id\n            ? instanceOptions.id\n            : targetEl.id;\n        this._targetEl = targetEl;\n        this._triggerEl = triggerEl;\n        this._options = __assign(__assign({}, Default), options);\n        this._popperInstance = null;\n        this._visible = false;\n        this._initialized = false;\n        this.init();\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].addInstance('Tooltip', this, this._instanceId, instanceOptions.override);\n    }\n    Tooltip.prototype.init = function () {\n        if (this._triggerEl && this._targetEl && !this._initialized) {\n            this._setupEventListeners();\n            this._popperInstance = this._createPopperInstance();\n            this._initialized = true;\n        }\n    };\n    Tooltip.prototype.destroy = function () {\n        var _this = this;\n        if (this._initialized) {\n            // remove event listeners associated with the trigger element\n            var triggerEvents = this._getTriggerEvents();\n            triggerEvents.showEvents.forEach(function (ev) {\n                _this._triggerEl.removeEventListener(ev, _this._showHandler);\n            });\n            triggerEvents.hideEvents.forEach(function (ev) {\n                _this._triggerEl.removeEventListener(ev, _this._hideHandler);\n            });\n            // remove event listeners for keydown\n            this._removeKeydownListener();\n            // remove event listeners for click outside\n            this._removeClickOutsideListener();\n            // destroy the Popper instance if you have one (assuming this._popperInstance is the Popper instance)\n            if (this._popperInstance) {\n                this._popperInstance.destroy();\n            }\n            this._initialized = false;\n        }\n    };\n    Tooltip.prototype.removeInstance = function () {\n        _dom_instances__WEBPACK_IMPORTED_MODULE_0__[\"default\"].removeInstance('Tooltip', this._instanceId);\n    };\n    Tooltip.prototype.destroyAndRemoveInstance = function () {\n        this.destroy();\n        this.removeInstance();\n    };\n    Tooltip.prototype._setupEventListeners = function () {\n        var _this = this;\n        var triggerEvents = this._getTriggerEvents();\n        this._showHandler = function () {\n            _this.show();\n        };\n        this._hideHandler = function () {\n            _this.hide();\n        };\n        triggerEvents.showEvents.forEach(function (ev) {\n            _this._triggerEl.addEventListener(ev, _this._showHandler);\n        });\n        triggerEvents.hideEvents.forEach(function (ev) {\n            _this._triggerEl.addEventListener(ev, _this._hideHandler);\n        });\n    };\n    Tooltip.prototype._createPopperInstance = function () {\n        return (0,_popperjs_core__WEBPACK_IMPORTED_MODULE_1__.createPopper)(this._triggerEl, this._targetEl, {\n            placement: this._options.placement,\n            modifiers: [\n                {\n                    name: 'offset',\n                    options: {\n                        offset: [0, 8],\n                    },\n                },\n            ],\n        });\n    };\n    Tooltip.prototype._getTriggerEvents = function () {\n        switch (this._options.triggerType) {\n            case 'hover':\n                return {\n                    showEvents: ['mouseenter', 'focus'],\n                    hideEvents: ['mouseleave', 'blur'],\n                };\n            case 'click':\n                return {\n                    showEvents: ['click', 'focus'],\n                    hideEvents: ['focusout', 'blur'],\n                };\n            case 'none':\n                return {\n                    showEvents: [],\n                    hideEvents: [],\n                };\n            default:\n                return {\n                    showEvents: ['mouseenter', 'focus'],\n                    hideEvents: ['mouseleave', 'blur'],\n                };\n        }\n    };\n    Tooltip.prototype._setupKeydownListener = function () {\n        var _this = this;\n        this._keydownEventListener = function (ev) {\n            if (ev.key === 'Escape') {\n                _this.hide();\n            }\n        };\n        document.body.addEventListener('keydown', this._keydownEventListener, true);\n    };\n    Tooltip.prototype._removeKeydownListener = function () {\n        document.body.removeEventListener('keydown', this._keydownEventListener, true);\n    };\n    Tooltip.prototype._setupClickOutsideListener = function () {\n        var _this = this;\n        this._clickOutsideEventListener = function (ev) {\n            _this._handleClickOutside(ev, _this._targetEl);\n        };\n        document.body.addEventListener('click', this._clickOutsideEventListener, true);\n    };\n    Tooltip.prototype._removeClickOutsideListener = function () {\n        document.body.removeEventListener('click', this._clickOutsideEventListener, true);\n    };\n    Tooltip.prototype._handleClickOutside = function (ev, targetEl) {\n        var clickedEl = ev.target;\n        if (clickedEl !== targetEl &&\n            !targetEl.contains(clickedEl) &&\n            !this._triggerEl.contains(clickedEl) &&\n            this.isVisible()) {\n            this.hide();\n        }\n    };\n    Tooltip.prototype.isVisible = function () {\n        return this._visible;\n    };\n    Tooltip.prototype.toggle = function () {\n        if (this.isVisible()) {\n            this.hide();\n        }\n        else {\n            this.show();\n        }\n    };\n    Tooltip.prototype.show = function () {\n        this._targetEl.classList.remove('opacity-0', 'invisible');\n        this._targetEl.classList.add('opacity-100', 'visible');\n        // Enable the event listeners\n        this._popperInstance.setOptions(function (options) { return (__assign(__assign({}, options), { modifiers: __spreadArray(__spreadArray([], options.modifiers, true), [\n                { name: 'eventListeners', enabled: true },\n            ], false) })); });\n        // handle click outside\n        this._setupClickOutsideListener();\n        // handle esc keydown\n        this._setupKeydownListener();\n        // Update its position\n        this._popperInstance.update();\n        // set visibility\n        this._visible = true;\n        // callback function\n        this._options.onShow(this);\n    };\n    Tooltip.prototype.hide = function () {\n        this._targetEl.classList.remove('opacity-100', 'visible');\n        this._targetEl.classList.add('opacity-0', 'invisible');\n        // Disable the event listeners\n        this._popperInstance.setOptions(function (options) { return (__assign(__assign({}, options), { modifiers: __spreadArray(__spreadArray([], options.modifiers, true), [\n                { name: 'eventListeners', enabled: false },\n            ], false) })); });\n        // handle click outside\n        this._removeClickOutsideListener();\n        // handle esc keydown\n        this._removeKeydownListener();\n        // set visibility\n        this._visible = false;\n        // callback function\n        this._options.onHide(this);\n    };\n    Tooltip.prototype.updateOnShow = function (callback) {\n        this._options.onShow = callback;\n    };\n    Tooltip.prototype.updateOnHide = function (callback) {\n        this._options.onHide = callback;\n    };\n    Tooltip.prototype.updateOnToggle = function (callback) {\n        this._options.onToggle = callback;\n    };\n    return Tooltip;\n}());\nfunction initTooltips() {\n    document.querySelectorAll('[data-tooltip-target]').forEach(function ($triggerEl) {\n        var tooltipId = $triggerEl.getAttribute('data-tooltip-target');\n        var $tooltipEl = document.getElementById(tooltipId);\n        if ($tooltipEl) {\n            var triggerType = $triggerEl.getAttribute('data-tooltip-trigger');\n            var placement = $triggerEl.getAttribute('data-tooltip-placement');\n            new Tooltip($tooltipEl, $triggerEl, {\n                placement: placement ? placement : Default.placement,\n                triggerType: triggerType\n                    ? triggerType\n                    : Default.triggerType,\n            });\n        }\n        else {\n            console.error(\"The tooltip element with id \\\"\".concat(tooltipId, \"\\\" does not exist. Please check the data-tooltip-target attribute.\"));\n        }\n    });\n}\nif (typeof window !== 'undefined') {\n    window.Tooltip = Tooltip;\n    window.initTooltips = initTooltips;\n}\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Tooltip);\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/tooltip/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/tooltip/interface.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/tooltip/interface.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=interface.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/tooltip/interface.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/components/tooltip/types.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/components/tooltip/types.js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=types.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/components/tooltip/types.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/dom/events.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/dom/events.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nvar Events = /** @class */ (function () {\n    function Events(eventType, eventFunctions) {\n        if (eventFunctions === void 0) { eventFunctions = []; }\n        this._eventType = eventType;\n        this._eventFunctions = eventFunctions;\n    }\n    Events.prototype.init = function () {\n        var _this = this;\n        this._eventFunctions.forEach(function (eventFunction) {\n            if (typeof window !== 'undefined') {\n                window.addEventListener(_this._eventType, eventFunction);\n            }\n        });\n    };\n    return Events;\n}());\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Events);\n//# sourceMappingURL=events.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/dom/events.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/dom/instances.js":
+/*!********************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/dom/instances.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nvar Instances = /** @class */ (function () {\n    function Instances() {\n        this._instances = {\n            Accordion: {},\n            Carousel: {},\n            Collapse: {},\n            Dial: {},\n            Dismiss: {},\n            Drawer: {},\n            Dropdown: {},\n            Modal: {},\n            Popover: {},\n            Tabs: {},\n            Tooltip: {},\n            InputCounter: {},\n            CopyClipboard: {},\n            Datepicker: {},\n        };\n    }\n    Instances.prototype.addInstance = function (component, instance, id, override) {\n        if (override === void 0) { override = false; }\n        if (!this._instances[component]) {\n            console.warn(\"Flowbite: Component \".concat(component, \" does not exist.\"));\n            return false;\n        }\n        if (this._instances[component][id] && !override) {\n            console.warn(\"Flowbite: Instance with ID \".concat(id, \" already exists.\"));\n            return;\n        }\n        if (override && this._instances[component][id]) {\n            this._instances[component][id].destroyAndRemoveInstance();\n        }\n        this._instances[component][id ? id : this._generateRandomId()] =\n            instance;\n    };\n    Instances.prototype.getAllInstances = function () {\n        return this._instances;\n    };\n    Instances.prototype.getInstances = function (component) {\n        if (!this._instances[component]) {\n            console.warn(\"Flowbite: Component \".concat(component, \" does not exist.\"));\n            return false;\n        }\n        return this._instances[component];\n    };\n    Instances.prototype.getInstance = function (component, id) {\n        if (!this._componentAndInstanceCheck(component, id)) {\n            return;\n        }\n        if (!this._instances[component][id]) {\n            console.warn(\"Flowbite: Instance with ID \".concat(id, \" does not exist.\"));\n            return;\n        }\n        return this._instances[component][id];\n    };\n    Instances.prototype.destroyAndRemoveInstance = function (component, id) {\n        if (!this._componentAndInstanceCheck(component, id)) {\n            return;\n        }\n        this.destroyInstanceObject(component, id);\n        this.removeInstance(component, id);\n    };\n    Instances.prototype.removeInstance = function (component, id) {\n        if (!this._componentAndInstanceCheck(component, id)) {\n            return;\n        }\n        delete this._instances[component][id];\n    };\n    Instances.prototype.destroyInstanceObject = function (component, id) {\n        if (!this._componentAndInstanceCheck(component, id)) {\n            return;\n        }\n        this._instances[component][id].destroy();\n    };\n    Instances.prototype.instanceExists = function (component, id) {\n        if (!this._instances[component]) {\n            return false;\n        }\n        if (!this._instances[component][id]) {\n            return false;\n        }\n        return true;\n    };\n    Instances.prototype._generateRandomId = function () {\n        return Math.random().toString(36).substr(2, 9);\n    };\n    Instances.prototype._componentAndInstanceCheck = function (component, id) {\n        if (!this._instances[component]) {\n            console.warn(\"Flowbite: Component \".concat(component, \" does not exist.\"));\n            return false;\n        }\n        if (!this._instances[component][id]) {\n            console.warn(\"Flowbite: Instance with ID \".concat(id, \" does not exist.\"));\n            return false;\n        }\n        return true;\n    };\n    return Instances;\n}());\nvar instances = new Instances();\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (instances);\nif (typeof window !== 'undefined') {\n    window.FlowbiteInstances = instances;\n}\n//# sourceMappingURL=instances.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/dom/instances.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/dom/types.js":
+/*!****************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/dom/types.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n//# sourceMappingURL=types.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/dom/types.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/index.js":
+/*!************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/index.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   Accordion: () => (/* reexport safe */ _components_accordion__WEBPACK_IMPORTED_MODULE_1__[\"default\"]),\n/* harmony export */   Carousel: () => (/* reexport safe */ _components_carousel__WEBPACK_IMPORTED_MODULE_3__[\"default\"]),\n/* harmony export */   Collapse: () => (/* reexport safe */ _components_collapse__WEBPACK_IMPORTED_MODULE_2__[\"default\"]),\n/* harmony export */   CopyClipboard: () => (/* reexport safe */ _components_clipboard__WEBPACK_IMPORTED_MODULE_13__[\"default\"]),\n/* harmony export */   Datepicker: () => (/* reexport safe */ _components_datepicker__WEBPACK_IMPORTED_MODULE_14__[\"default\"]),\n/* harmony export */   Dial: () => (/* reexport safe */ _components_dial__WEBPACK_IMPORTED_MODULE_11__[\"default\"]),\n/* harmony export */   Dismiss: () => (/* reexport safe */ _components_dismiss__WEBPACK_IMPORTED_MODULE_4__[\"default\"]),\n/* harmony export */   Drawer: () => (/* reexport safe */ _components_drawer__WEBPACK_IMPORTED_MODULE_7__[\"default\"]),\n/* harmony export */   Dropdown: () => (/* reexport safe */ _components_dropdown__WEBPACK_IMPORTED_MODULE_5__[\"default\"]),\n/* harmony export */   InputCounter: () => (/* reexport safe */ _components_input_counter__WEBPACK_IMPORTED_MODULE_12__[\"default\"]),\n/* harmony export */   Modal: () => (/* reexport safe */ _components_modal__WEBPACK_IMPORTED_MODULE_6__[\"default\"]),\n/* harmony export */   Popover: () => (/* reexport safe */ _components_popover__WEBPACK_IMPORTED_MODULE_10__[\"default\"]),\n/* harmony export */   Tabs: () => (/* reexport safe */ _components_tabs__WEBPACK_IMPORTED_MODULE_8__[\"default\"]),\n/* harmony export */   Tooltip: () => (/* reexport safe */ _components_tooltip__WEBPACK_IMPORTED_MODULE_9__[\"default\"]),\n/* harmony export */   initAccordions: () => (/* reexport safe */ _components_accordion__WEBPACK_IMPORTED_MODULE_1__.initAccordions),\n/* harmony export */   initCarousels: () => (/* reexport safe */ _components_carousel__WEBPACK_IMPORTED_MODULE_3__.initCarousels),\n/* harmony export */   initCollapses: () => (/* reexport safe */ _components_collapse__WEBPACK_IMPORTED_MODULE_2__.initCollapses),\n/* harmony export */   initCopyClipboards: () => (/* reexport safe */ _components_clipboard__WEBPACK_IMPORTED_MODULE_13__.initCopyClipboards),\n/* harmony export */   initDatepickers: () => (/* reexport safe */ _components_datepicker__WEBPACK_IMPORTED_MODULE_14__.initDatepickers),\n/* harmony export */   initDials: () => (/* reexport safe */ _components_dial__WEBPACK_IMPORTED_MODULE_11__.initDials),\n/* harmony export */   initDismisses: () => (/* reexport safe */ _components_dismiss__WEBPACK_IMPORTED_MODULE_4__.initDismisses),\n/* harmony export */   initDrawers: () => (/* reexport safe */ _components_drawer__WEBPACK_IMPORTED_MODULE_7__.initDrawers),\n/* harmony export */   initDropdowns: () => (/* reexport safe */ _components_dropdown__WEBPACK_IMPORTED_MODULE_5__.initDropdowns),\n/* harmony export */   initFlowbite: () => (/* reexport safe */ _components_index__WEBPACK_IMPORTED_MODULE_15__.initFlowbite),\n/* harmony export */   initInputCounters: () => (/* reexport safe */ _components_input_counter__WEBPACK_IMPORTED_MODULE_12__.initInputCounters),\n/* harmony export */   initModals: () => (/* reexport safe */ _components_modal__WEBPACK_IMPORTED_MODULE_6__.initModals),\n/* harmony export */   initPopovers: () => (/* reexport safe */ _components_popover__WEBPACK_IMPORTED_MODULE_10__.initPopovers),\n/* harmony export */   initTabs: () => (/* reexport safe */ _components_tabs__WEBPACK_IMPORTED_MODULE_8__.initTabs),\n/* harmony export */   initTooltips: () => (/* reexport safe */ _components_tooltip__WEBPACK_IMPORTED_MODULE_9__.initTooltips)\n/* harmony export */ });\n/* harmony import */ var _dom_events__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dom/events */ \"./node_modules/flowbite/lib/esm/dom/events.js\");\n/* harmony import */ var _components_accordion__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/accordion */ \"./node_modules/flowbite/lib/esm/components/accordion/index.js\");\n/* harmony import */ var _components_collapse__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/collapse */ \"./node_modules/flowbite/lib/esm/components/collapse/index.js\");\n/* harmony import */ var _components_carousel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/carousel */ \"./node_modules/flowbite/lib/esm/components/carousel/index.js\");\n/* harmony import */ var _components_dismiss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/dismiss */ \"./node_modules/flowbite/lib/esm/components/dismiss/index.js\");\n/* harmony import */ var _components_dropdown__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/dropdown */ \"./node_modules/flowbite/lib/esm/components/dropdown/index.js\");\n/* harmony import */ var _components_modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/modal */ \"./node_modules/flowbite/lib/esm/components/modal/index.js\");\n/* harmony import */ var _components_drawer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/drawer */ \"./node_modules/flowbite/lib/esm/components/drawer/index.js\");\n/* harmony import */ var _components_tabs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/tabs */ \"./node_modules/flowbite/lib/esm/components/tabs/index.js\");\n/* harmony import */ var _components_tooltip__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/tooltip */ \"./node_modules/flowbite/lib/esm/components/tooltip/index.js\");\n/* harmony import */ var _components_popover__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/popover */ \"./node_modules/flowbite/lib/esm/components/popover/index.js\");\n/* harmony import */ var _components_dial__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/dial */ \"./node_modules/flowbite/lib/esm/components/dial/index.js\");\n/* harmony import */ var _components_input_counter__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/input-counter */ \"./node_modules/flowbite/lib/esm/components/input-counter/index.js\");\n/* harmony import */ var _components_clipboard__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/clipboard */ \"./node_modules/flowbite/lib/esm/components/clipboard/index.js\");\n/* harmony import */ var _components_datepicker__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/datepicker */ \"./node_modules/flowbite/lib/esm/components/datepicker/index.js\");\n/* harmony import */ var _components_index__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/index */ \"./node_modules/flowbite/lib/esm/components/index.js\");\n/* harmony import */ var _types_declarations__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./types/declarations */ \"./node_modules/flowbite/lib/esm/types/declarations.js\");\n/* harmony import */ var _types_declarations__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(_types_declarations__WEBPACK_IMPORTED_MODULE_16__);\n/* harmony import */ var _components_accordion_types__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/accordion/types */ \"./node_modules/flowbite/lib/esm/components/accordion/types.js\");\n/* harmony import */ var _components_carousel_types__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/carousel/types */ \"./node_modules/flowbite/lib/esm/components/carousel/types.js\");\n/* harmony import */ var _components_collapse_types__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/collapse/types */ \"./node_modules/flowbite/lib/esm/components/collapse/types.js\");\n/* harmony import */ var _components_dial_types__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/dial/types */ \"./node_modules/flowbite/lib/esm/components/dial/types.js\");\n/* harmony import */ var _components_dismiss_types__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/dismiss/types */ \"./node_modules/flowbite/lib/esm/components/dismiss/types.js\");\n/* harmony import */ var _components_drawer_types__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/drawer/types */ \"./node_modules/flowbite/lib/esm/components/drawer/types.js\");\n/* harmony import */ var _components_dropdown_types__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/dropdown/types */ \"./node_modules/flowbite/lib/esm/components/dropdown/types.js\");\n/* harmony import */ var _components_modal_types__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/modal/types */ \"./node_modules/flowbite/lib/esm/components/modal/types.js\");\n/* harmony import */ var _components_popover_types__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./components/popover/types */ \"./node_modules/flowbite/lib/esm/components/popover/types.js\");\n/* harmony import */ var _components_tabs_types__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./components/tabs/types */ \"./node_modules/flowbite/lib/esm/components/tabs/types.js\");\n/* harmony import */ var _components_tooltip_types__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./components/tooltip/types */ \"./node_modules/flowbite/lib/esm/components/tooltip/types.js\");\n/* harmony import */ var _components_input_counter_types__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./components/input-counter/types */ \"./node_modules/flowbite/lib/esm/components/input-counter/types.js\");\n/* harmony import */ var _components_clipboard_types__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./components/clipboard/types */ \"./node_modules/flowbite/lib/esm/components/clipboard/types.js\");\n/* harmony import */ var _components_datepicker_types__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./components/datepicker/types */ \"./node_modules/flowbite/lib/esm/components/datepicker/types.js\");\n/* harmony import */ var _dom_types__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./dom/types */ \"./node_modules/flowbite/lib/esm/dom/types.js\");\n/* harmony import */ var _components_accordion_interface__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./components/accordion/interface */ \"./node_modules/flowbite/lib/esm/components/accordion/interface.js\");\n/* harmony import */ var _components_carousel_interface__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./components/carousel/interface */ \"./node_modules/flowbite/lib/esm/components/carousel/interface.js\");\n/* harmony import */ var _components_collapse_interface__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./components/collapse/interface */ \"./node_modules/flowbite/lib/esm/components/collapse/interface.js\");\n/* harmony import */ var _components_dial_interface__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./components/dial/interface */ \"./node_modules/flowbite/lib/esm/components/dial/interface.js\");\n/* harmony import */ var _components_dismiss_interface__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./components/dismiss/interface */ \"./node_modules/flowbite/lib/esm/components/dismiss/interface.js\");\n/* harmony import */ var _components_drawer_interface__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./components/drawer/interface */ \"./node_modules/flowbite/lib/esm/components/drawer/interface.js\");\n/* harmony import */ var _components_dropdown_interface__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./components/dropdown/interface */ \"./node_modules/flowbite/lib/esm/components/dropdown/interface.js\");\n/* harmony import */ var _components_modal_interface__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./components/modal/interface */ \"./node_modules/flowbite/lib/esm/components/modal/interface.js\");\n/* harmony import */ var _components_popover_interface__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./components/popover/interface */ \"./node_modules/flowbite/lib/esm/components/popover/interface.js\");\n/* harmony import */ var _components_tabs_interface__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./components/tabs/interface */ \"./node_modules/flowbite/lib/esm/components/tabs/interface.js\");\n/* harmony import */ var _components_tooltip_interface__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./components/tooltip/interface */ \"./node_modules/flowbite/lib/esm/components/tooltip/interface.js\");\n/* harmony import */ var _components_input_counter_interface__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./components/input-counter/interface */ \"./node_modules/flowbite/lib/esm/components/input-counter/interface.js\");\n/* harmony import */ var _components_clipboard_interface__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./components/clipboard/interface */ \"./node_modules/flowbite/lib/esm/components/clipboard/interface.js\");\n/* harmony import */ var _components_datepicker_interface__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./components/datepicker/interface */ \"./node_modules/flowbite/lib/esm/components/datepicker/interface.js\");\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n// setup events for data attributes\nvar events = new _dom_events__WEBPACK_IMPORTED_MODULE_0__[\"default\"]('load', [\n    _components_accordion__WEBPACK_IMPORTED_MODULE_1__.initAccordions,\n    _components_collapse__WEBPACK_IMPORTED_MODULE_2__.initCollapses,\n    _components_carousel__WEBPACK_IMPORTED_MODULE_3__.initCarousels,\n    _components_dismiss__WEBPACK_IMPORTED_MODULE_4__.initDismisses,\n    _components_dropdown__WEBPACK_IMPORTED_MODULE_5__.initDropdowns,\n    _components_modal__WEBPACK_IMPORTED_MODULE_6__.initModals,\n    _components_drawer__WEBPACK_IMPORTED_MODULE_7__.initDrawers,\n    _components_tabs__WEBPACK_IMPORTED_MODULE_8__.initTabs,\n    _components_tooltip__WEBPACK_IMPORTED_MODULE_9__.initTooltips,\n    _components_popover__WEBPACK_IMPORTED_MODULE_10__.initPopovers,\n    _components_dial__WEBPACK_IMPORTED_MODULE_11__.initDials,\n    _components_input_counter__WEBPACK_IMPORTED_MODULE_12__.initInputCounters,\n    _components_clipboard__WEBPACK_IMPORTED_MODULE_13__.initCopyClipboards,\n    _components_datepicker__WEBPACK_IMPORTED_MODULE_14__.initDatepickers,\n]);\nevents.init();\n// export all components\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n// export all types\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n// export all interfaces\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n// export init functions\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n// export all init functions\n\n//# sourceMappingURL=index.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/index.js?");
+
+/***/ }),
+
+/***/ "./node_modules/flowbite/lib/esm/types/declarations.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/flowbite/lib/esm/types/declarations.js ***!
+  \*************************************************************/
 /***/ (() => {
 
-function toggleStickyNavbar() {
-    if (window.scrollY > 0) {
-        navbar.setAttribute('data-sticky', 'true');
-    } else {
-        navbar.setAttribute('data-sticky', 'false');
-    }
-}
+eval("//# sourceMappingURL=declarations.js.map\n\n//# sourceURL=webpack://ruby-companies-calogue/./node_modules/flowbite/lib/esm/types/declarations.js?");
 
-const navbar = document.querySelector("#mainNavbar");
+/***/ }),
 
-if(navbar) {
-    toggleStickyNavbar();
-    window.addEventListener("scroll", function () {
-        toggleStickyNavbar();
-    });
-}
+/***/ "./src/app.css":
+/*!*********************!*\
+  !*** ./src/app.css ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://ruby-companies-calogue/./src/app.css?");
+
+/***/ }),
+
+/***/ "./src/app.js":
+/*!********************!*\
+  !*** ./src/app.js ***!
+  \********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _app_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app.css */ \"./src/app.css\");\n/* harmony import */ var flowbite__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flowbite */ \"./node_modules/flowbite/lib/esm/index.js\");\n/* harmony import */ var _dark_mode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dark-mode */ \"./src/dark-mode.js\");\n/* harmony import */ var _dark_mode__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_dark_mode__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _navbar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./navbar */ \"./src/navbar.js\");\n/* harmony import */ var _navbar__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_navbar__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var _current_year__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./current-year */ \"./src/current-year.js\");\n/* harmony import */ var _current_year__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_current_year__WEBPACK_IMPORTED_MODULE_4__);\n/* harmony import */ var _companies__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./companies */ \"./src/companies.js\");\n\n\n\n\n\n\n\n\n\n//# sourceURL=webpack://ruby-companies-calogue/./src/app.js?");
+
+/***/ }),
+
+/***/ "./src/companies.js":
+/*!**************************!*\
+  !*** ./src/companies.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _data_companies_json__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../data/companies.json */ \"./data/companies.json\");\n\n\ndocument.addEventListener(\"DOMContentLoaded\", function () {\n  const buttons = document.querySelectorAll(\".tab-button\");\n  const container = document.getElementById(\"companies-container\");\n\n  function loadCompanies(region) {\n    container.innerHTML = \"\";\n    const regionData = _data_companies_json__WEBPACK_IMPORTED_MODULE_0__[region];\n\n    if (!regionData) return;\n\n    Object.values(regionData.states).forEach(state => {\n      state.companies.forEach(company => {\n        const card = document.createElement(\"div\");\n        card.className = \"relative overflow-hidden h-[320px] rounded-lg group flex items-center justify-center border-2 border-primary\";\n        card.innerHTML = `\n              <img class=\"object-fit object-center scale-100 ease-in duration-300 group-hover:scale-125\"\n                src=\"{{< baseurl >}}/images/companies/${company.image}\" alt=\"${company.name}\">\n              <div class=\"absolute inset-0 grid items-end justify-center p-4 from-transparent to-black/60\">\n                <div class=\"text-center\">\n                  <p class=\"text-xl font-bold text-white\">\n                    ${company.name}\n                  </p>\n                  <p class=\"text-base font-medium text-gray-300\">\n                    ${state.name}\n                  </p>\n                  <ul class=\"flex space-x-4 sm:mt-0 justify-center\">\n                    <li>\n                      <a href=\"${company.site}\" class=\"text-gray-500 hover:text-gray-900 dark:hover:text-white\" target=\"_blank\">\n                        <svg class=\"w-5 h-5\" fill=\"currentColor\" viewBox=\"0 0 24 24\" aria-hidden=\"true\">\n                          <path fill-rule=\"evenodd\"\n                            d=\"M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z\"\n                            clip-rule=\"evenodd\" />\n                        </svg>\n                      </a>\n                    </li>\n                    <li>\n                      <a href=\"${company.linkedin}\" class=\"text-gray-500 hover:text-gray-900 dark:hover:text-white\" target=\"_blank\">\n                        <svg class=\"w-5 h-5\" fill=\"currentColor\" viewBox=\"0 0 24 24\" aria-hidden=\"true\">\n                          <path fill-rule=\"evenodd\"\n                            d=\"M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z\"\n                            clip-rule=\"evenodd\" />\n                        </svg>\n                      </a>\n                    </li>\n                  </ul>\n                </div>\n              </div>\n            `;\n        container.appendChild(card);\n      });\n    });\n  }\n\n  buttons.forEach(button => {\n    button.addEventListener(\"click\", function () {\n      buttons.forEach(btn => btn.classList.replace(\"bg-primary\", \"bg-gray-300\"));\n      this.classList.replace(\"bg-gray-300\", \"bg-primary\");\n\n      const region = this.dataset.region;\n      loadCompanies(region);\n    });\n  });\n\n  loadCompanies(\"CO\");\n});\n\n\n//# sourceURL=webpack://ruby-companies-calogue/./src/companies.js?");
+
+/***/ }),
+
+/***/ "./src/current-year.js":
+/*!*****************************!*\
+  !*** ./src/current-year.js ***!
+  \*****************************/
+/***/ (() => {
+
+eval("console.log(\"connectins CompaniesLists\")\n\ndocument.addEventListener('DOMContentLoaded', function () {\n    const $currentYearText = document.getElementById('currentYear');\n    if ($currentYearText) {\n        $currentYearText.textContent = new Date().getFullYear();\n    }\n});\n\n\n//# sourceURL=webpack://ruby-companies-calogue/./src/current-year.js?");
+
+/***/ }),
+
+/***/ "./src/dark-mode.js":
+/*!**************************!*\
+  !*** ./src/dark-mode.js ***!
+  \**************************/
+/***/ (() => {
+
+eval("const themeToggleDarkIcon = document.getElementById('themeToggleDarkIcon');\nconst themeToggleLightIcon = document.getElementById('themeToggleLightIcon');\nconsole.log(\"connectins CompaniesLists\")\n\nif (themeToggleDarkIcon && themeToggleLightIcon) {\n    // Change the icons inside the button based on previous settings\n    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {\n        themeToggleLightIcon.classList.remove('hidden');\n    } else {\n        themeToggleDarkIcon.classList.remove('hidden');\n    }\n}\n\nconst themeToggleBtn = document.getElementById('themeToggle');\n\nlet event = new Event('dark-mode');\n\nif (themeToggleBtn) {\n\n    themeToggleBtn.addEventListener('click', function () {\n\n        // toggle icons\n        themeToggleDarkIcon.classList.toggle('hidden');\n        themeToggleLightIcon.classList.toggle('hidden');\n\n        // if set via local storage previously\n        if (localStorage.getItem('color-theme')) {\n            if (localStorage.getItem('color-theme') === 'light') {\n                document.documentElement.classList.add('dark');\n                localStorage.setItem('color-theme', 'dark');\n            } else {\n                document.documentElement.classList.remove('dark');\n                localStorage.setItem('color-theme', 'light');\n            }\n\n            // if NOT set via local storage previously\n        } else {\n            if (document.documentElement.classList.contains('dark')) {\n                document.documentElement.classList.remove('dark');\n                localStorage.setItem('color-theme', 'light');\n            } else {\n                document.documentElement.classList.add('dark');\n                localStorage.setItem('color-theme', 'dark');\n            }\n        }\n\n        document.dispatchEvent(event);\n\n    });\n\n}\n\n\n//# sourceURL=webpack://ruby-companies-calogue/./src/dark-mode.js?");
+
+/***/ }),
+
+/***/ "./src/navbar.js":
+/*!***********************!*\
+  !*** ./src/navbar.js ***!
+  \***********************/
+/***/ (() => {
+
+eval("function toggleStickyNavbar() {\n    if (window.scrollY > 0) {\n        navbar.setAttribute('data-sticky', 'true');\n    } else {\n        navbar.setAttribute('data-sticky', 'false');\n    }\n}\n\nconst navbar = document.querySelector(\"#mainNavbar\");\n\nif(navbar) {\n    toggleStickyNavbar();\n    window.addEventListener(\"scroll\", function () {\n        toggleStickyNavbar();\n    });\n}\n\n\n//# sourceURL=webpack://ruby-companies-calogue/./src/navbar.js?");
+
+/***/ }),
+
+/***/ "./data/companies.json":
+/*!*****************************!*\
+  !*** ./data/companies.json ***!
+  \*****************************/
+/***/ ((module) => {
+
+"use strict";
+eval("module.exports = /*#__PURE__*/JSON.parse('{\"CO\":{\"name\":\"Centro-Oeste\",\"states\":{\"DF\":{\"name\":\"Distrito Federal\",\"companies\":[{\"name\":\"Flama\",\"url\":\"https://flama.is/\"}]},\"GO\":{\"name\":\"Goias\",\"companies\":[{\"name\":\"Anexo Solucoes\",\"url\":\"http://www.anexosolucoes.com.br/\"}]}}},\"NE\":{\"name\":\"Nordeste\",\"states\":{\"BA\":{\"name\":\"Bahia\",\"companies\":[{\"name\":\"Elo7\",\"url\":\"https://www.elo7.com.br/\"}]},\"CE\":{\"name\":\"Ceara\",\"companies\":[{\"name\":\"Bitix\",\"url\":\"https://www.bitix.com.br/\"}]}}},\"N\":{\"name\":\"Norte\",\"states\":{\"AM\":{\"name\":\"Amazonas\",\"companies\":[{\"name\":\"Bemol Digital\",\"url\":\"https://www.bemoldigital.com.br/\"}]}}},\"SE\":{\"name\":\"Sudeste\",\"states\":{\"MG\":{\"name\":\"Minas Gerais\",\"companies\":[{\"name\":\"Mélliuz\",\"url\":\"https://www.meliuz.com.br/\"}]},\"RJ\":{\"name\":\"Rio de Janeiro\",\"companies\":[{\"name\":\"Stone\",\"url\":\"https://www.stone.com.br/\"}]},\"SP\":{\"name\":\"Sao Paulo\",\"companies\":[{\"name\":\"Creditas\",\"url\":\"https://www.creditas.com.br/\"},{\"name\":\"Gympass\",\"url\":\"https://www.gympass.com/\"},{\"name\":\"Loggi\",\"url\":\"https://www.loggi.com/\"},{\"name\":\"QuintoAndar\",\"url\":\"https://www.quintoandar.com.br/\"}]}}},\"S\":{\"name\":\"Sul\",\"states\":{\"PR\":{\"name\":\"Parana\",\"companies\":[{\"name\":\"Olist\",\"url\":\"https://www.olist.com/\"}]},\"RS\":{\"name\":\"Rio Grande do Sul\",\"companies\":[{\"name\":\"Warren\",\"url\":\"https://warren.com.br/\"}]},\"SC\":{\"name\":\"Santa Catarina\",\"companies\":[{\"name\":\"ContaAzul\",\"url\":\"https://www.contaazul.com/\"}]}}}}');\n\n//# sourceURL=webpack://ruby-companies-calogue/./data/companies.json?");
 
 /***/ })
 
@@ -124,8329 +1264,53 @@ if(navbar) {
 /******/ 	}
 /******/ 	
 /************************************************************************/
-// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
-(() => {
-"use strict";
-
-;// ./node_modules/flowbite/lib/esm/dom/events.js
-var Events = /** @class */ (function () {
-    function Events(eventType, eventFunctions) {
-        if (eventFunctions === void 0) { eventFunctions = []; }
-        this._eventType = eventType;
-        this._eventFunctions = eventFunctions;
-    }
-    Events.prototype.init = function () {
-        var _this = this;
-        this._eventFunctions.forEach(function (eventFunction) {
-            if (typeof window !== 'undefined') {
-                window.addEventListener(_this._eventType, eventFunction);
-            }
-        });
-    };
-    return Events;
-}());
-/* harmony default export */ const events = (Events);
-//# sourceMappingURL=events.js.map
-;// ./node_modules/flowbite/lib/esm/dom/instances.js
-var Instances = /** @class */ (function () {
-    function Instances() {
-        this._instances = {
-            Accordion: {},
-            Carousel: {},
-            Collapse: {},
-            Dial: {},
-            Dismiss: {},
-            Drawer: {},
-            Dropdown: {},
-            Modal: {},
-            Popover: {},
-            Tabs: {},
-            Tooltip: {},
-            InputCounter: {},
-            CopyClipboard: {},
-            Datepicker: {},
-        };
-    }
-    Instances.prototype.addInstance = function (component, instance, id, override) {
-        if (override === void 0) { override = false; }
-        if (!this._instances[component]) {
-            console.warn("Flowbite: Component ".concat(component, " does not exist."));
-            return false;
-        }
-        if (this._instances[component][id] && !override) {
-            console.warn("Flowbite: Instance with ID ".concat(id, " already exists."));
-            return;
-        }
-        if (override && this._instances[component][id]) {
-            this._instances[component][id].destroyAndRemoveInstance();
-        }
-        this._instances[component][id ? id : this._generateRandomId()] =
-            instance;
-    };
-    Instances.prototype.getAllInstances = function () {
-        return this._instances;
-    };
-    Instances.prototype.getInstances = function (component) {
-        if (!this._instances[component]) {
-            console.warn("Flowbite: Component ".concat(component, " does not exist."));
-            return false;
-        }
-        return this._instances[component];
-    };
-    Instances.prototype.getInstance = function (component, id) {
-        if (!this._componentAndInstanceCheck(component, id)) {
-            return;
-        }
-        if (!this._instances[component][id]) {
-            console.warn("Flowbite: Instance with ID ".concat(id, " does not exist."));
-            return;
-        }
-        return this._instances[component][id];
-    };
-    Instances.prototype.destroyAndRemoveInstance = function (component, id) {
-        if (!this._componentAndInstanceCheck(component, id)) {
-            return;
-        }
-        this.destroyInstanceObject(component, id);
-        this.removeInstance(component, id);
-    };
-    Instances.prototype.removeInstance = function (component, id) {
-        if (!this._componentAndInstanceCheck(component, id)) {
-            return;
-        }
-        delete this._instances[component][id];
-    };
-    Instances.prototype.destroyInstanceObject = function (component, id) {
-        if (!this._componentAndInstanceCheck(component, id)) {
-            return;
-        }
-        this._instances[component][id].destroy();
-    };
-    Instances.prototype.instanceExists = function (component, id) {
-        if (!this._instances[component]) {
-            return false;
-        }
-        if (!this._instances[component][id]) {
-            return false;
-        }
-        return true;
-    };
-    Instances.prototype._generateRandomId = function () {
-        return Math.random().toString(36).substr(2, 9);
-    };
-    Instances.prototype._componentAndInstanceCheck = function (component, id) {
-        if (!this._instances[component]) {
-            console.warn("Flowbite: Component ".concat(component, " does not exist."));
-            return false;
-        }
-        if (!this._instances[component][id]) {
-            console.warn("Flowbite: Instance with ID ".concat(id, " does not exist."));
-            return false;
-        }
-        return true;
-    };
-    return Instances;
-}());
-var instances = new Instances();
-/* harmony default export */ const dom_instances = (instances);
-if (typeof window !== 'undefined') {
-    window.FlowbiteInstances = instances;
-}
-//# sourceMappingURL=instances.js.map
-;// ./node_modules/flowbite/lib/esm/components/accordion/index.js
-var __assign = (undefined && undefined.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-
-var Default = {
-    alwaysOpen: false,
-    activeClasses: 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white',
-    inactiveClasses: 'text-gray-500 dark:text-gray-400',
-    onOpen: function () { },
-    onClose: function () { },
-    onToggle: function () { },
-};
-var DefaultInstanceOptions = {
-    id: null,
-    override: true,
-};
-var Accordion = /** @class */ (function () {
-    function Accordion(accordionEl, items, options, instanceOptions) {
-        if (accordionEl === void 0) { accordionEl = null; }
-        if (items === void 0) { items = []; }
-        if (options === void 0) { options = Default; }
-        if (instanceOptions === void 0) { instanceOptions = DefaultInstanceOptions; }
-        this._instanceId = instanceOptions.id
-            ? instanceOptions.id
-            : accordionEl.id;
-        this._accordionEl = accordionEl;
-        this._items = items;
-        this._options = __assign(__assign({}, Default), options);
-        this._initialized = false;
-        this.init();
-        dom_instances.addInstance('Accordion', this, this._instanceId, instanceOptions.override);
-    }
-    Accordion.prototype.init = function () {
-        var _this = this;
-        if (this._items.length && !this._initialized) {
-            // show accordion item based on click
-            this._items.forEach(function (item) {
-                if (item.active) {
-                    _this.open(item.id);
-                }
-                var clickHandler = function () {
-                    _this.toggle(item.id);
-                };
-                item.triggerEl.addEventListener('click', clickHandler);
-                // Store the clickHandler in a property of the item for removal later
-                item.clickHandler = clickHandler;
-            });
-            this._initialized = true;
-        }
-    };
-    Accordion.prototype.destroy = function () {
-        if (this._items.length && this._initialized) {
-            this._items.forEach(function (item) {
-                item.triggerEl.removeEventListener('click', item.clickHandler);
-                // Clean up by deleting the clickHandler property from the item
-                delete item.clickHandler;
-            });
-            this._initialized = false;
-        }
-    };
-    Accordion.prototype.removeInstance = function () {
-        dom_instances.removeInstance('Accordion', this._instanceId);
-    };
-    Accordion.prototype.destroyAndRemoveInstance = function () {
-        this.destroy();
-        this.removeInstance();
-    };
-    Accordion.prototype.getItem = function (id) {
-        return this._items.filter(function (item) { return item.id === id; })[0];
-    };
-    Accordion.prototype.open = function (id) {
-        var _a, _b;
-        var _this = this;
-        var item = this.getItem(id);
-        // don't hide other accordions if always open
-        if (!this._options.alwaysOpen) {
-            this._items.map(function (i) {
-                var _a, _b;
-                if (i !== item) {
-                    (_a = i.triggerEl.classList).remove.apply(_a, _this._options.activeClasses.split(' '));
-                    (_b = i.triggerEl.classList).add.apply(_b, _this._options.inactiveClasses.split(' '));
-                    i.targetEl.classList.add('hidden');
-                    i.triggerEl.setAttribute('aria-expanded', 'false');
-                    i.active = false;
-                    // rotate icon if set
-                    if (i.iconEl) {
-                        i.iconEl.classList.add('rotate-180');
-                    }
-                }
-            });
-        }
-        // show active item
-        (_a = item.triggerEl.classList).add.apply(_a, this._options.activeClasses.split(' '));
-        (_b = item.triggerEl.classList).remove.apply(_b, this._options.inactiveClasses.split(' '));
-        item.triggerEl.setAttribute('aria-expanded', 'true');
-        item.targetEl.classList.remove('hidden');
-        item.active = true;
-        // rotate icon if set
-        if (item.iconEl) {
-            item.iconEl.classList.remove('rotate-180');
-        }
-        // callback function
-        this._options.onOpen(this, item);
-    };
-    Accordion.prototype.toggle = function (id) {
-        var item = this.getItem(id);
-        if (item.active) {
-            this.close(id);
-        }
-        else {
-            this.open(id);
-        }
-        // callback function
-        this._options.onToggle(this, item);
-    };
-    Accordion.prototype.close = function (id) {
-        var _a, _b;
-        var item = this.getItem(id);
-        (_a = item.triggerEl.classList).remove.apply(_a, this._options.activeClasses.split(' '));
-        (_b = item.triggerEl.classList).add.apply(_b, this._options.inactiveClasses.split(' '));
-        item.targetEl.classList.add('hidden');
-        item.triggerEl.setAttribute('aria-expanded', 'false');
-        item.active = false;
-        // rotate icon if set
-        if (item.iconEl) {
-            item.iconEl.classList.add('rotate-180');
-        }
-        // callback function
-        this._options.onClose(this, item);
-    };
-    Accordion.prototype.updateOnOpen = function (callback) {
-        this._options.onOpen = callback;
-    };
-    Accordion.prototype.updateOnClose = function (callback) {
-        this._options.onClose = callback;
-    };
-    Accordion.prototype.updateOnToggle = function (callback) {
-        this._options.onToggle = callback;
-    };
-    return Accordion;
-}());
-function initAccordions() {
-    document.querySelectorAll('[data-accordion]').forEach(function ($accordionEl) {
-        var alwaysOpen = $accordionEl.getAttribute('data-accordion');
-        var activeClasses = $accordionEl.getAttribute('data-active-classes');
-        var inactiveClasses = $accordionEl.getAttribute('data-inactive-classes');
-        var items = [];
-        $accordionEl
-            .querySelectorAll('[data-accordion-target]')
-            .forEach(function ($triggerEl) {
-            // Consider only items that directly belong to $accordionEl
-            // (to make nested accordions work).
-            if ($triggerEl.closest('[data-accordion]') === $accordionEl) {
-                var item = {
-                    id: $triggerEl.getAttribute('data-accordion-target'),
-                    triggerEl: $triggerEl,
-                    targetEl: document.querySelector($triggerEl.getAttribute('data-accordion-target')),
-                    iconEl: $triggerEl.querySelector('[data-accordion-icon]'),
-                    active: $triggerEl.getAttribute('aria-expanded') === 'true'
-                        ? true
-                        : false,
-                };
-                items.push(item);
-            }
-        });
-        new Accordion($accordionEl, items, {
-            alwaysOpen: alwaysOpen === 'open' ? true : false,
-            activeClasses: activeClasses
-                ? activeClasses
-                : Default.activeClasses,
-            inactiveClasses: inactiveClasses
-                ? inactiveClasses
-                : Default.inactiveClasses,
-        });
-    });
-}
-if (typeof window !== 'undefined') {
-    window.Accordion = Accordion;
-    window.initAccordions = initAccordions;
-}
-/* harmony default export */ const accordion = ((/* unused pure expression or super */ null && (Accordion)));
-//# sourceMappingURL=index.js.map
-;// ./node_modules/flowbite/lib/esm/components/collapse/index.js
-var collapse_assign = (undefined && undefined.__assign) || function () {
-    collapse_assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return collapse_assign.apply(this, arguments);
-};
-
-var collapse_Default = {
-    onCollapse: function () { },
-    onExpand: function () { },
-    onToggle: function () { },
-};
-var collapse_DefaultInstanceOptions = {
-    id: null,
-    override: true,
-};
-var Collapse = /** @class */ (function () {
-    function Collapse(targetEl, triggerEl, options, instanceOptions) {
-        if (targetEl === void 0) { targetEl = null; }
-        if (triggerEl === void 0) { triggerEl = null; }
-        if (options === void 0) { options = collapse_Default; }
-        if (instanceOptions === void 0) { instanceOptions = collapse_DefaultInstanceOptions; }
-        this._instanceId = instanceOptions.id
-            ? instanceOptions.id
-            : targetEl.id;
-        this._targetEl = targetEl;
-        this._triggerEl = triggerEl;
-        this._options = collapse_assign(collapse_assign({}, collapse_Default), options);
-        this._visible = false;
-        this._initialized = false;
-        this.init();
-        dom_instances.addInstance('Collapse', this, this._instanceId, instanceOptions.override);
-    }
-    Collapse.prototype.init = function () {
-        var _this = this;
-        if (this._triggerEl && this._targetEl && !this._initialized) {
-            if (this._triggerEl.hasAttribute('aria-expanded')) {
-                this._visible =
-                    this._triggerEl.getAttribute('aria-expanded') === 'true';
-            }
-            else {
-                // fix until v2 not to break previous single collapses which became dismiss
-                this._visible = !this._targetEl.classList.contains('hidden');
-            }
-            this._clickHandler = function () {
-                _this.toggle();
-            };
-            this._triggerEl.addEventListener('click', this._clickHandler);
-            this._initialized = true;
-        }
-    };
-    Collapse.prototype.destroy = function () {
-        if (this._triggerEl && this._initialized) {
-            this._triggerEl.removeEventListener('click', this._clickHandler);
-            this._initialized = false;
-        }
-    };
-    Collapse.prototype.removeInstance = function () {
-        dom_instances.removeInstance('Collapse', this._instanceId);
-    };
-    Collapse.prototype.destroyAndRemoveInstance = function () {
-        this.destroy();
-        this.removeInstance();
-    };
-    Collapse.prototype.collapse = function () {
-        this._targetEl.classList.add('hidden');
-        if (this._triggerEl) {
-            this._triggerEl.setAttribute('aria-expanded', 'false');
-        }
-        this._visible = false;
-        // callback function
-        this._options.onCollapse(this);
-    };
-    Collapse.prototype.expand = function () {
-        this._targetEl.classList.remove('hidden');
-        if (this._triggerEl) {
-            this._triggerEl.setAttribute('aria-expanded', 'true');
-        }
-        this._visible = true;
-        // callback function
-        this._options.onExpand(this);
-    };
-    Collapse.prototype.toggle = function () {
-        if (this._visible) {
-            this.collapse();
-        }
-        else {
-            this.expand();
-        }
-        // callback function
-        this._options.onToggle(this);
-    };
-    Collapse.prototype.updateOnCollapse = function (callback) {
-        this._options.onCollapse = callback;
-    };
-    Collapse.prototype.updateOnExpand = function (callback) {
-        this._options.onExpand = callback;
-    };
-    Collapse.prototype.updateOnToggle = function (callback) {
-        this._options.onToggle = callback;
-    };
-    return Collapse;
-}());
-function initCollapses() {
-    document
-        .querySelectorAll('[data-collapse-toggle]')
-        .forEach(function ($triggerEl) {
-        var targetId = $triggerEl.getAttribute('data-collapse-toggle');
-        var $targetEl = document.getElementById(targetId);
-        // check if the target element exists
-        if ($targetEl) {
-            if (!dom_instances.instanceExists('Collapse', $targetEl.getAttribute('id'))) {
-                new Collapse($targetEl, $triggerEl);
-            }
-            else {
-                // if instance exists already for the same target element then create a new one with a different trigger element
-                new Collapse($targetEl, $triggerEl, {}, {
-                    id: $targetEl.getAttribute('id') +
-                        '_' +
-                        dom_instances._generateRandomId(),
-                });
-            }
-        }
-        else {
-            console.error("The target element with id \"".concat(targetId, "\" does not exist. Please check the data-collapse-toggle attribute."));
-        }
-    });
-}
-if (typeof window !== 'undefined') {
-    window.Collapse = Collapse;
-    window.initCollapses = initCollapses;
-}
-/* harmony default export */ const collapse = ((/* unused pure expression or super */ null && (Collapse)));
-//# sourceMappingURL=index.js.map
-;// ./node_modules/flowbite/lib/esm/components/carousel/index.js
-var carousel_assign = (undefined && undefined.__assign) || function () {
-    carousel_assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return carousel_assign.apply(this, arguments);
-};
-
-var carousel_Default = {
-    defaultPosition: 0,
-    indicators: {
-        items: [],
-        activeClasses: 'bg-white dark:bg-gray-800',
-        inactiveClasses: 'bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800',
-    },
-    interval: 3000,
-    onNext: function () { },
-    onPrev: function () { },
-    onChange: function () { },
-};
-var carousel_DefaultInstanceOptions = {
-    id: null,
-    override: true,
-};
-var Carousel = /** @class */ (function () {
-    function Carousel(carouselEl, items, options, instanceOptions) {
-        if (carouselEl === void 0) { carouselEl = null; }
-        if (items === void 0) { items = []; }
-        if (options === void 0) { options = carousel_Default; }
-        if (instanceOptions === void 0) { instanceOptions = carousel_DefaultInstanceOptions; }
-        this._instanceId = instanceOptions.id
-            ? instanceOptions.id
-            : carouselEl.id;
-        this._carouselEl = carouselEl;
-        this._items = items;
-        this._options = carousel_assign(carousel_assign(carousel_assign({}, carousel_Default), options), { indicators: carousel_assign(carousel_assign({}, carousel_Default.indicators), options.indicators) });
-        this._activeItem = this.getItem(this._options.defaultPosition);
-        this._indicators = this._options.indicators.items;
-        this._intervalDuration = this._options.interval;
-        this._intervalInstance = null;
-        this._initialized = false;
-        this.init();
-        dom_instances.addInstance('Carousel', this, this._instanceId, instanceOptions.override);
-    }
-    /**
-     * initialize carousel and items based on active one
-     */
-    Carousel.prototype.init = function () {
-        var _this = this;
-        if (this._items.length && !this._initialized) {
-            this._items.map(function (item) {
-                item.el.classList.add('absolute', 'inset-0', 'transition-transform', 'transform');
-            });
-            // if no active item is set then first position is default
-            if (this.getActiveItem()) {
-                this.slideTo(this.getActiveItem().position);
-            }
-            else {
-                this.slideTo(0);
-            }
-            this._indicators.map(function (indicator, position) {
-                indicator.el.addEventListener('click', function () {
-                    _this.slideTo(position);
-                });
-            });
-            this._initialized = true;
-        }
-    };
-    Carousel.prototype.destroy = function () {
-        if (this._initialized) {
-            this._initialized = false;
-        }
-    };
-    Carousel.prototype.removeInstance = function () {
-        dom_instances.removeInstance('Carousel', this._instanceId);
-    };
-    Carousel.prototype.destroyAndRemoveInstance = function () {
-        this.destroy();
-        this.removeInstance();
-    };
-    Carousel.prototype.getItem = function (position) {
-        return this._items[position];
-    };
-    /**
-     * Slide to the element based on id
-     * @param {*} position
-     */
-    Carousel.prototype.slideTo = function (position) {
-        var nextItem = this._items[position];
-        var rotationItems = {
-            left: nextItem.position === 0
-                ? this._items[this._items.length - 1]
-                : this._items[nextItem.position - 1],
-            middle: nextItem,
-            right: nextItem.position === this._items.length - 1
-                ? this._items[0]
-                : this._items[nextItem.position + 1],
-        };
-        this._rotate(rotationItems);
-        this._setActiveItem(nextItem);
-        if (this._intervalInstance) {
-            this.pause();
-            this.cycle();
-        }
-        this._options.onChange(this);
-    };
-    /**
-     * Based on the currently active item it will go to the next position
-     */
-    Carousel.prototype.next = function () {
-        var activeItem = this.getActiveItem();
-        var nextItem = null;
-        // check if last item
-        if (activeItem.position === this._items.length - 1) {
-            nextItem = this._items[0];
-        }
-        else {
-            nextItem = this._items[activeItem.position + 1];
-        }
-        this.slideTo(nextItem.position);
-        // callback function
-        this._options.onNext(this);
-    };
-    /**
-     * Based on the currently active item it will go to the previous position
-     */
-    Carousel.prototype.prev = function () {
-        var activeItem = this.getActiveItem();
-        var prevItem = null;
-        // check if first item
-        if (activeItem.position === 0) {
-            prevItem = this._items[this._items.length - 1];
-        }
-        else {
-            prevItem = this._items[activeItem.position - 1];
-        }
-        this.slideTo(prevItem.position);
-        // callback function
-        this._options.onPrev(this);
-    };
-    /**
-     * This method applies the transform classes based on the left, middle, and right rotation carousel items
-     * @param {*} rotationItems
-     */
-    Carousel.prototype._rotate = function (rotationItems) {
-        // reset
-        this._items.map(function (item) {
-            item.el.classList.add('hidden');
-        });
-        // Handling the case when there is only one item
-        if (this._items.length === 1) {
-            rotationItems.middle.el.classList.remove('-translate-x-full', 'translate-x-full', 'translate-x-0', 'hidden', 'z-10');
-            rotationItems.middle.el.classList.add('translate-x-0', 'z-20');
-            return;
-        }
-        // left item (previously active)
-        rotationItems.left.el.classList.remove('-translate-x-full', 'translate-x-full', 'translate-x-0', 'hidden', 'z-20');
-        rotationItems.left.el.classList.add('-translate-x-full', 'z-10');
-        // currently active item
-        rotationItems.middle.el.classList.remove('-translate-x-full', 'translate-x-full', 'translate-x-0', 'hidden', 'z-10');
-        rotationItems.middle.el.classList.add('translate-x-0', 'z-30');
-        // right item (upcoming active)
-        rotationItems.right.el.classList.remove('-translate-x-full', 'translate-x-full', 'translate-x-0', 'hidden', 'z-30');
-        rotationItems.right.el.classList.add('translate-x-full', 'z-20');
-    };
-    /**
-     * Set an interval to cycle through the carousel items
-     */
-    Carousel.prototype.cycle = function () {
-        var _this = this;
-        if (typeof window !== 'undefined') {
-            this._intervalInstance = window.setInterval(function () {
-                _this.next();
-            }, this._intervalDuration);
-        }
-    };
-    /**
-     * Clears the cycling interval
-     */
-    Carousel.prototype.pause = function () {
-        clearInterval(this._intervalInstance);
-    };
-    /**
-     * Get the currently active item
-     */
-    Carousel.prototype.getActiveItem = function () {
-        return this._activeItem;
-    };
-    /**
-     * Set the currently active item and data attribute
-     * @param {*} position
-     */
-    Carousel.prototype._setActiveItem = function (item) {
-        var _a, _b;
-        var _this = this;
-        this._activeItem = item;
-        var position = item.position;
-        // update the indicators if available
-        if (this._indicators.length) {
-            this._indicators.map(function (indicator) {
-                var _a, _b;
-                indicator.el.setAttribute('aria-current', 'false');
-                (_a = indicator.el.classList).remove.apply(_a, _this._options.indicators.activeClasses.split(' '));
-                (_b = indicator.el.classList).add.apply(_b, _this._options.indicators.inactiveClasses.split(' '));
-            });
-            (_a = this._indicators[position].el.classList).add.apply(_a, this._options.indicators.activeClasses.split(' '));
-            (_b = this._indicators[position].el.classList).remove.apply(_b, this._options.indicators.inactiveClasses.split(' '));
-            this._indicators[position].el.setAttribute('aria-current', 'true');
-        }
-    };
-    Carousel.prototype.updateOnNext = function (callback) {
-        this._options.onNext = callback;
-    };
-    Carousel.prototype.updateOnPrev = function (callback) {
-        this._options.onPrev = callback;
-    };
-    Carousel.prototype.updateOnChange = function (callback) {
-        this._options.onChange = callback;
-    };
-    return Carousel;
-}());
-function initCarousels() {
-    document.querySelectorAll('[data-carousel]').forEach(function ($carouselEl) {
-        var interval = $carouselEl.getAttribute('data-carousel-interval');
-        var slide = $carouselEl.getAttribute('data-carousel') === 'slide'
-            ? true
-            : false;
-        var items = [];
-        var defaultPosition = 0;
-        if ($carouselEl.querySelectorAll('[data-carousel-item]').length) {
-            Array.from($carouselEl.querySelectorAll('[data-carousel-item]')).map(function ($carouselItemEl, position) {
-                items.push({
-                    position: position,
-                    el: $carouselItemEl,
-                });
-                if ($carouselItemEl.getAttribute('data-carousel-item') ===
-                    'active') {
-                    defaultPosition = position;
-                }
-            });
-        }
-        var indicators = [];
-        if ($carouselEl.querySelectorAll('[data-carousel-slide-to]').length) {
-            Array.from($carouselEl.querySelectorAll('[data-carousel-slide-to]')).map(function ($indicatorEl) {
-                indicators.push({
-                    position: parseInt($indicatorEl.getAttribute('data-carousel-slide-to')),
-                    el: $indicatorEl,
-                });
-            });
-        }
-        var carousel = new Carousel($carouselEl, items, {
-            defaultPosition: defaultPosition,
-            indicators: {
-                items: indicators,
-            },
-            interval: interval ? interval : carousel_Default.interval,
-        });
-        if (slide) {
-            carousel.cycle();
-        }
-        // check for controls
-        var carouselNextEl = $carouselEl.querySelector('[data-carousel-next]');
-        var carouselPrevEl = $carouselEl.querySelector('[data-carousel-prev]');
-        if (carouselNextEl) {
-            carouselNextEl.addEventListener('click', function () {
-                carousel.next();
-            });
-        }
-        if (carouselPrevEl) {
-            carouselPrevEl.addEventListener('click', function () {
-                carousel.prev();
-            });
-        }
-    });
-}
-if (typeof window !== 'undefined') {
-    window.Carousel = Carousel;
-    window.initCarousels = initCarousels;
-}
-/* harmony default export */ const carousel = ((/* unused pure expression or super */ null && (Carousel)));
-//# sourceMappingURL=index.js.map
-;// ./node_modules/flowbite/lib/esm/components/dismiss/index.js
-var dismiss_assign = (undefined && undefined.__assign) || function () {
-    dismiss_assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return dismiss_assign.apply(this, arguments);
-};
-
-var dismiss_Default = {
-    transition: 'transition-opacity',
-    duration: 300,
-    timing: 'ease-out',
-    onHide: function () { },
-};
-var dismiss_DefaultInstanceOptions = {
-    id: null,
-    override: true,
-};
-var Dismiss = /** @class */ (function () {
-    function Dismiss(targetEl, triggerEl, options, instanceOptions) {
-        if (targetEl === void 0) { targetEl = null; }
-        if (triggerEl === void 0) { triggerEl = null; }
-        if (options === void 0) { options = dismiss_Default; }
-        if (instanceOptions === void 0) { instanceOptions = dismiss_DefaultInstanceOptions; }
-        this._instanceId = instanceOptions.id
-            ? instanceOptions.id
-            : targetEl.id;
-        this._targetEl = targetEl;
-        this._triggerEl = triggerEl;
-        this._options = dismiss_assign(dismiss_assign({}, dismiss_Default), options);
-        this._initialized = false;
-        this.init();
-        dom_instances.addInstance('Dismiss', this, this._instanceId, instanceOptions.override);
-    }
-    Dismiss.prototype.init = function () {
-        var _this = this;
-        if (this._triggerEl && this._targetEl && !this._initialized) {
-            this._clickHandler = function () {
-                _this.hide();
-            };
-            this._triggerEl.addEventListener('click', this._clickHandler);
-            this._initialized = true;
-        }
-    };
-    Dismiss.prototype.destroy = function () {
-        if (this._triggerEl && this._initialized) {
-            this._triggerEl.removeEventListener('click', this._clickHandler);
-            this._initialized = false;
-        }
-    };
-    Dismiss.prototype.removeInstance = function () {
-        dom_instances.removeInstance('Dismiss', this._instanceId);
-    };
-    Dismiss.prototype.destroyAndRemoveInstance = function () {
-        this.destroy();
-        this.removeInstance();
-    };
-    Dismiss.prototype.hide = function () {
-        var _this = this;
-        this._targetEl.classList.add(this._options.transition, "duration-".concat(this._options.duration), this._options.timing, 'opacity-0');
-        setTimeout(function () {
-            _this._targetEl.classList.add('hidden');
-        }, this._options.duration);
-        // callback function
-        this._options.onHide(this, this._targetEl);
-    };
-    Dismiss.prototype.updateOnHide = function (callback) {
-        this._options.onHide = callback;
-    };
-    return Dismiss;
-}());
-function initDismisses() {
-    document.querySelectorAll('[data-dismiss-target]').forEach(function ($triggerEl) {
-        var targetId = $triggerEl.getAttribute('data-dismiss-target');
-        var $dismissEl = document.querySelector(targetId);
-        if ($dismissEl) {
-            new Dismiss($dismissEl, $triggerEl);
-        }
-        else {
-            console.error("The dismiss element with id \"".concat(targetId, "\" does not exist. Please check the data-dismiss-target attribute."));
-        }
-    });
-}
-if (typeof window !== 'undefined') {
-    window.Dismiss = Dismiss;
-    window.initDismisses = initDismisses;
-}
-/* harmony default export */ const dismiss = ((/* unused pure expression or super */ null && (Dismiss)));
-//# sourceMappingURL=index.js.map
-;// ./node_modules/@popperjs/core/lib/dom-utils/getWindow.js
-function getWindow(node) {
-  if (node == null) {
-    return window;
-  }
-
-  if (node.toString() !== '[object Window]') {
-    var ownerDocument = node.ownerDocument;
-    return ownerDocument ? ownerDocument.defaultView || window : window;
-  }
-
-  return node;
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/instanceOf.js
-
-
-function isElement(node) {
-  var OwnElement = getWindow(node).Element;
-  return node instanceof OwnElement || node instanceof Element;
-}
-
-function isHTMLElement(node) {
-  var OwnElement = getWindow(node).HTMLElement;
-  return node instanceof OwnElement || node instanceof HTMLElement;
-}
-
-function isShadowRoot(node) {
-  // IE 11 has no ShadowRoot
-  if (typeof ShadowRoot === 'undefined') {
-    return false;
-  }
-
-  var OwnElement = getWindow(node).ShadowRoot;
-  return node instanceof OwnElement || node instanceof ShadowRoot;
-}
-
-
-;// ./node_modules/@popperjs/core/lib/utils/math.js
-var math_max = Math.max;
-var math_min = Math.min;
-var round = Math.round;
-;// ./node_modules/@popperjs/core/lib/utils/userAgent.js
-function getUAString() {
-  var uaData = navigator.userAgentData;
-
-  if (uaData != null && uaData.brands && Array.isArray(uaData.brands)) {
-    return uaData.brands.map(function (item) {
-      return item.brand + "/" + item.version;
-    }).join(' ');
-  }
-
-  return navigator.userAgent;
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/isLayoutViewport.js
-
-function isLayoutViewport() {
-  return !/^((?!chrome|android).)*safari/i.test(getUAString());
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getBoundingClientRect.js
-
-
-
-
-function getBoundingClientRect(element, includeScale, isFixedStrategy) {
-  if (includeScale === void 0) {
-    includeScale = false;
-  }
-
-  if (isFixedStrategy === void 0) {
-    isFixedStrategy = false;
-  }
-
-  var clientRect = element.getBoundingClientRect();
-  var scaleX = 1;
-  var scaleY = 1;
-
-  if (includeScale && isHTMLElement(element)) {
-    scaleX = element.offsetWidth > 0 ? round(clientRect.width) / element.offsetWidth || 1 : 1;
-    scaleY = element.offsetHeight > 0 ? round(clientRect.height) / element.offsetHeight || 1 : 1;
-  }
-
-  var _ref = isElement(element) ? getWindow(element) : window,
-      visualViewport = _ref.visualViewport;
-
-  var addVisualOffsets = !isLayoutViewport() && isFixedStrategy;
-  var x = (clientRect.left + (addVisualOffsets && visualViewport ? visualViewport.offsetLeft : 0)) / scaleX;
-  var y = (clientRect.top + (addVisualOffsets && visualViewport ? visualViewport.offsetTop : 0)) / scaleY;
-  var width = clientRect.width / scaleX;
-  var height = clientRect.height / scaleY;
-  return {
-    width: width,
-    height: height,
-    top: y,
-    right: x + width,
-    bottom: y + height,
-    left: x,
-    x: x,
-    y: y
-  };
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getWindowScroll.js
-
-function getWindowScroll(node) {
-  var win = getWindow(node);
-  var scrollLeft = win.pageXOffset;
-  var scrollTop = win.pageYOffset;
-  return {
-    scrollLeft: scrollLeft,
-    scrollTop: scrollTop
-  };
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getHTMLElementScroll.js
-function getHTMLElementScroll(element) {
-  return {
-    scrollLeft: element.scrollLeft,
-    scrollTop: element.scrollTop
-  };
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getNodeScroll.js
-
-
-
-
-function getNodeScroll(node) {
-  if (node === getWindow(node) || !isHTMLElement(node)) {
-    return getWindowScroll(node);
-  } else {
-    return getHTMLElementScroll(node);
-  }
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getNodeName.js
-function getNodeName(element) {
-  return element ? (element.nodeName || '').toLowerCase() : null;
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getDocumentElement.js
-
-function getDocumentElement(element) {
-  // $FlowFixMe[incompatible-return]: assume body is always available
-  return ((isElement(element) ? element.ownerDocument : // $FlowFixMe[prop-missing]
-  element.document) || window.document).documentElement;
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getWindowScrollBarX.js
-
-
-
-function getWindowScrollBarX(element) {
-  // If <html> has a CSS width greater than the viewport, then this will be
-  // incorrect for RTL.
-  // Popper 1 is broken in this case and never had a bug report so let's assume
-  // it's not an issue. I don't think anyone ever specifies width on <html>
-  // anyway.
-  // Browsers where the left scrollbar doesn't cause an issue report `0` for
-  // this (e.g. Edge 2019, IE11, Safari)
-  return getBoundingClientRect(getDocumentElement(element)).left + getWindowScroll(element).scrollLeft;
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getComputedStyle.js
-
-function getComputedStyle(element) {
-  return getWindow(element).getComputedStyle(element);
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/isScrollParent.js
-
-function isScrollParent(element) {
-  // Firefox wants us to check `-x` and `-y` variations as well
-  var _getComputedStyle = getComputedStyle(element),
-      overflow = _getComputedStyle.overflow,
-      overflowX = _getComputedStyle.overflowX,
-      overflowY = _getComputedStyle.overflowY;
-
-  return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getCompositeRect.js
-
-
-
-
-
-
-
-
-
-function isElementScaled(element) {
-  var rect = element.getBoundingClientRect();
-  var scaleX = round(rect.width) / element.offsetWidth || 1;
-  var scaleY = round(rect.height) / element.offsetHeight || 1;
-  return scaleX !== 1 || scaleY !== 1;
-} // Returns the composite rect of an element relative to its offsetParent.
-// Composite means it takes into account transforms as well as layout.
-
-
-function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
-  if (isFixed === void 0) {
-    isFixed = false;
-  }
-
-  var isOffsetParentAnElement = isHTMLElement(offsetParent);
-  var offsetParentIsScaled = isHTMLElement(offsetParent) && isElementScaled(offsetParent);
-  var documentElement = getDocumentElement(offsetParent);
-  var rect = getBoundingClientRect(elementOrVirtualElement, offsetParentIsScaled, isFixed);
-  var scroll = {
-    scrollLeft: 0,
-    scrollTop: 0
-  };
-  var offsets = {
-    x: 0,
-    y: 0
-  };
-
-  if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
-    if (getNodeName(offsetParent) !== 'body' || // https://github.com/popperjs/popper-core/issues/1078
-    isScrollParent(documentElement)) {
-      scroll = getNodeScroll(offsetParent);
-    }
-
-    if (isHTMLElement(offsetParent)) {
-      offsets = getBoundingClientRect(offsetParent, true);
-      offsets.x += offsetParent.clientLeft;
-      offsets.y += offsetParent.clientTop;
-    } else if (documentElement) {
-      offsets.x = getWindowScrollBarX(documentElement);
-    }
-  }
-
-  return {
-    x: rect.left + scroll.scrollLeft - offsets.x,
-    y: rect.top + scroll.scrollTop - offsets.y,
-    width: rect.width,
-    height: rect.height
-  };
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getLayoutRect.js
- // Returns the layout rect of an element relative to its offsetParent. Layout
-// means it doesn't take into account transforms.
-
-function getLayoutRect(element) {
-  var clientRect = getBoundingClientRect(element); // Use the clientRect sizes if it's not been transformed.
-  // Fixes https://github.com/popperjs/popper-core/issues/1223
-
-  var width = element.offsetWidth;
-  var height = element.offsetHeight;
-
-  if (Math.abs(clientRect.width - width) <= 1) {
-    width = clientRect.width;
-  }
-
-  if (Math.abs(clientRect.height - height) <= 1) {
-    height = clientRect.height;
-  }
-
-  return {
-    x: element.offsetLeft,
-    y: element.offsetTop,
-    width: width,
-    height: height
-  };
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getParentNode.js
-
-
-
-function getParentNode(element) {
-  if (getNodeName(element) === 'html') {
-    return element;
-  }
-
-  return (// this is a quicker (but less type safe) way to save quite some bytes from the bundle
-    // $FlowFixMe[incompatible-return]
-    // $FlowFixMe[prop-missing]
-    element.assignedSlot || // step into the shadow DOM of the parent of a slotted node
-    element.parentNode || ( // DOM Element detected
-    isShadowRoot(element) ? element.host : null) || // ShadowRoot detected
-    // $FlowFixMe[incompatible-call]: HTMLElement is a Node
-    getDocumentElement(element) // fallback
-
-  );
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getScrollParent.js
-
-
-
-
-function getScrollParent(node) {
-  if (['html', 'body', '#document'].indexOf(getNodeName(node)) >= 0) {
-    // $FlowFixMe[incompatible-return]: assume body is always available
-    return node.ownerDocument.body;
-  }
-
-  if (isHTMLElement(node) && isScrollParent(node)) {
-    return node;
-  }
-
-  return getScrollParent(getParentNode(node));
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/listScrollParents.js
-
-
-
-
-/*
-given a DOM element, return the list of all scroll parents, up the list of ancesors
-until we get to the top window object. This list is what we attach scroll listeners
-to, because if any of these parent elements scroll, we'll need to re-calculate the
-reference element's position.
-*/
-
-function listScrollParents(element, list) {
-  var _element$ownerDocumen;
-
-  if (list === void 0) {
-    list = [];
-  }
-
-  var scrollParent = getScrollParent(element);
-  var isBody = scrollParent === ((_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body);
-  var win = getWindow(scrollParent);
-  var target = isBody ? [win].concat(win.visualViewport || [], isScrollParent(scrollParent) ? scrollParent : []) : scrollParent;
-  var updatedList = list.concat(target);
-  return isBody ? updatedList : // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
-  updatedList.concat(listScrollParents(getParentNode(target)));
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/isTableElement.js
-
-function isTableElement(element) {
-  return ['table', 'td', 'th'].indexOf(getNodeName(element)) >= 0;
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getOffsetParent.js
-
-
-
-
-
-
-
-
-function getTrueOffsetParent(element) {
-  if (!isHTMLElement(element) || // https://github.com/popperjs/popper-core/issues/837
-  getComputedStyle(element).position === 'fixed') {
-    return null;
-  }
-
-  return element.offsetParent;
-} // `.offsetParent` reports `null` for fixed elements, while absolute elements
-// return the containing block
-
-
-function getContainingBlock(element) {
-  var isFirefox = /firefox/i.test(getUAString());
-  var isIE = /Trident/i.test(getUAString());
-
-  if (isIE && isHTMLElement(element)) {
-    // In IE 9, 10 and 11 fixed elements containing block is always established by the viewport
-    var elementCss = getComputedStyle(element);
-
-    if (elementCss.position === 'fixed') {
-      return null;
-    }
-  }
-
-  var currentNode = getParentNode(element);
-
-  if (isShadowRoot(currentNode)) {
-    currentNode = currentNode.host;
-  }
-
-  while (isHTMLElement(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
-    var css = getComputedStyle(currentNode); // This is non-exhaustive but covers the most common CSS properties that
-    // create a containing block.
-    // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
-
-    if (css.transform !== 'none' || css.perspective !== 'none' || css.contain === 'paint' || ['transform', 'perspective'].indexOf(css.willChange) !== -1 || isFirefox && css.willChange === 'filter' || isFirefox && css.filter && css.filter !== 'none') {
-      return currentNode;
-    } else {
-      currentNode = currentNode.parentNode;
-    }
-  }
-
-  return null;
-} // Gets the closest ancestor positioned element. Handles some edge cases,
-// such as table ancestors and cross browser bugs.
-
-
-function getOffsetParent(element) {
-  var window = getWindow(element);
-  var offsetParent = getTrueOffsetParent(element);
-
-  while (offsetParent && isTableElement(offsetParent) && getComputedStyle(offsetParent).position === 'static') {
-    offsetParent = getTrueOffsetParent(offsetParent);
-  }
-
-  if (offsetParent && (getNodeName(offsetParent) === 'html' || getNodeName(offsetParent) === 'body' && getComputedStyle(offsetParent).position === 'static')) {
-    return window;
-  }
-
-  return offsetParent || getContainingBlock(element) || window;
-}
-;// ./node_modules/@popperjs/core/lib/enums.js
-var enums_top = 'top';
-var bottom = 'bottom';
-var right = 'right';
-var left = 'left';
-var auto = 'auto';
-var basePlacements = [enums_top, bottom, right, left];
-var start = 'start';
-var end = 'end';
-var clippingParents = 'clippingParents';
-var viewport = 'viewport';
-var popper = 'popper';
-var reference = 'reference';
-var variationPlacements = /*#__PURE__*/basePlacements.reduce(function (acc, placement) {
-  return acc.concat([placement + "-" + start, placement + "-" + end]);
-}, []);
-var enums_placements = /*#__PURE__*/[].concat(basePlacements, [auto]).reduce(function (acc, placement) {
-  return acc.concat([placement, placement + "-" + start, placement + "-" + end]);
-}, []); // modifiers that need to read the DOM
-
-var beforeRead = 'beforeRead';
-var read = 'read';
-var afterRead = 'afterRead'; // pure-logic modifiers
-
-var beforeMain = 'beforeMain';
-var main = 'main';
-var afterMain = 'afterMain'; // modifier with the purpose to write to the DOM (or write into a framework state)
-
-var beforeWrite = 'beforeWrite';
-var write = 'write';
-var afterWrite = 'afterWrite';
-var modifierPhases = [beforeRead, read, afterRead, beforeMain, main, afterMain, beforeWrite, write, afterWrite];
-;// ./node_modules/@popperjs/core/lib/utils/orderModifiers.js
- // source: https://stackoverflow.com/questions/49875255
-
-function order(modifiers) {
-  var map = new Map();
-  var visited = new Set();
-  var result = [];
-  modifiers.forEach(function (modifier) {
-    map.set(modifier.name, modifier);
-  }); // On visiting object, check for its dependencies and visit them recursively
-
-  function sort(modifier) {
-    visited.add(modifier.name);
-    var requires = [].concat(modifier.requires || [], modifier.requiresIfExists || []);
-    requires.forEach(function (dep) {
-      if (!visited.has(dep)) {
-        var depModifier = map.get(dep);
-
-        if (depModifier) {
-          sort(depModifier);
-        }
-      }
-    });
-    result.push(modifier);
-  }
-
-  modifiers.forEach(function (modifier) {
-    if (!visited.has(modifier.name)) {
-      // check for visited object
-      sort(modifier);
-    }
-  });
-  return result;
-}
-
-function orderModifiers(modifiers) {
-  // order based on dependencies
-  var orderedModifiers = order(modifiers); // order based on phase
-
-  return modifierPhases.reduce(function (acc, phase) {
-    return acc.concat(orderedModifiers.filter(function (modifier) {
-      return modifier.phase === phase;
-    }));
-  }, []);
-}
-;// ./node_modules/@popperjs/core/lib/utils/debounce.js
-function debounce(fn) {
-  var pending;
-  return function () {
-    if (!pending) {
-      pending = new Promise(function (resolve) {
-        Promise.resolve().then(function () {
-          pending = undefined;
-          resolve(fn());
-        });
-      });
-    }
-
-    return pending;
-  };
-}
-;// ./node_modules/@popperjs/core/lib/utils/mergeByName.js
-function mergeByName(modifiers) {
-  var merged = modifiers.reduce(function (merged, current) {
-    var existing = merged[current.name];
-    merged[current.name] = existing ? Object.assign({}, existing, current, {
-      options: Object.assign({}, existing.options, current.options),
-      data: Object.assign({}, existing.data, current.data)
-    }) : current;
-    return merged;
-  }, {}); // IE11 does not support Object.values
-
-  return Object.keys(merged).map(function (key) {
-    return merged[key];
-  });
-}
-;// ./node_modules/@popperjs/core/lib/createPopper.js
-
-
-
-
-
-
-
-
-
-var DEFAULT_OPTIONS = {
-  placement: 'bottom',
-  modifiers: [],
-  strategy: 'absolute'
-};
-
-function areValidElements() {
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return !args.some(function (element) {
-    return !(element && typeof element.getBoundingClientRect === 'function');
-  });
-}
-
-function popperGenerator(generatorOptions) {
-  if (generatorOptions === void 0) {
-    generatorOptions = {};
-  }
-
-  var _generatorOptions = generatorOptions,
-      _generatorOptions$def = _generatorOptions.defaultModifiers,
-      defaultModifiers = _generatorOptions$def === void 0 ? [] : _generatorOptions$def,
-      _generatorOptions$def2 = _generatorOptions.defaultOptions,
-      defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;
-  return function createPopper(reference, popper, options) {
-    if (options === void 0) {
-      options = defaultOptions;
-    }
-
-    var state = {
-      placement: 'bottom',
-      orderedModifiers: [],
-      options: Object.assign({}, DEFAULT_OPTIONS, defaultOptions),
-      modifiersData: {},
-      elements: {
-        reference: reference,
-        popper: popper
-      },
-      attributes: {},
-      styles: {}
-    };
-    var effectCleanupFns = [];
-    var isDestroyed = false;
-    var instance = {
-      state: state,
-      setOptions: function setOptions(setOptionsAction) {
-        var options = typeof setOptionsAction === 'function' ? setOptionsAction(state.options) : setOptionsAction;
-        cleanupModifierEffects();
-        state.options = Object.assign({}, defaultOptions, state.options, options);
-        state.scrollParents = {
-          reference: isElement(reference) ? listScrollParents(reference) : reference.contextElement ? listScrollParents(reference.contextElement) : [],
-          popper: listScrollParents(popper)
-        }; // Orders the modifiers based on their dependencies and `phase`
-        // properties
-
-        var orderedModifiers = orderModifiers(mergeByName([].concat(defaultModifiers, state.options.modifiers))); // Strip out disabled modifiers
-
-        state.orderedModifiers = orderedModifiers.filter(function (m) {
-          return m.enabled;
-        });
-        runModifierEffects();
-        return instance.update();
-      },
-      // Sync update – it will always be executed, even if not necessary. This
-      // is useful for low frequency updates where sync behavior simplifies the
-      // logic.
-      // For high frequency updates (e.g. `resize` and `scroll` events), always
-      // prefer the async Popper#update method
-      forceUpdate: function forceUpdate() {
-        if (isDestroyed) {
-          return;
-        }
-
-        var _state$elements = state.elements,
-            reference = _state$elements.reference,
-            popper = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements
-        // anymore
-
-        if (!areValidElements(reference, popper)) {
-          return;
-        } // Store the reference and popper rects to be read by modifiers
-
-
-        state.rects = {
-          reference: getCompositeRect(reference, getOffsetParent(popper), state.options.strategy === 'fixed'),
-          popper: getLayoutRect(popper)
-        }; // Modifiers have the ability to reset the current update cycle. The
-        // most common use case for this is the `flip` modifier changing the
-        // placement, which then needs to re-run all the modifiers, because the
-        // logic was previously ran for the previous placement and is therefore
-        // stale/incorrect
-
-        state.reset = false;
-        state.placement = state.options.placement; // On each update cycle, the `modifiersData` property for each modifier
-        // is filled with the initial data specified by the modifier. This means
-        // it doesn't persist and is fresh on each update.
-        // To ensure persistent data, use `${name}#persistent`
-
-        state.orderedModifiers.forEach(function (modifier) {
-          return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
-        });
-
-        for (var index = 0; index < state.orderedModifiers.length; index++) {
-          if (state.reset === true) {
-            state.reset = false;
-            index = -1;
-            continue;
-          }
-
-          var _state$orderedModifie = state.orderedModifiers[index],
-              fn = _state$orderedModifie.fn,
-              _state$orderedModifie2 = _state$orderedModifie.options,
-              _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,
-              name = _state$orderedModifie.name;
-
-          if (typeof fn === 'function') {
-            state = fn({
-              state: state,
-              options: _options,
-              name: name,
-              instance: instance
-            }) || state;
-          }
-        }
-      },
-      // Async and optimistically optimized update – it will not be executed if
-      // not necessary (debounced to run at most once-per-tick)
-      update: debounce(function () {
-        return new Promise(function (resolve) {
-          instance.forceUpdate();
-          resolve(state);
-        });
-      }),
-      destroy: function destroy() {
-        cleanupModifierEffects();
-        isDestroyed = true;
-      }
-    };
-
-    if (!areValidElements(reference, popper)) {
-      return instance;
-    }
-
-    instance.setOptions(options).then(function (state) {
-      if (!isDestroyed && options.onFirstUpdate) {
-        options.onFirstUpdate(state);
-      }
-    }); // Modifiers have the ability to execute arbitrary code before the first
-    // update cycle runs. They will be executed in the same order as the update
-    // cycle. This is useful when a modifier adds some persistent data that
-    // other modifiers need to use, but the modifier is run after the dependent
-    // one.
-
-    function runModifierEffects() {
-      state.orderedModifiers.forEach(function (_ref) {
-        var name = _ref.name,
-            _ref$options = _ref.options,
-            options = _ref$options === void 0 ? {} : _ref$options,
-            effect = _ref.effect;
-
-        if (typeof effect === 'function') {
-          var cleanupFn = effect({
-            state: state,
-            name: name,
-            instance: instance,
-            options: options
-          });
-
-          var noopFn = function noopFn() {};
-
-          effectCleanupFns.push(cleanupFn || noopFn);
-        }
-      });
-    }
-
-    function cleanupModifierEffects() {
-      effectCleanupFns.forEach(function (fn) {
-        return fn();
-      });
-      effectCleanupFns = [];
-    }
-
-    return instance;
-  };
-}
-var createPopper = /*#__PURE__*/(/* unused pure expression or super */ null && (popperGenerator())); // eslint-disable-next-line import/no-unused-modules
-
-
-;// ./node_modules/@popperjs/core/lib/modifiers/eventListeners.js
- // eslint-disable-next-line import/no-unused-modules
-
-var passive = {
-  passive: true
-};
-
-function effect(_ref) {
-  var state = _ref.state,
-      instance = _ref.instance,
-      options = _ref.options;
-  var _options$scroll = options.scroll,
-      scroll = _options$scroll === void 0 ? true : _options$scroll,
-      _options$resize = options.resize,
-      resize = _options$resize === void 0 ? true : _options$resize;
-  var window = getWindow(state.elements.popper);
-  var scrollParents = [].concat(state.scrollParents.reference, state.scrollParents.popper);
-
-  if (scroll) {
-    scrollParents.forEach(function (scrollParent) {
-      scrollParent.addEventListener('scroll', instance.update, passive);
-    });
-  }
-
-  if (resize) {
-    window.addEventListener('resize', instance.update, passive);
-  }
-
-  return function () {
-    if (scroll) {
-      scrollParents.forEach(function (scrollParent) {
-        scrollParent.removeEventListener('scroll', instance.update, passive);
-      });
-    }
-
-    if (resize) {
-      window.removeEventListener('resize', instance.update, passive);
-    }
-  };
-} // eslint-disable-next-line import/no-unused-modules
-
-
-/* harmony default export */ const eventListeners = ({
-  name: 'eventListeners',
-  enabled: true,
-  phase: 'write',
-  fn: function fn() {},
-  effect: effect,
-  data: {}
-});
-;// ./node_modules/@popperjs/core/lib/utils/getBasePlacement.js
-
-function getBasePlacement(placement) {
-  return placement.split('-')[0];
-}
-;// ./node_modules/@popperjs/core/lib/utils/getVariation.js
-function getVariation(placement) {
-  return placement.split('-')[1];
-}
-;// ./node_modules/@popperjs/core/lib/utils/getMainAxisFromPlacement.js
-function getMainAxisFromPlacement(placement) {
-  return ['top', 'bottom'].indexOf(placement) >= 0 ? 'x' : 'y';
-}
-;// ./node_modules/@popperjs/core/lib/utils/computeOffsets.js
-
-
-
-
-function computeOffsets(_ref) {
-  var reference = _ref.reference,
-      element = _ref.element,
-      placement = _ref.placement;
-  var basePlacement = placement ? getBasePlacement(placement) : null;
-  var variation = placement ? getVariation(placement) : null;
-  var commonX = reference.x + reference.width / 2 - element.width / 2;
-  var commonY = reference.y + reference.height / 2 - element.height / 2;
-  var offsets;
-
-  switch (basePlacement) {
-    case enums_top:
-      offsets = {
-        x: commonX,
-        y: reference.y - element.height
-      };
-      break;
-
-    case bottom:
-      offsets = {
-        x: commonX,
-        y: reference.y + reference.height
-      };
-      break;
-
-    case right:
-      offsets = {
-        x: reference.x + reference.width,
-        y: commonY
-      };
-      break;
-
-    case left:
-      offsets = {
-        x: reference.x - element.width,
-        y: commonY
-      };
-      break;
-
-    default:
-      offsets = {
-        x: reference.x,
-        y: reference.y
-      };
-  }
-
-  var mainAxis = basePlacement ? getMainAxisFromPlacement(basePlacement) : null;
-
-  if (mainAxis != null) {
-    var len = mainAxis === 'y' ? 'height' : 'width';
-
-    switch (variation) {
-      case start:
-        offsets[mainAxis] = offsets[mainAxis] - (reference[len] / 2 - element[len] / 2);
-        break;
-
-      case end:
-        offsets[mainAxis] = offsets[mainAxis] + (reference[len] / 2 - element[len] / 2);
-        break;
-
-      default:
-    }
-  }
-
-  return offsets;
-}
-;// ./node_modules/@popperjs/core/lib/modifiers/popperOffsets.js
-
-
-function popperOffsets(_ref) {
-  var state = _ref.state,
-      name = _ref.name;
-  // Offsets are the actual position the popper needs to have to be
-  // properly positioned near its reference element
-  // This is the most basic placement, and will be adjusted by
-  // the modifiers in the next step
-  state.modifiersData[name] = computeOffsets({
-    reference: state.rects.reference,
-    element: state.rects.popper,
-    strategy: 'absolute',
-    placement: state.placement
-  });
-} // eslint-disable-next-line import/no-unused-modules
-
-
-/* harmony default export */ const modifiers_popperOffsets = ({
-  name: 'popperOffsets',
-  enabled: true,
-  phase: 'read',
-  fn: popperOffsets,
-  data: {}
-});
-;// ./node_modules/@popperjs/core/lib/modifiers/computeStyles.js
-
-
-
-
-
-
-
- // eslint-disable-next-line import/no-unused-modules
-
-var unsetSides = {
-  top: 'auto',
-  right: 'auto',
-  bottom: 'auto',
-  left: 'auto'
-}; // Round the offsets to the nearest suitable subpixel based on the DPR.
-// Zooming can change the DPR, but it seems to report a value that will
-// cleanly divide the values into the appropriate subpixels.
-
-function roundOffsetsByDPR(_ref, win) {
-  var x = _ref.x,
-      y = _ref.y;
-  var dpr = win.devicePixelRatio || 1;
-  return {
-    x: round(x * dpr) / dpr || 0,
-    y: round(y * dpr) / dpr || 0
-  };
-}
-
-function mapToStyles(_ref2) {
-  var _Object$assign2;
-
-  var popper = _ref2.popper,
-      popperRect = _ref2.popperRect,
-      placement = _ref2.placement,
-      variation = _ref2.variation,
-      offsets = _ref2.offsets,
-      position = _ref2.position,
-      gpuAcceleration = _ref2.gpuAcceleration,
-      adaptive = _ref2.adaptive,
-      roundOffsets = _ref2.roundOffsets,
-      isFixed = _ref2.isFixed;
-  var _offsets$x = offsets.x,
-      x = _offsets$x === void 0 ? 0 : _offsets$x,
-      _offsets$y = offsets.y,
-      y = _offsets$y === void 0 ? 0 : _offsets$y;
-
-  var _ref3 = typeof roundOffsets === 'function' ? roundOffsets({
-    x: x,
-    y: y
-  }) : {
-    x: x,
-    y: y
-  };
-
-  x = _ref3.x;
-  y = _ref3.y;
-  var hasX = offsets.hasOwnProperty('x');
-  var hasY = offsets.hasOwnProperty('y');
-  var sideX = left;
-  var sideY = enums_top;
-  var win = window;
-
-  if (adaptive) {
-    var offsetParent = getOffsetParent(popper);
-    var heightProp = 'clientHeight';
-    var widthProp = 'clientWidth';
-
-    if (offsetParent === getWindow(popper)) {
-      offsetParent = getDocumentElement(popper);
-
-      if (getComputedStyle(offsetParent).position !== 'static' && position === 'absolute') {
-        heightProp = 'scrollHeight';
-        widthProp = 'scrollWidth';
-      }
-    } // $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
-
-
-    offsetParent = offsetParent;
-
-    if (placement === enums_top || (placement === left || placement === right) && variation === end) {
-      sideY = bottom;
-      var offsetY = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.height : // $FlowFixMe[prop-missing]
-      offsetParent[heightProp];
-      y -= offsetY - popperRect.height;
-      y *= gpuAcceleration ? 1 : -1;
-    }
-
-    if (placement === left || (placement === enums_top || placement === bottom) && variation === end) {
-      sideX = right;
-      var offsetX = isFixed && offsetParent === win && win.visualViewport ? win.visualViewport.width : // $FlowFixMe[prop-missing]
-      offsetParent[widthProp];
-      x -= offsetX - popperRect.width;
-      x *= gpuAcceleration ? 1 : -1;
-    }
-  }
-
-  var commonStyles = Object.assign({
-    position: position
-  }, adaptive && unsetSides);
-
-  var _ref4 = roundOffsets === true ? roundOffsetsByDPR({
-    x: x,
-    y: y
-  }, getWindow(popper)) : {
-    x: x,
-    y: y
-  };
-
-  x = _ref4.x;
-  y = _ref4.y;
-
-  if (gpuAcceleration) {
-    var _Object$assign;
-
-    return Object.assign({}, commonStyles, (_Object$assign = {}, _Object$assign[sideY] = hasY ? '0' : '', _Object$assign[sideX] = hasX ? '0' : '', _Object$assign.transform = (win.devicePixelRatio || 1) <= 1 ? "translate(" + x + "px, " + y + "px)" : "translate3d(" + x + "px, " + y + "px, 0)", _Object$assign));
-  }
-
-  return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : '', _Object$assign2[sideX] = hasX ? x + "px" : '', _Object$assign2.transform = '', _Object$assign2));
-}
-
-function computeStyles(_ref5) {
-  var state = _ref5.state,
-      options = _ref5.options;
-  var _options$gpuAccelerat = options.gpuAcceleration,
-      gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,
-      _options$adaptive = options.adaptive,
-      adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
-      _options$roundOffsets = options.roundOffsets,
-      roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
-  var commonStyles = {
-    placement: getBasePlacement(state.placement),
-    variation: getVariation(state.placement),
-    popper: state.elements.popper,
-    popperRect: state.rects.popper,
-    gpuAcceleration: gpuAcceleration,
-    isFixed: state.options.strategy === 'fixed'
-  };
-
-  if (state.modifiersData.popperOffsets != null) {
-    state.styles.popper = Object.assign({}, state.styles.popper, mapToStyles(Object.assign({}, commonStyles, {
-      offsets: state.modifiersData.popperOffsets,
-      position: state.options.strategy,
-      adaptive: adaptive,
-      roundOffsets: roundOffsets
-    })));
-  }
-
-  if (state.modifiersData.arrow != null) {
-    state.styles.arrow = Object.assign({}, state.styles.arrow, mapToStyles(Object.assign({}, commonStyles, {
-      offsets: state.modifiersData.arrow,
-      position: 'absolute',
-      adaptive: false,
-      roundOffsets: roundOffsets
-    })));
-  }
-
-  state.attributes.popper = Object.assign({}, state.attributes.popper, {
-    'data-popper-placement': state.placement
-  });
-} // eslint-disable-next-line import/no-unused-modules
-
-
-/* harmony default export */ const modifiers_computeStyles = ({
-  name: 'computeStyles',
-  enabled: true,
-  phase: 'beforeWrite',
-  fn: computeStyles,
-  data: {}
-});
-;// ./node_modules/@popperjs/core/lib/modifiers/applyStyles.js
-
- // This modifier takes the styles prepared by the `computeStyles` modifier
-// and applies them to the HTMLElements such as popper and arrow
-
-function applyStyles(_ref) {
-  var state = _ref.state;
-  Object.keys(state.elements).forEach(function (name) {
-    var style = state.styles[name] || {};
-    var attributes = state.attributes[name] || {};
-    var element = state.elements[name]; // arrow is optional + virtual elements
-
-    if (!isHTMLElement(element) || !getNodeName(element)) {
-      return;
-    } // Flow doesn't support to extend this property, but it's the most
-    // effective way to apply styles to an HTMLElement
-    // $FlowFixMe[cannot-write]
-
-
-    Object.assign(element.style, style);
-    Object.keys(attributes).forEach(function (name) {
-      var value = attributes[name];
-
-      if (value === false) {
-        element.removeAttribute(name);
-      } else {
-        element.setAttribute(name, value === true ? '' : value);
-      }
-    });
-  });
-}
-
-function applyStyles_effect(_ref2) {
-  var state = _ref2.state;
-  var initialStyles = {
-    popper: {
-      position: state.options.strategy,
-      left: '0',
-      top: '0',
-      margin: '0'
-    },
-    arrow: {
-      position: 'absolute'
-    },
-    reference: {}
-  };
-  Object.assign(state.elements.popper.style, initialStyles.popper);
-  state.styles = initialStyles;
-
-  if (state.elements.arrow) {
-    Object.assign(state.elements.arrow.style, initialStyles.arrow);
-  }
-
-  return function () {
-    Object.keys(state.elements).forEach(function (name) {
-      var element = state.elements[name];
-      var attributes = state.attributes[name] || {};
-      var styleProperties = Object.keys(state.styles.hasOwnProperty(name) ? state.styles[name] : initialStyles[name]); // Set all values to an empty string to unset them
-
-      var style = styleProperties.reduce(function (style, property) {
-        style[property] = '';
-        return style;
-      }, {}); // arrow is optional + virtual elements
-
-      if (!isHTMLElement(element) || !getNodeName(element)) {
-        return;
-      }
-
-      Object.assign(element.style, style);
-      Object.keys(attributes).forEach(function (attribute) {
-        element.removeAttribute(attribute);
-      });
-    });
-  };
-} // eslint-disable-next-line import/no-unused-modules
-
-
-/* harmony default export */ const modifiers_applyStyles = ({
-  name: 'applyStyles',
-  enabled: true,
-  phase: 'write',
-  fn: applyStyles,
-  effect: applyStyles_effect,
-  requires: ['computeStyles']
-});
-;// ./node_modules/@popperjs/core/lib/modifiers/offset.js
-
- // eslint-disable-next-line import/no-unused-modules
-
-function distanceAndSkiddingToXY(placement, rects, offset) {
-  var basePlacement = getBasePlacement(placement);
-  var invertDistance = [left, enums_top].indexOf(basePlacement) >= 0 ? -1 : 1;
-
-  var _ref = typeof offset === 'function' ? offset(Object.assign({}, rects, {
-    placement: placement
-  })) : offset,
-      skidding = _ref[0],
-      distance = _ref[1];
-
-  skidding = skidding || 0;
-  distance = (distance || 0) * invertDistance;
-  return [left, right].indexOf(basePlacement) >= 0 ? {
-    x: distance,
-    y: skidding
-  } : {
-    x: skidding,
-    y: distance
-  };
-}
-
-function offset(_ref2) {
-  var state = _ref2.state,
-      options = _ref2.options,
-      name = _ref2.name;
-  var _options$offset = options.offset,
-      offset = _options$offset === void 0 ? [0, 0] : _options$offset;
-  var data = enums_placements.reduce(function (acc, placement) {
-    acc[placement] = distanceAndSkiddingToXY(placement, state.rects, offset);
-    return acc;
-  }, {});
-  var _data$state$placement = data[state.placement],
-      x = _data$state$placement.x,
-      y = _data$state$placement.y;
-
-  if (state.modifiersData.popperOffsets != null) {
-    state.modifiersData.popperOffsets.x += x;
-    state.modifiersData.popperOffsets.y += y;
-  }
-
-  state.modifiersData[name] = data;
-} // eslint-disable-next-line import/no-unused-modules
-
-
-/* harmony default export */ const modifiers_offset = ({
-  name: 'offset',
-  enabled: true,
-  phase: 'main',
-  requires: ['popperOffsets'],
-  fn: offset
-});
-;// ./node_modules/@popperjs/core/lib/utils/getOppositePlacement.js
-var hash = {
-  left: 'right',
-  right: 'left',
-  bottom: 'top',
-  top: 'bottom'
-};
-function getOppositePlacement(placement) {
-  return placement.replace(/left|right|bottom|top/g, function (matched) {
-    return hash[matched];
-  });
-}
-;// ./node_modules/@popperjs/core/lib/utils/getOppositeVariationPlacement.js
-var getOppositeVariationPlacement_hash = {
-  start: 'end',
-  end: 'start'
-};
-function getOppositeVariationPlacement(placement) {
-  return placement.replace(/start|end/g, function (matched) {
-    return getOppositeVariationPlacement_hash[matched];
-  });
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getViewportRect.js
-
-
-
-
-function getViewportRect(element, strategy) {
-  var win = getWindow(element);
-  var html = getDocumentElement(element);
-  var visualViewport = win.visualViewport;
-  var width = html.clientWidth;
-  var height = html.clientHeight;
-  var x = 0;
-  var y = 0;
-
-  if (visualViewport) {
-    width = visualViewport.width;
-    height = visualViewport.height;
-    var layoutViewport = isLayoutViewport();
-
-    if (layoutViewport || !layoutViewport && strategy === 'fixed') {
-      x = visualViewport.offsetLeft;
-      y = visualViewport.offsetTop;
-    }
-  }
-
-  return {
-    width: width,
-    height: height,
-    x: x + getWindowScrollBarX(element),
-    y: y
-  };
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getDocumentRect.js
-
-
-
-
- // Gets the entire size of the scrollable document area, even extending outside
-// of the `<html>` and `<body>` rect bounds if horizontally scrollable
-
-function getDocumentRect(element) {
-  var _element$ownerDocumen;
-
-  var html = getDocumentElement(element);
-  var winScroll = getWindowScroll(element);
-  var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
-  var width = math_max(html.scrollWidth, html.clientWidth, body ? body.scrollWidth : 0, body ? body.clientWidth : 0);
-  var height = math_max(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
-  var x = -winScroll.scrollLeft + getWindowScrollBarX(element);
-  var y = -winScroll.scrollTop;
-
-  if (getComputedStyle(body || html).direction === 'rtl') {
-    x += math_max(html.clientWidth, body ? body.clientWidth : 0) - width;
-  }
-
-  return {
-    width: width,
-    height: height,
-    x: x,
-    y: y
-  };
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/contains.js
-
-function contains(parent, child) {
-  var rootNode = child.getRootNode && child.getRootNode(); // First, attempt with faster native method
-
-  if (parent.contains(child)) {
-    return true;
-  } // then fallback to custom implementation with Shadow DOM support
-  else if (rootNode && isShadowRoot(rootNode)) {
-      var next = child;
-
-      do {
-        if (next && parent.isSameNode(next)) {
-          return true;
-        } // $FlowFixMe[prop-missing]: need a better way to handle this...
-
-
-        next = next.parentNode || next.host;
-      } while (next);
-    } // Give up, the result is false
-
-
-  return false;
-}
-;// ./node_modules/@popperjs/core/lib/utils/rectToClientRect.js
-function rectToClientRect(rect) {
-  return Object.assign({}, rect, {
-    left: rect.x,
-    top: rect.y,
-    right: rect.x + rect.width,
-    bottom: rect.y + rect.height
-  });
-}
-;// ./node_modules/@popperjs/core/lib/dom-utils/getClippingRect.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function getInnerBoundingClientRect(element, strategy) {
-  var rect = getBoundingClientRect(element, false, strategy === 'fixed');
-  rect.top = rect.top + element.clientTop;
-  rect.left = rect.left + element.clientLeft;
-  rect.bottom = rect.top + element.clientHeight;
-  rect.right = rect.left + element.clientWidth;
-  rect.width = element.clientWidth;
-  rect.height = element.clientHeight;
-  rect.x = rect.left;
-  rect.y = rect.top;
-  return rect;
-}
-
-function getClientRectFromMixedType(element, clippingParent, strategy) {
-  return clippingParent === viewport ? rectToClientRect(getViewportRect(element, strategy)) : isElement(clippingParent) ? getInnerBoundingClientRect(clippingParent, strategy) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
-} // A "clipping parent" is an overflowable container with the characteristic of
-// clipping (or hiding) overflowing elements with a position different from
-// `initial`
-
-
-function getClippingParents(element) {
-  var clippingParents = listScrollParents(getParentNode(element));
-  var canEscapeClipping = ['absolute', 'fixed'].indexOf(getComputedStyle(element).position) >= 0;
-  var clipperElement = canEscapeClipping && isHTMLElement(element) ? getOffsetParent(element) : element;
-
-  if (!isElement(clipperElement)) {
-    return [];
-  } // $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414
-
-
-  return clippingParents.filter(function (clippingParent) {
-    return isElement(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== 'body';
-  });
-} // Gets the maximum area that the element is visible in due to any number of
-// clipping parents
-
-
-function getClippingRect(element, boundary, rootBoundary, strategy) {
-  var mainClippingParents = boundary === 'clippingParents' ? getClippingParents(element) : [].concat(boundary);
-  var clippingParents = [].concat(mainClippingParents, [rootBoundary]);
-  var firstClippingParent = clippingParents[0];
-  var clippingRect = clippingParents.reduce(function (accRect, clippingParent) {
-    var rect = getClientRectFromMixedType(element, clippingParent, strategy);
-    accRect.top = math_max(rect.top, accRect.top);
-    accRect.right = math_min(rect.right, accRect.right);
-    accRect.bottom = math_min(rect.bottom, accRect.bottom);
-    accRect.left = math_max(rect.left, accRect.left);
-    return accRect;
-  }, getClientRectFromMixedType(element, firstClippingParent, strategy));
-  clippingRect.width = clippingRect.right - clippingRect.left;
-  clippingRect.height = clippingRect.bottom - clippingRect.top;
-  clippingRect.x = clippingRect.left;
-  clippingRect.y = clippingRect.top;
-  return clippingRect;
-}
-;// ./node_modules/@popperjs/core/lib/utils/getFreshSideObject.js
-function getFreshSideObject() {
-  return {
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
-  };
-}
-;// ./node_modules/@popperjs/core/lib/utils/mergePaddingObject.js
-
-function mergePaddingObject(paddingObject) {
-  return Object.assign({}, getFreshSideObject(), paddingObject);
-}
-;// ./node_modules/@popperjs/core/lib/utils/expandToHashMap.js
-function expandToHashMap(value, keys) {
-  return keys.reduce(function (hashMap, key) {
-    hashMap[key] = value;
-    return hashMap;
-  }, {});
-}
-;// ./node_modules/@popperjs/core/lib/utils/detectOverflow.js
-
-
-
-
-
-
-
-
- // eslint-disable-next-line import/no-unused-modules
-
-function detectOverflow(state, options) {
-  if (options === void 0) {
-    options = {};
-  }
-
-  var _options = options,
-      _options$placement = _options.placement,
-      placement = _options$placement === void 0 ? state.placement : _options$placement,
-      _options$strategy = _options.strategy,
-      strategy = _options$strategy === void 0 ? state.strategy : _options$strategy,
-      _options$boundary = _options.boundary,
-      boundary = _options$boundary === void 0 ? clippingParents : _options$boundary,
-      _options$rootBoundary = _options.rootBoundary,
-      rootBoundary = _options$rootBoundary === void 0 ? viewport : _options$rootBoundary,
-      _options$elementConte = _options.elementContext,
-      elementContext = _options$elementConte === void 0 ? popper : _options$elementConte,
-      _options$altBoundary = _options.altBoundary,
-      altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary,
-      _options$padding = _options.padding,
-      padding = _options$padding === void 0 ? 0 : _options$padding;
-  var paddingObject = mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
-  var altContext = elementContext === popper ? reference : popper;
-  var popperRect = state.rects.popper;
-  var element = state.elements[altBoundary ? altContext : elementContext];
-  var clippingClientRect = getClippingRect(isElement(element) ? element : element.contextElement || getDocumentElement(state.elements.popper), boundary, rootBoundary, strategy);
-  var referenceClientRect = getBoundingClientRect(state.elements.reference);
-  var popperOffsets = computeOffsets({
-    reference: referenceClientRect,
-    element: popperRect,
-    strategy: 'absolute',
-    placement: placement
-  });
-  var popperClientRect = rectToClientRect(Object.assign({}, popperRect, popperOffsets));
-  var elementClientRect = elementContext === popper ? popperClientRect : referenceClientRect; // positive = overflowing the clipping rect
-  // 0 or negative = within the clipping rect
-
-  var overflowOffsets = {
-    top: clippingClientRect.top - elementClientRect.top + paddingObject.top,
-    bottom: elementClientRect.bottom - clippingClientRect.bottom + paddingObject.bottom,
-    left: clippingClientRect.left - elementClientRect.left + paddingObject.left,
-    right: elementClientRect.right - clippingClientRect.right + paddingObject.right
-  };
-  var offsetData = state.modifiersData.offset; // Offsets can be applied only to the popper element
-
-  if (elementContext === popper && offsetData) {
-    var offset = offsetData[placement];
-    Object.keys(overflowOffsets).forEach(function (key) {
-      var multiply = [right, bottom].indexOf(key) >= 0 ? 1 : -1;
-      var axis = [enums_top, bottom].indexOf(key) >= 0 ? 'y' : 'x';
-      overflowOffsets[key] += offset[axis] * multiply;
-    });
-  }
-
-  return overflowOffsets;
-}
-;// ./node_modules/@popperjs/core/lib/utils/computeAutoPlacement.js
-
-
-
-
-function computeAutoPlacement(state, options) {
-  if (options === void 0) {
-    options = {};
-  }
-
-  var _options = options,
-      placement = _options.placement,
-      boundary = _options.boundary,
-      rootBoundary = _options.rootBoundary,
-      padding = _options.padding,
-      flipVariations = _options.flipVariations,
-      _options$allowedAutoP = _options.allowedAutoPlacements,
-      allowedAutoPlacements = _options$allowedAutoP === void 0 ? enums_placements : _options$allowedAutoP;
-  var variation = getVariation(placement);
-  var placements = variation ? flipVariations ? variationPlacements : variationPlacements.filter(function (placement) {
-    return getVariation(placement) === variation;
-  }) : basePlacements;
-  var allowedPlacements = placements.filter(function (placement) {
-    return allowedAutoPlacements.indexOf(placement) >= 0;
-  });
-
-  if (allowedPlacements.length === 0) {
-    allowedPlacements = placements;
-  } // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
-
-
-  var overflows = allowedPlacements.reduce(function (acc, placement) {
-    acc[placement] = detectOverflow(state, {
-      placement: placement,
-      boundary: boundary,
-      rootBoundary: rootBoundary,
-      padding: padding
-    })[getBasePlacement(placement)];
-    return acc;
-  }, {});
-  return Object.keys(overflows).sort(function (a, b) {
-    return overflows[a] - overflows[b];
-  });
-}
-;// ./node_modules/@popperjs/core/lib/modifiers/flip.js
-
-
-
-
-
-
- // eslint-disable-next-line import/no-unused-modules
-
-function getExpandedFallbackPlacements(placement) {
-  if (getBasePlacement(placement) === auto) {
-    return [];
-  }
-
-  var oppositePlacement = getOppositePlacement(placement);
-  return [getOppositeVariationPlacement(placement), oppositePlacement, getOppositeVariationPlacement(oppositePlacement)];
-}
-
-function flip(_ref) {
-  var state = _ref.state,
-      options = _ref.options,
-      name = _ref.name;
-
-  if (state.modifiersData[name]._skip) {
-    return;
-  }
-
-  var _options$mainAxis = options.mainAxis,
-      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
-      _options$altAxis = options.altAxis,
-      checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,
-      specifiedFallbackPlacements = options.fallbackPlacements,
-      padding = options.padding,
-      boundary = options.boundary,
-      rootBoundary = options.rootBoundary,
-      altBoundary = options.altBoundary,
-      _options$flipVariatio = options.flipVariations,
-      flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
-      allowedAutoPlacements = options.allowedAutoPlacements;
-  var preferredPlacement = state.options.placement;
-  var basePlacement = getBasePlacement(preferredPlacement);
-  var isBasePlacement = basePlacement === preferredPlacement;
-  var fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipVariations ? [getOppositePlacement(preferredPlacement)] : getExpandedFallbackPlacements(preferredPlacement));
-  var placements = [preferredPlacement].concat(fallbackPlacements).reduce(function (acc, placement) {
-    return acc.concat(getBasePlacement(placement) === auto ? computeAutoPlacement(state, {
-      placement: placement,
-      boundary: boundary,
-      rootBoundary: rootBoundary,
-      padding: padding,
-      flipVariations: flipVariations,
-      allowedAutoPlacements: allowedAutoPlacements
-    }) : placement);
-  }, []);
-  var referenceRect = state.rects.reference;
-  var popperRect = state.rects.popper;
-  var checksMap = new Map();
-  var makeFallbackChecks = true;
-  var firstFittingPlacement = placements[0];
-
-  for (var i = 0; i < placements.length; i++) {
-    var placement = placements[i];
-
-    var _basePlacement = getBasePlacement(placement);
-
-    var isStartVariation = getVariation(placement) === start;
-    var isVertical = [enums_top, bottom].indexOf(_basePlacement) >= 0;
-    var len = isVertical ? 'width' : 'height';
-    var overflow = detectOverflow(state, {
-      placement: placement,
-      boundary: boundary,
-      rootBoundary: rootBoundary,
-      altBoundary: altBoundary,
-      padding: padding
-    });
-    var mainVariationSide = isVertical ? isStartVariation ? right : left : isStartVariation ? bottom : enums_top;
-
-    if (referenceRect[len] > popperRect[len]) {
-      mainVariationSide = getOppositePlacement(mainVariationSide);
-    }
-
-    var altVariationSide = getOppositePlacement(mainVariationSide);
-    var checks = [];
-
-    if (checkMainAxis) {
-      checks.push(overflow[_basePlacement] <= 0);
-    }
-
-    if (checkAltAxis) {
-      checks.push(overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0);
-    }
-
-    if (checks.every(function (check) {
-      return check;
-    })) {
-      firstFittingPlacement = placement;
-      makeFallbackChecks = false;
-      break;
-    }
-
-    checksMap.set(placement, checks);
-  }
-
-  if (makeFallbackChecks) {
-    // `2` may be desired in some cases – research later
-    var numberOfChecks = flipVariations ? 3 : 1;
-
-    var _loop = function _loop(_i) {
-      var fittingPlacement = placements.find(function (placement) {
-        var checks = checksMap.get(placement);
-
-        if (checks) {
-          return checks.slice(0, _i).every(function (check) {
-            return check;
-          });
-        }
-      });
-
-      if (fittingPlacement) {
-        firstFittingPlacement = fittingPlacement;
-        return "break";
-      }
-    };
-
-    for (var _i = numberOfChecks; _i > 0; _i--) {
-      var _ret = _loop(_i);
-
-      if (_ret === "break") break;
-    }
-  }
-
-  if (state.placement !== firstFittingPlacement) {
-    state.modifiersData[name]._skip = true;
-    state.placement = firstFittingPlacement;
-    state.reset = true;
-  }
-} // eslint-disable-next-line import/no-unused-modules
-
-
-/* harmony default export */ const modifiers_flip = ({
-  name: 'flip',
-  enabled: true,
-  phase: 'main',
-  fn: flip,
-  requiresIfExists: ['offset'],
-  data: {
-    _skip: false
-  }
-});
-;// ./node_modules/@popperjs/core/lib/utils/getAltAxis.js
-function getAltAxis(axis) {
-  return axis === 'x' ? 'y' : 'x';
-}
-;// ./node_modules/@popperjs/core/lib/utils/within.js
-
-function within(min, value, max) {
-  return math_max(min, math_min(value, max));
-}
-function withinMaxClamp(min, value, max) {
-  var v = within(min, value, max);
-  return v > max ? max : v;
-}
-;// ./node_modules/@popperjs/core/lib/modifiers/preventOverflow.js
-
-
-
-
-
-
-
-
-
-
-
-
-function preventOverflow(_ref) {
-  var state = _ref.state,
-      options = _ref.options,
-      name = _ref.name;
-  var _options$mainAxis = options.mainAxis,
-      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
-      _options$altAxis = options.altAxis,
-      checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis,
-      boundary = options.boundary,
-      rootBoundary = options.rootBoundary,
-      altBoundary = options.altBoundary,
-      padding = options.padding,
-      _options$tether = options.tether,
-      tether = _options$tether === void 0 ? true : _options$tether,
-      _options$tetherOffset = options.tetherOffset,
-      tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
-  var overflow = detectOverflow(state, {
-    boundary: boundary,
-    rootBoundary: rootBoundary,
-    padding: padding,
-    altBoundary: altBoundary
-  });
-  var basePlacement = getBasePlacement(state.placement);
-  var variation = getVariation(state.placement);
-  var isBasePlacement = !variation;
-  var mainAxis = getMainAxisFromPlacement(basePlacement);
-  var altAxis = getAltAxis(mainAxis);
-  var popperOffsets = state.modifiersData.popperOffsets;
-  var referenceRect = state.rects.reference;
-  var popperRect = state.rects.popper;
-  var tetherOffsetValue = typeof tetherOffset === 'function' ? tetherOffset(Object.assign({}, state.rects, {
-    placement: state.placement
-  })) : tetherOffset;
-  var normalizedTetherOffsetValue = typeof tetherOffsetValue === 'number' ? {
-    mainAxis: tetherOffsetValue,
-    altAxis: tetherOffsetValue
-  } : Object.assign({
-    mainAxis: 0,
-    altAxis: 0
-  }, tetherOffsetValue);
-  var offsetModifierState = state.modifiersData.offset ? state.modifiersData.offset[state.placement] : null;
-  var data = {
-    x: 0,
-    y: 0
-  };
-
-  if (!popperOffsets) {
-    return;
-  }
-
-  if (checkMainAxis) {
-    var _offsetModifierState$;
-
-    var mainSide = mainAxis === 'y' ? enums_top : left;
-    var altSide = mainAxis === 'y' ? bottom : right;
-    var len = mainAxis === 'y' ? 'height' : 'width';
-    var offset = popperOffsets[mainAxis];
-    var min = offset + overflow[mainSide];
-    var max = offset - overflow[altSide];
-    var additive = tether ? -popperRect[len] / 2 : 0;
-    var minLen = variation === start ? referenceRect[len] : popperRect[len];
-    var maxLen = variation === start ? -popperRect[len] : -referenceRect[len]; // We need to include the arrow in the calculation so the arrow doesn't go
-    // outside the reference bounds
-
-    var arrowElement = state.elements.arrow;
-    var arrowRect = tether && arrowElement ? getLayoutRect(arrowElement) : {
-      width: 0,
-      height: 0
-    };
-    var arrowPaddingObject = state.modifiersData['arrow#persistent'] ? state.modifiersData['arrow#persistent'].padding : getFreshSideObject();
-    var arrowPaddingMin = arrowPaddingObject[mainSide];
-    var arrowPaddingMax = arrowPaddingObject[altSide]; // If the reference length is smaller than the arrow length, we don't want
-    // to include its full size in the calculation. If the reference is small
-    // and near the edge of a boundary, the popper can overflow even if the
-    // reference is not overflowing as well (e.g. virtual elements with no
-    // width or height)
-
-    var arrowLen = within(0, referenceRect[len], arrowRect[len]);
-    var minOffset = isBasePlacement ? referenceRect[len] / 2 - additive - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis : minLen - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis;
-    var maxOffset = isBasePlacement ? -referenceRect[len] / 2 + additive + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis : maxLen + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis;
-    var arrowOffsetParent = state.elements.arrow && getOffsetParent(state.elements.arrow);
-    var clientOffset = arrowOffsetParent ? mainAxis === 'y' ? arrowOffsetParent.clientTop || 0 : arrowOffsetParent.clientLeft || 0 : 0;
-    var offsetModifierValue = (_offsetModifierState$ = offsetModifierState == null ? void 0 : offsetModifierState[mainAxis]) != null ? _offsetModifierState$ : 0;
-    var tetherMin = offset + minOffset - offsetModifierValue - clientOffset;
-    var tetherMax = offset + maxOffset - offsetModifierValue;
-    var preventedOffset = within(tether ? math_min(min, tetherMin) : min, offset, tether ? math_max(max, tetherMax) : max);
-    popperOffsets[mainAxis] = preventedOffset;
-    data[mainAxis] = preventedOffset - offset;
-  }
-
-  if (checkAltAxis) {
-    var _offsetModifierState$2;
-
-    var _mainSide = mainAxis === 'x' ? enums_top : left;
-
-    var _altSide = mainAxis === 'x' ? bottom : right;
-
-    var _offset = popperOffsets[altAxis];
-
-    var _len = altAxis === 'y' ? 'height' : 'width';
-
-    var _min = _offset + overflow[_mainSide];
-
-    var _max = _offset - overflow[_altSide];
-
-    var isOriginSide = [enums_top, left].indexOf(basePlacement) !== -1;
-
-    var _offsetModifierValue = (_offsetModifierState$2 = offsetModifierState == null ? void 0 : offsetModifierState[altAxis]) != null ? _offsetModifierState$2 : 0;
-
-    var _tetherMin = isOriginSide ? _min : _offset - referenceRect[_len] - popperRect[_len] - _offsetModifierValue + normalizedTetherOffsetValue.altAxis;
-
-    var _tetherMax = isOriginSide ? _offset + referenceRect[_len] + popperRect[_len] - _offsetModifierValue - normalizedTetherOffsetValue.altAxis : _max;
-
-    var _preventedOffset = tether && isOriginSide ? withinMaxClamp(_tetherMin, _offset, _tetherMax) : within(tether ? _tetherMin : _min, _offset, tether ? _tetherMax : _max);
-
-    popperOffsets[altAxis] = _preventedOffset;
-    data[altAxis] = _preventedOffset - _offset;
-  }
-
-  state.modifiersData[name] = data;
-} // eslint-disable-next-line import/no-unused-modules
-
-
-/* harmony default export */ const modifiers_preventOverflow = ({
-  name: 'preventOverflow',
-  enabled: true,
-  phase: 'main',
-  fn: preventOverflow,
-  requiresIfExists: ['offset']
-});
-;// ./node_modules/@popperjs/core/lib/modifiers/arrow.js
-
-
-
-
-
-
-
-
- // eslint-disable-next-line import/no-unused-modules
-
-var toPaddingObject = function toPaddingObject(padding, state) {
-  padding = typeof padding === 'function' ? padding(Object.assign({}, state.rects, {
-    placement: state.placement
-  })) : padding;
-  return mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
-};
-
-function arrow(_ref) {
-  var _state$modifiersData$;
-
-  var state = _ref.state,
-      name = _ref.name,
-      options = _ref.options;
-  var arrowElement = state.elements.arrow;
-  var popperOffsets = state.modifiersData.popperOffsets;
-  var basePlacement = getBasePlacement(state.placement);
-  var axis = getMainAxisFromPlacement(basePlacement);
-  var isVertical = [left, right].indexOf(basePlacement) >= 0;
-  var len = isVertical ? 'height' : 'width';
-
-  if (!arrowElement || !popperOffsets) {
-    return;
-  }
-
-  var paddingObject = toPaddingObject(options.padding, state);
-  var arrowRect = getLayoutRect(arrowElement);
-  var minProp = axis === 'y' ? enums_top : left;
-  var maxProp = axis === 'y' ? bottom : right;
-  var endDiff = state.rects.reference[len] + state.rects.reference[axis] - popperOffsets[axis] - state.rects.popper[len];
-  var startDiff = popperOffsets[axis] - state.rects.reference[axis];
-  var arrowOffsetParent = getOffsetParent(arrowElement);
-  var clientSize = arrowOffsetParent ? axis === 'y' ? arrowOffsetParent.clientHeight || 0 : arrowOffsetParent.clientWidth || 0 : 0;
-  var centerToReference = endDiff / 2 - startDiff / 2; // Make sure the arrow doesn't overflow the popper if the center point is
-  // outside of the popper bounds
-
-  var min = paddingObject[minProp];
-  var max = clientSize - arrowRect[len] - paddingObject[maxProp];
-  var center = clientSize / 2 - arrowRect[len] / 2 + centerToReference;
-  var offset = within(min, center, max); // Prevents breaking syntax highlighting...
-
-  var axisProp = axis;
-  state.modifiersData[name] = (_state$modifiersData$ = {}, _state$modifiersData$[axisProp] = offset, _state$modifiersData$.centerOffset = offset - center, _state$modifiersData$);
-}
-
-function arrow_effect(_ref2) {
-  var state = _ref2.state,
-      options = _ref2.options;
-  var _options$element = options.element,
-      arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;
-
-  if (arrowElement == null) {
-    return;
-  } // CSS selector
-
-
-  if (typeof arrowElement === 'string') {
-    arrowElement = state.elements.popper.querySelector(arrowElement);
-
-    if (!arrowElement) {
-      return;
-    }
-  }
-
-  if (!contains(state.elements.popper, arrowElement)) {
-    return;
-  }
-
-  state.elements.arrow = arrowElement;
-} // eslint-disable-next-line import/no-unused-modules
-
-
-/* harmony default export */ const modifiers_arrow = ({
-  name: 'arrow',
-  enabled: true,
-  phase: 'main',
-  fn: arrow,
-  effect: arrow_effect,
-  requires: ['popperOffsets'],
-  requiresIfExists: ['preventOverflow']
-});
-;// ./node_modules/@popperjs/core/lib/modifiers/hide.js
-
-
-
-function getSideOffsets(overflow, rect, preventedOffsets) {
-  if (preventedOffsets === void 0) {
-    preventedOffsets = {
-      x: 0,
-      y: 0
-    };
-  }
-
-  return {
-    top: overflow.top - rect.height - preventedOffsets.y,
-    right: overflow.right - rect.width + preventedOffsets.x,
-    bottom: overflow.bottom - rect.height + preventedOffsets.y,
-    left: overflow.left - rect.width - preventedOffsets.x
-  };
-}
-
-function isAnySideFullyClipped(overflow) {
-  return [enums_top, right, bottom, left].some(function (side) {
-    return overflow[side] >= 0;
-  });
-}
-
-function hide(_ref) {
-  var state = _ref.state,
-      name = _ref.name;
-  var referenceRect = state.rects.reference;
-  var popperRect = state.rects.popper;
-  var preventedOffsets = state.modifiersData.preventOverflow;
-  var referenceOverflow = detectOverflow(state, {
-    elementContext: 'reference'
-  });
-  var popperAltOverflow = detectOverflow(state, {
-    altBoundary: true
-  });
-  var referenceClippingOffsets = getSideOffsets(referenceOverflow, referenceRect);
-  var popperEscapeOffsets = getSideOffsets(popperAltOverflow, popperRect, preventedOffsets);
-  var isReferenceHidden = isAnySideFullyClipped(referenceClippingOffsets);
-  var hasPopperEscaped = isAnySideFullyClipped(popperEscapeOffsets);
-  state.modifiersData[name] = {
-    referenceClippingOffsets: referenceClippingOffsets,
-    popperEscapeOffsets: popperEscapeOffsets,
-    isReferenceHidden: isReferenceHidden,
-    hasPopperEscaped: hasPopperEscaped
-  };
-  state.attributes.popper = Object.assign({}, state.attributes.popper, {
-    'data-popper-reference-hidden': isReferenceHidden,
-    'data-popper-escaped': hasPopperEscaped
-  });
-} // eslint-disable-next-line import/no-unused-modules
-
-
-/* harmony default export */ const modifiers_hide = ({
-  name: 'hide',
-  enabled: true,
-  phase: 'main',
-  requiresIfExists: ['preventOverflow'],
-  fn: hide
-});
-;// ./node_modules/@popperjs/core/lib/popper.js
-
-
-
-
-
-
-
-
-
-
-var defaultModifiers = [eventListeners, modifiers_popperOffsets, modifiers_computeStyles, modifiers_applyStyles, modifiers_offset, modifiers_flip, modifiers_preventOverflow, modifiers_arrow, modifiers_hide];
-var popper_createPopper = /*#__PURE__*/popperGenerator({
-  defaultModifiers: defaultModifiers
-}); // eslint-disable-next-line import/no-unused-modules
-
- // eslint-disable-next-line import/no-unused-modules
-
- // eslint-disable-next-line import/no-unused-modules
-
-
-;// ./node_modules/flowbite/lib/esm/components/dropdown/index.js
-var dropdown_assign = (undefined && undefined.__assign) || function () {
-    dropdown_assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return dropdown_assign.apply(this, arguments);
-};
-var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-
-var dropdown_Default = {
-    placement: 'bottom',
-    triggerType: 'click',
-    offsetSkidding: 0,
-    offsetDistance: 10,
-    delay: 300,
-    ignoreClickOutsideClass: false,
-    onShow: function () { },
-    onHide: function () { },
-    onToggle: function () { },
-};
-var dropdown_DefaultInstanceOptions = {
-    id: null,
-    override: true,
-};
-var Dropdown = /** @class */ (function () {
-    function Dropdown(targetElement, triggerElement, options, instanceOptions) {
-        if (targetElement === void 0) { targetElement = null; }
-        if (triggerElement === void 0) { triggerElement = null; }
-        if (options === void 0) { options = dropdown_Default; }
-        if (instanceOptions === void 0) { instanceOptions = dropdown_DefaultInstanceOptions; }
-        this._instanceId = instanceOptions.id
-            ? instanceOptions.id
-            : targetElement.id;
-        this._targetEl = targetElement;
-        this._triggerEl = triggerElement;
-        this._options = dropdown_assign(dropdown_assign({}, dropdown_Default), options);
-        this._popperInstance = null;
-        this._visible = false;
-        this._initialized = false;
-        this.init();
-        dom_instances.addInstance('Dropdown', this, this._instanceId, instanceOptions.override);
-    }
-    Dropdown.prototype.init = function () {
-        if (this._triggerEl && this._targetEl && !this._initialized) {
-            this._popperInstance = this._createPopperInstance();
-            this._setupEventListeners();
-            this._initialized = true;
-        }
-    };
-    Dropdown.prototype.destroy = function () {
-        var _this = this;
-        var triggerEvents = this._getTriggerEvents();
-        // Remove click event listeners for trigger element
-        if (this._options.triggerType === 'click') {
-            triggerEvents.showEvents.forEach(function (ev) {
-                _this._triggerEl.removeEventListener(ev, _this._clickHandler);
-            });
-        }
-        // Remove hover event listeners for trigger and target elements
-        if (this._options.triggerType === 'hover') {
-            triggerEvents.showEvents.forEach(function (ev) {
-                _this._triggerEl.removeEventListener(ev, _this._hoverShowTriggerElHandler);
-                _this._targetEl.removeEventListener(ev, _this._hoverShowTargetElHandler);
-            });
-            triggerEvents.hideEvents.forEach(function (ev) {
-                _this._triggerEl.removeEventListener(ev, _this._hoverHideHandler);
-                _this._targetEl.removeEventListener(ev, _this._hoverHideHandler);
-            });
-        }
-        this._popperInstance.destroy();
-        this._initialized = false;
-    };
-    Dropdown.prototype.removeInstance = function () {
-        dom_instances.removeInstance('Dropdown', this._instanceId);
-    };
-    Dropdown.prototype.destroyAndRemoveInstance = function () {
-        this.destroy();
-        this.removeInstance();
-    };
-    Dropdown.prototype._setupEventListeners = function () {
-        var _this = this;
-        var triggerEvents = this._getTriggerEvents();
-        this._clickHandler = function () {
-            _this.toggle();
-        };
-        // click event handling for trigger element
-        if (this._options.triggerType === 'click') {
-            triggerEvents.showEvents.forEach(function (ev) {
-                _this._triggerEl.addEventListener(ev, _this._clickHandler);
-            });
-        }
-        this._hoverShowTriggerElHandler = function (ev) {
-            if (ev.type === 'click') {
-                _this.toggle();
-            }
-            else {
-                setTimeout(function () {
-                    _this.show();
-                }, _this._options.delay);
-            }
-        };
-        this._hoverShowTargetElHandler = function () {
-            _this.show();
-        };
-        this._hoverHideHandler = function () {
-            setTimeout(function () {
-                if (!_this._targetEl.matches(':hover')) {
-                    _this.hide();
-                }
-            }, _this._options.delay);
-        };
-        // hover event handling for trigger element
-        if (this._options.triggerType === 'hover') {
-            triggerEvents.showEvents.forEach(function (ev) {
-                _this._triggerEl.addEventListener(ev, _this._hoverShowTriggerElHandler);
-                _this._targetEl.addEventListener(ev, _this._hoverShowTargetElHandler);
-            });
-            triggerEvents.hideEvents.forEach(function (ev) {
-                _this._triggerEl.addEventListener(ev, _this._hoverHideHandler);
-                _this._targetEl.addEventListener(ev, _this._hoverHideHandler);
-            });
-        }
-    };
-    Dropdown.prototype._createPopperInstance = function () {
-        return popper_createPopper(this._triggerEl, this._targetEl, {
-            placement: this._options.placement,
-            modifiers: [
-                {
-                    name: 'offset',
-                    options: {
-                        offset: [
-                            this._options.offsetSkidding,
-                            this._options.offsetDistance,
-                        ],
-                    },
-                },
-            ],
-        });
-    };
-    Dropdown.prototype._setupClickOutsideListener = function () {
-        var _this = this;
-        this._clickOutsideEventListener = function (ev) {
-            _this._handleClickOutside(ev, _this._targetEl);
-        };
-        document.body.addEventListener('click', this._clickOutsideEventListener, true);
-    };
-    Dropdown.prototype._removeClickOutsideListener = function () {
-        document.body.removeEventListener('click', this._clickOutsideEventListener, true);
-    };
-    Dropdown.prototype._handleClickOutside = function (ev, targetEl) {
-        var clickedEl = ev.target;
-        // Ignore clicks on the trigger element (ie. a datepicker input)
-        var ignoreClickOutsideClass = this._options.ignoreClickOutsideClass;
-        var isIgnored = false;
-        if (ignoreClickOutsideClass) {
-            var ignoredClickOutsideEls = document.querySelectorAll(".".concat(ignoreClickOutsideClass));
-            ignoredClickOutsideEls.forEach(function (el) {
-                if (el.contains(clickedEl)) {
-                    isIgnored = true;
-                    return;
-                }
-            });
-        }
-        // Ignore clicks on the target element (ie. dropdown itself)
-        if (clickedEl !== targetEl &&
-            !targetEl.contains(clickedEl) &&
-            !this._triggerEl.contains(clickedEl) &&
-            !isIgnored &&
-            this.isVisible()) {
-            this.hide();
-        }
-    };
-    Dropdown.prototype._getTriggerEvents = function () {
-        switch (this._options.triggerType) {
-            case 'hover':
-                return {
-                    showEvents: ['mouseenter', 'click'],
-                    hideEvents: ['mouseleave'],
-                };
-            case 'click':
-                return {
-                    showEvents: ['click'],
-                    hideEvents: [],
-                };
-            case 'none':
-                return {
-                    showEvents: [],
-                    hideEvents: [],
-                };
-            default:
-                return {
-                    showEvents: ['click'],
-                    hideEvents: [],
-                };
-        }
-    };
-    Dropdown.prototype.toggle = function () {
-        if (this.isVisible()) {
-            this.hide();
-        }
-        else {
-            this.show();
-        }
-        this._options.onToggle(this);
-    };
-    Dropdown.prototype.isVisible = function () {
-        return this._visible;
-    };
-    Dropdown.prototype.show = function () {
-        this._targetEl.classList.remove('hidden');
-        this._targetEl.classList.add('block');
-        this._targetEl.removeAttribute('aria-hidden');
-        // Enable the event listeners
-        this._popperInstance.setOptions(function (options) { return (dropdown_assign(dropdown_assign({}, options), { modifiers: __spreadArray(__spreadArray([], options.modifiers, true), [
-                { name: 'eventListeners', enabled: true },
-            ], false) })); });
-        this._setupClickOutsideListener();
-        // Update its position
-        this._popperInstance.update();
-        this._visible = true;
-        // callback function
-        this._options.onShow(this);
-    };
-    Dropdown.prototype.hide = function () {
-        this._targetEl.classList.remove('block');
-        this._targetEl.classList.add('hidden');
-        this._targetEl.setAttribute('aria-hidden', 'true');
-        // Disable the event listeners
-        this._popperInstance.setOptions(function (options) { return (dropdown_assign(dropdown_assign({}, options), { modifiers: __spreadArray(__spreadArray([], options.modifiers, true), [
-                { name: 'eventListeners', enabled: false },
-            ], false) })); });
-        this._visible = false;
-        this._removeClickOutsideListener();
-        // callback function
-        this._options.onHide(this);
-    };
-    Dropdown.prototype.updateOnShow = function (callback) {
-        this._options.onShow = callback;
-    };
-    Dropdown.prototype.updateOnHide = function (callback) {
-        this._options.onHide = callback;
-    };
-    Dropdown.prototype.updateOnToggle = function (callback) {
-        this._options.onToggle = callback;
-    };
-    return Dropdown;
-}());
-function initDropdowns() {
-    document
-        .querySelectorAll('[data-dropdown-toggle]')
-        .forEach(function ($triggerEl) {
-        var dropdownId = $triggerEl.getAttribute('data-dropdown-toggle');
-        var $dropdownEl = document.getElementById(dropdownId);
-        if ($dropdownEl) {
-            var placement = $triggerEl.getAttribute('data-dropdown-placement');
-            var offsetSkidding = $triggerEl.getAttribute('data-dropdown-offset-skidding');
-            var offsetDistance = $triggerEl.getAttribute('data-dropdown-offset-distance');
-            var triggerType = $triggerEl.getAttribute('data-dropdown-trigger');
-            var delay = $triggerEl.getAttribute('data-dropdown-delay');
-            var ignoreClickOutsideClass = $triggerEl.getAttribute('data-dropdown-ignore-click-outside-class');
-            new Dropdown($dropdownEl, $triggerEl, {
-                placement: placement ? placement : dropdown_Default.placement,
-                triggerType: triggerType
-                    ? triggerType
-                    : dropdown_Default.triggerType,
-                offsetSkidding: offsetSkidding
-                    ? parseInt(offsetSkidding)
-                    : dropdown_Default.offsetSkidding,
-                offsetDistance: offsetDistance
-                    ? parseInt(offsetDistance)
-                    : dropdown_Default.offsetDistance,
-                delay: delay ? parseInt(delay) : dropdown_Default.delay,
-                ignoreClickOutsideClass: ignoreClickOutsideClass
-                    ? ignoreClickOutsideClass
-                    : dropdown_Default.ignoreClickOutsideClass,
-            });
-        }
-        else {
-            console.error("The dropdown element with id \"".concat(dropdownId, "\" does not exist. Please check the data-dropdown-toggle attribute."));
-        }
-    });
-}
-if (typeof window !== 'undefined') {
-    window.Dropdown = Dropdown;
-    window.initDropdowns = initDropdowns;
-}
-/* harmony default export */ const dropdown = ((/* unused pure expression or super */ null && (Dropdown)));
-//# sourceMappingURL=index.js.map
-;// ./node_modules/flowbite/lib/esm/components/modal/index.js
-var modal_assign = (undefined && undefined.__assign) || function () {
-    modal_assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return modal_assign.apply(this, arguments);
-};
-
-var modal_Default = {
-    placement: 'center',
-    backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-40',
-    backdrop: 'dynamic',
-    closable: true,
-    onHide: function () { },
-    onShow: function () { },
-    onToggle: function () { },
-};
-var modal_DefaultInstanceOptions = {
-    id: null,
-    override: true,
-};
-var Modal = /** @class */ (function () {
-    function Modal(targetEl, options, instanceOptions) {
-        if (targetEl === void 0) { targetEl = null; }
-        if (options === void 0) { options = modal_Default; }
-        if (instanceOptions === void 0) { instanceOptions = modal_DefaultInstanceOptions; }
-        this._eventListenerInstances = [];
-        this._instanceId = instanceOptions.id
-            ? instanceOptions.id
-            : targetEl.id;
-        this._targetEl = targetEl;
-        this._options = modal_assign(modal_assign({}, modal_Default), options);
-        this._isHidden = true;
-        this._backdropEl = null;
-        this._initialized = false;
-        this.init();
-        dom_instances.addInstance('Modal', this, this._instanceId, instanceOptions.override);
-    }
-    Modal.prototype.init = function () {
-        var _this = this;
-        if (this._targetEl && !this._initialized) {
-            this._getPlacementClasses().map(function (c) {
-                _this._targetEl.classList.add(c);
-            });
-            this._initialized = true;
-        }
-    };
-    Modal.prototype.destroy = function () {
-        if (this._initialized) {
-            this.removeAllEventListenerInstances();
-            this._destroyBackdropEl();
-            this._initialized = false;
-        }
-    };
-    Modal.prototype.removeInstance = function () {
-        dom_instances.removeInstance('Modal', this._instanceId);
-    };
-    Modal.prototype.destroyAndRemoveInstance = function () {
-        this.destroy();
-        this.removeInstance();
-    };
-    Modal.prototype._createBackdrop = function () {
-        var _a;
-        if (this._isHidden) {
-            var backdropEl = document.createElement('div');
-            (_a = backdropEl.classList).add.apply(_a, this._options.backdropClasses.split(' '));
-            document.querySelector('body').append(backdropEl);
-            this._backdropEl = backdropEl;
-        }
-    };
-    Modal.prototype._destroyBackdropEl = function () {
-        if (!this._isHidden && this._backdropEl) {
-            this._backdropEl.remove();
-            this._backdropEl = null;
-        }
-    };
-    Modal.prototype._setupModalCloseEventListeners = function () {
-        var _this = this;
-        if (this._options.backdrop === 'dynamic') {
-            this._clickOutsideEventListener = function (ev) {
-                _this._handleOutsideClick(ev.target);
-            };
-            this._targetEl.addEventListener('click', this._clickOutsideEventListener, true);
-        }
-        this._keydownEventListener = function (ev) {
-            if (ev.key === 'Escape') {
-                _this.hide();
-            }
-        };
-        document.body.addEventListener('keydown', this._keydownEventListener, true);
-    };
-    Modal.prototype._removeModalCloseEventListeners = function () {
-        if (this._options.backdrop === 'dynamic') {
-            this._targetEl.removeEventListener('click', this._clickOutsideEventListener, true);
-        }
-        document.body.removeEventListener('keydown', this._keydownEventListener, true);
-    };
-    Modal.prototype._handleOutsideClick = function (target) {
-        if (target === this._targetEl ||
-            (target === this._backdropEl && this.isVisible())) {
-            this.hide();
-        }
-    };
-    Modal.prototype._getPlacementClasses = function () {
-        switch (this._options.placement) {
-            // top
-            case 'top-left':
-                return ['justify-start', 'items-start'];
-            case 'top-center':
-                return ['justify-center', 'items-start'];
-            case 'top-right':
-                return ['justify-end', 'items-start'];
-            // center
-            case 'center-left':
-                return ['justify-start', 'items-center'];
-            case 'center':
-                return ['justify-center', 'items-center'];
-            case 'center-right':
-                return ['justify-end', 'items-center'];
-            // bottom
-            case 'bottom-left':
-                return ['justify-start', 'items-end'];
-            case 'bottom-center':
-                return ['justify-center', 'items-end'];
-            case 'bottom-right':
-                return ['justify-end', 'items-end'];
-            default:
-                return ['justify-center', 'items-center'];
-        }
-    };
-    Modal.prototype.toggle = function () {
-        if (this._isHidden) {
-            this.show();
-        }
-        else {
-            this.hide();
-        }
-        // callback function
-        this._options.onToggle(this);
-    };
-    Modal.prototype.show = function () {
-        if (this.isHidden) {
-            this._targetEl.classList.add('flex');
-            this._targetEl.classList.remove('hidden');
-            this._targetEl.setAttribute('aria-modal', 'true');
-            this._targetEl.setAttribute('role', 'dialog');
-            this._targetEl.removeAttribute('aria-hidden');
-            this._createBackdrop();
-            this._isHidden = false;
-            // Add keyboard event listener to the document
-            if (this._options.closable) {
-                this._setupModalCloseEventListeners();
-            }
-            // prevent body scroll
-            document.body.classList.add('overflow-hidden');
-            // callback function
-            this._options.onShow(this);
-        }
-    };
-    Modal.prototype.hide = function () {
-        if (this.isVisible) {
-            this._targetEl.classList.add('hidden');
-            this._targetEl.classList.remove('flex');
-            this._targetEl.setAttribute('aria-hidden', 'true');
-            this._targetEl.removeAttribute('aria-modal');
-            this._targetEl.removeAttribute('role');
-            this._destroyBackdropEl();
-            this._isHidden = true;
-            // re-apply body scroll
-            document.body.classList.remove('overflow-hidden');
-            if (this._options.closable) {
-                this._removeModalCloseEventListeners();
-            }
-            // callback function
-            this._options.onHide(this);
-        }
-    };
-    Modal.prototype.isVisible = function () {
-        return !this._isHidden;
-    };
-    Modal.prototype.isHidden = function () {
-        return this._isHidden;
-    };
-    Modal.prototype.addEventListenerInstance = function (element, type, handler) {
-        this._eventListenerInstances.push({
-            element: element,
-            type: type,
-            handler: handler,
-        });
-    };
-    Modal.prototype.removeAllEventListenerInstances = function () {
-        this._eventListenerInstances.map(function (eventListenerInstance) {
-            eventListenerInstance.element.removeEventListener(eventListenerInstance.type, eventListenerInstance.handler);
-        });
-        this._eventListenerInstances = [];
-    };
-    Modal.prototype.getAllEventListenerInstances = function () {
-        return this._eventListenerInstances;
-    };
-    Modal.prototype.updateOnShow = function (callback) {
-        this._options.onShow = callback;
-    };
-    Modal.prototype.updateOnHide = function (callback) {
-        this._options.onHide = callback;
-    };
-    Modal.prototype.updateOnToggle = function (callback) {
-        this._options.onToggle = callback;
-    };
-    return Modal;
-}());
-function initModals() {
-    // initiate modal based on data-modal-target
-    document.querySelectorAll('[data-modal-target]').forEach(function ($triggerEl) {
-        var modalId = $triggerEl.getAttribute('data-modal-target');
-        var $modalEl = document.getElementById(modalId);
-        if ($modalEl) {
-            var placement = $modalEl.getAttribute('data-modal-placement');
-            var backdrop = $modalEl.getAttribute('data-modal-backdrop');
-            new Modal($modalEl, {
-                placement: placement ? placement : modal_Default.placement,
-                backdrop: backdrop ? backdrop : modal_Default.backdrop,
-            });
-        }
-        else {
-            console.error("Modal with id ".concat(modalId, " does not exist. Are you sure that the data-modal-target attribute points to the correct modal id?."));
-        }
-    });
-    // toggle modal visibility
-    document.querySelectorAll('[data-modal-toggle]').forEach(function ($triggerEl) {
-        var modalId = $triggerEl.getAttribute('data-modal-toggle');
-        var $modalEl = document.getElementById(modalId);
-        if ($modalEl) {
-            var modal_1 = dom_instances.getInstance('Modal', modalId);
-            if (modal_1) {
-                var toggleModal = function () {
-                    modal_1.toggle();
-                };
-                $triggerEl.addEventListener('click', toggleModal);
-                modal_1.addEventListenerInstance($triggerEl, 'click', toggleModal);
-            }
-            else {
-                console.error("Modal with id ".concat(modalId, " has not been initialized. Please initialize it using the data-modal-target attribute."));
-            }
-        }
-        else {
-            console.error("Modal with id ".concat(modalId, " does not exist. Are you sure that the data-modal-toggle attribute points to the correct modal id?"));
-        }
-    });
-    // show modal on click if exists based on id
-    document.querySelectorAll('[data-modal-show]').forEach(function ($triggerEl) {
-        var modalId = $triggerEl.getAttribute('data-modal-show');
-        var $modalEl = document.getElementById(modalId);
-        if ($modalEl) {
-            var modal_2 = dom_instances.getInstance('Modal', modalId);
-            if (modal_2) {
-                var showModal = function () {
-                    modal_2.show();
-                };
-                $triggerEl.addEventListener('click', showModal);
-                modal_2.addEventListenerInstance($triggerEl, 'click', showModal);
-            }
-            else {
-                console.error("Modal with id ".concat(modalId, " has not been initialized. Please initialize it using the data-modal-target attribute."));
-            }
-        }
-        else {
-            console.error("Modal with id ".concat(modalId, " does not exist. Are you sure that the data-modal-show attribute points to the correct modal id?"));
-        }
-    });
-    // hide modal on click if exists based on id
-    document.querySelectorAll('[data-modal-hide]').forEach(function ($triggerEl) {
-        var modalId = $triggerEl.getAttribute('data-modal-hide');
-        var $modalEl = document.getElementById(modalId);
-        if ($modalEl) {
-            var modal_3 = dom_instances.getInstance('Modal', modalId);
-            if (modal_3) {
-                var hideModal = function () {
-                    modal_3.hide();
-                };
-                $triggerEl.addEventListener('click', hideModal);
-                modal_3.addEventListenerInstance($triggerEl, 'click', hideModal);
-            }
-            else {
-                console.error("Modal with id ".concat(modalId, " has not been initialized. Please initialize it using the data-modal-target attribute."));
-            }
-        }
-        else {
-            console.error("Modal with id ".concat(modalId, " does not exist. Are you sure that the data-modal-hide attribute points to the correct modal id?"));
-        }
-    });
-}
-if (typeof window !== 'undefined') {
-    window.Modal = Modal;
-    window.initModals = initModals;
-}
-/* harmony default export */ const modal = ((/* unused pure expression or super */ null && (Modal)));
-//# sourceMappingURL=index.js.map
-;// ./node_modules/flowbite/lib/esm/components/drawer/index.js
-var drawer_assign = (undefined && undefined.__assign) || function () {
-    drawer_assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return drawer_assign.apply(this, arguments);
-};
-
-var drawer_Default = {
-    placement: 'left',
-    bodyScrolling: false,
-    backdrop: true,
-    edge: false,
-    edgeOffset: 'bottom-[60px]',
-    backdropClasses: 'bg-gray-900/50 dark:bg-gray-900/80 fixed inset-0 z-30',
-    onShow: function () { },
-    onHide: function () { },
-    onToggle: function () { },
-};
-var drawer_DefaultInstanceOptions = {
-    id: null,
-    override: true,
-};
-var Drawer = /** @class */ (function () {
-    function Drawer(targetEl, options, instanceOptions) {
-        if (targetEl === void 0) { targetEl = null; }
-        if (options === void 0) { options = drawer_Default; }
-        if (instanceOptions === void 0) { instanceOptions = drawer_DefaultInstanceOptions; }
-        this._eventListenerInstances = [];
-        this._instanceId = instanceOptions.id
-            ? instanceOptions.id
-            : targetEl.id;
-        this._targetEl = targetEl;
-        this._options = drawer_assign(drawer_assign({}, drawer_Default), options);
-        this._visible = false;
-        this._initialized = false;
-        this.init();
-        dom_instances.addInstance('Drawer', this, this._instanceId, instanceOptions.override);
-    }
-    Drawer.prototype.init = function () {
-        var _this = this;
-        // set initial accessibility attributes
-        if (this._targetEl && !this._initialized) {
-            this._targetEl.setAttribute('aria-hidden', 'true');
-            this._targetEl.classList.add('transition-transform');
-            // set base placement classes
-            this._getPlacementClasses(this._options.placement).base.map(function (c) {
-                _this._targetEl.classList.add(c);
-            });
-            this._handleEscapeKey = function (event) {
-                if (event.key === 'Escape') {
-                    // if 'Escape' key is pressed
-                    if (_this.isVisible()) {
-                        // if the Drawer is visible
-                        _this.hide(); // hide the Drawer
-                    }
-                }
-            };
-            // add keyboard event listener to document
-            document.addEventListener('keydown', this._handleEscapeKey);
-            this._initialized = true;
-        }
-    };
-    Drawer.prototype.destroy = function () {
-        if (this._initialized) {
-            this.removeAllEventListenerInstances();
-            this._destroyBackdropEl();
-            // Remove the keyboard event listener
-            document.removeEventListener('keydown', this._handleEscapeKey);
-            this._initialized = false;
-        }
-    };
-    Drawer.prototype.removeInstance = function () {
-        dom_instances.removeInstance('Drawer', this._instanceId);
-    };
-    Drawer.prototype.destroyAndRemoveInstance = function () {
-        this.destroy();
-        this.removeInstance();
-    };
-    Drawer.prototype.hide = function () {
-        var _this = this;
-        // based on the edge option show placement classes
-        if (this._options.edge) {
-            this._getPlacementClasses(this._options.placement + '-edge').active.map(function (c) {
-                _this._targetEl.classList.remove(c);
-            });
-            this._getPlacementClasses(this._options.placement + '-edge').inactive.map(function (c) {
-                _this._targetEl.classList.add(c);
-            });
-        }
-        else {
-            this._getPlacementClasses(this._options.placement).active.map(function (c) {
-                _this._targetEl.classList.remove(c);
-            });
-            this._getPlacementClasses(this._options.placement).inactive.map(function (c) {
-                _this._targetEl.classList.add(c);
-            });
-        }
-        // set accessibility attributes
-        this._targetEl.setAttribute('aria-hidden', 'true');
-        this._targetEl.removeAttribute('aria-modal');
-        this._targetEl.removeAttribute('role');
-        // enable body scroll
-        if (!this._options.bodyScrolling) {
-            document.body.classList.remove('overflow-hidden');
-        }
-        // destroy backdrop
-        if (this._options.backdrop) {
-            this._destroyBackdropEl();
-        }
-        this._visible = false;
-        // callback function
-        this._options.onHide(this);
-    };
-    Drawer.prototype.show = function () {
-        var _this = this;
-        if (this._options.edge) {
-            this._getPlacementClasses(this._options.placement + '-edge').active.map(function (c) {
-                _this._targetEl.classList.add(c);
-            });
-            this._getPlacementClasses(this._options.placement + '-edge').inactive.map(function (c) {
-                _this._targetEl.classList.remove(c);
-            });
-        }
-        else {
-            this._getPlacementClasses(this._options.placement).active.map(function (c) {
-                _this._targetEl.classList.add(c);
-            });
-            this._getPlacementClasses(this._options.placement).inactive.map(function (c) {
-                _this._targetEl.classList.remove(c);
-            });
-        }
-        // set accessibility attributes
-        this._targetEl.setAttribute('aria-modal', 'true');
-        this._targetEl.setAttribute('role', 'dialog');
-        this._targetEl.removeAttribute('aria-hidden');
-        // disable body scroll
-        if (!this._options.bodyScrolling) {
-            document.body.classList.add('overflow-hidden');
-        }
-        // show backdrop
-        if (this._options.backdrop) {
-            this._createBackdrop();
-        }
-        this._visible = true;
-        // callback function
-        this._options.onShow(this);
-    };
-    Drawer.prototype.toggle = function () {
-        if (this.isVisible()) {
-            this.hide();
-        }
-        else {
-            this.show();
-        }
-    };
-    Drawer.prototype._createBackdrop = function () {
-        var _a;
-        var _this = this;
-        if (!this._visible) {
-            var backdropEl = document.createElement('div');
-            backdropEl.setAttribute('drawer-backdrop', '');
-            (_a = backdropEl.classList).add.apply(_a, this._options.backdropClasses.split(' '));
-            document.querySelector('body').append(backdropEl);
-            backdropEl.addEventListener('click', function () {
-                _this.hide();
-            });
-        }
-    };
-    Drawer.prototype._destroyBackdropEl = function () {
-        if (this._visible &&
-            document.querySelector('[drawer-backdrop]') !== null) {
-            document.querySelector('[drawer-backdrop]').remove();
-        }
-    };
-    Drawer.prototype._getPlacementClasses = function (placement) {
-        switch (placement) {
-            case 'top':
-                return {
-                    base: ['top-0', 'left-0', 'right-0'],
-                    active: ['transform-none'],
-                    inactive: ['-translate-y-full'],
-                };
-            case 'right':
-                return {
-                    base: ['right-0', 'top-0'],
-                    active: ['transform-none'],
-                    inactive: ['translate-x-full'],
-                };
-            case 'bottom':
-                return {
-                    base: ['bottom-0', 'left-0', 'right-0'],
-                    active: ['transform-none'],
-                    inactive: ['translate-y-full'],
-                };
-            case 'left':
-                return {
-                    base: ['left-0', 'top-0'],
-                    active: ['transform-none'],
-                    inactive: ['-translate-x-full'],
-                };
-            case 'bottom-edge':
-                return {
-                    base: ['left-0', 'top-0'],
-                    active: ['transform-none'],
-                    inactive: ['translate-y-full', this._options.edgeOffset],
-                };
-            default:
-                return {
-                    base: ['left-0', 'top-0'],
-                    active: ['transform-none'],
-                    inactive: ['-translate-x-full'],
-                };
-        }
-    };
-    Drawer.prototype.isHidden = function () {
-        return !this._visible;
-    };
-    Drawer.prototype.isVisible = function () {
-        return this._visible;
-    };
-    Drawer.prototype.addEventListenerInstance = function (element, type, handler) {
-        this._eventListenerInstances.push({
-            element: element,
-            type: type,
-            handler: handler,
-        });
-    };
-    Drawer.prototype.removeAllEventListenerInstances = function () {
-        this._eventListenerInstances.map(function (eventListenerInstance) {
-            eventListenerInstance.element.removeEventListener(eventListenerInstance.type, eventListenerInstance.handler);
-        });
-        this._eventListenerInstances = [];
-    };
-    Drawer.prototype.getAllEventListenerInstances = function () {
-        return this._eventListenerInstances;
-    };
-    Drawer.prototype.updateOnShow = function (callback) {
-        this._options.onShow = callback;
-    };
-    Drawer.prototype.updateOnHide = function (callback) {
-        this._options.onHide = callback;
-    };
-    Drawer.prototype.updateOnToggle = function (callback) {
-        this._options.onToggle = callback;
-    };
-    return Drawer;
-}());
-function initDrawers() {
-    document.querySelectorAll('[data-drawer-target]').forEach(function ($triggerEl) {
-        // mandatory
-        var drawerId = $triggerEl.getAttribute('data-drawer-target');
-        var $drawerEl = document.getElementById(drawerId);
-        if ($drawerEl) {
-            var placement = $triggerEl.getAttribute('data-drawer-placement');
-            var bodyScrolling = $triggerEl.getAttribute('data-drawer-body-scrolling');
-            var backdrop = $triggerEl.getAttribute('data-drawer-backdrop');
-            var edge = $triggerEl.getAttribute('data-drawer-edge');
-            var edgeOffset = $triggerEl.getAttribute('data-drawer-edge-offset');
-            new Drawer($drawerEl, {
-                placement: placement ? placement : drawer_Default.placement,
-                bodyScrolling: bodyScrolling
-                    ? bodyScrolling === 'true'
-                        ? true
-                        : false
-                    : drawer_Default.bodyScrolling,
-                backdrop: backdrop
-                    ? backdrop === 'true'
-                        ? true
-                        : false
-                    : drawer_Default.backdrop,
-                edge: edge ? (edge === 'true' ? true : false) : drawer_Default.edge,
-                edgeOffset: edgeOffset ? edgeOffset : drawer_Default.edgeOffset,
-            });
-        }
-        else {
-            console.error("Drawer with id ".concat(drawerId, " not found. Are you sure that the data-drawer-target attribute points to the correct drawer id?"));
-        }
-    });
-    document.querySelectorAll('[data-drawer-toggle]').forEach(function ($triggerEl) {
-        var drawerId = $triggerEl.getAttribute('data-drawer-toggle');
-        var $drawerEl = document.getElementById(drawerId);
-        if ($drawerEl) {
-            var drawer_1 = dom_instances.getInstance('Drawer', drawerId);
-            if (drawer_1) {
-                var toggleDrawer = function () {
-                    drawer_1.toggle();
-                };
-                $triggerEl.addEventListener('click', toggleDrawer);
-                drawer_1.addEventListenerInstance($triggerEl, 'click', toggleDrawer);
-            }
-            else {
-                console.error("Drawer with id ".concat(drawerId, " has not been initialized. Please initialize it using the data-drawer-target attribute."));
-            }
-        }
-        else {
-            console.error("Drawer with id ".concat(drawerId, " not found. Are you sure that the data-drawer-target attribute points to the correct drawer id?"));
-        }
-    });
-    document
-        .querySelectorAll('[data-drawer-dismiss], [data-drawer-hide]')
-        .forEach(function ($triggerEl) {
-        var drawerId = $triggerEl.getAttribute('data-drawer-dismiss')
-            ? $triggerEl.getAttribute('data-drawer-dismiss')
-            : $triggerEl.getAttribute('data-drawer-hide');
-        var $drawerEl = document.getElementById(drawerId);
-        if ($drawerEl) {
-            var drawer_2 = dom_instances.getInstance('Drawer', drawerId);
-            if (drawer_2) {
-                var hideDrawer = function () {
-                    drawer_2.hide();
-                };
-                $triggerEl.addEventListener('click', hideDrawer);
-                drawer_2.addEventListenerInstance($triggerEl, 'click', hideDrawer);
-            }
-            else {
-                console.error("Drawer with id ".concat(drawerId, " has not been initialized. Please initialize it using the data-drawer-target attribute."));
-            }
-        }
-        else {
-            console.error("Drawer with id ".concat(drawerId, " not found. Are you sure that the data-drawer-target attribute points to the correct drawer id"));
-        }
-    });
-    document.querySelectorAll('[data-drawer-show]').forEach(function ($triggerEl) {
-        var drawerId = $triggerEl.getAttribute('data-drawer-show');
-        var $drawerEl = document.getElementById(drawerId);
-        if ($drawerEl) {
-            var drawer_3 = dom_instances.getInstance('Drawer', drawerId);
-            if (drawer_3) {
-                var showDrawer = function () {
-                    drawer_3.show();
-                };
-                $triggerEl.addEventListener('click', showDrawer);
-                drawer_3.addEventListenerInstance($triggerEl, 'click', showDrawer);
-            }
-            else {
-                console.error("Drawer with id ".concat(drawerId, " has not been initialized. Please initialize it using the data-drawer-target attribute."));
-            }
-        }
-        else {
-            console.error("Drawer with id ".concat(drawerId, " not found. Are you sure that the data-drawer-target attribute points to the correct drawer id?"));
-        }
-    });
-}
-if (typeof window !== 'undefined') {
-    window.Drawer = Drawer;
-    window.initDrawers = initDrawers;
-}
-/* harmony default export */ const drawer = ((/* unused pure expression or super */ null && (Drawer)));
-//# sourceMappingURL=index.js.map
-;// ./node_modules/flowbite/lib/esm/components/tabs/index.js
-var tabs_assign = (undefined && undefined.__assign) || function () {
-    tabs_assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return tabs_assign.apply(this, arguments);
-};
-
-var tabs_Default = {
-    defaultTabId: null,
-    activeClasses: 'text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500',
-    inactiveClasses: 'dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300',
-    onShow: function () { },
-};
-var tabs_DefaultInstanceOptions = {
-    id: null,
-    override: true,
-};
-var Tabs = /** @class */ (function () {
-    function Tabs(tabsEl, items, options, instanceOptions) {
-        if (tabsEl === void 0) { tabsEl = null; }
-        if (items === void 0) { items = []; }
-        if (options === void 0) { options = tabs_Default; }
-        if (instanceOptions === void 0) { instanceOptions = tabs_DefaultInstanceOptions; }
-        this._instanceId = instanceOptions.id ? instanceOptions.id : tabsEl.id;
-        this._tabsEl = tabsEl;
-        this._items = items;
-        this._activeTab = options ? this.getTab(options.defaultTabId) : null;
-        this._options = tabs_assign(tabs_assign({}, tabs_Default), options);
-        this._initialized = false;
-        this.init();
-        dom_instances.addInstance('Tabs', this, this._instanceId, instanceOptions.override);
-    }
-    Tabs.prototype.init = function () {
-        var _this = this;
-        if (this._items.length && !this._initialized) {
-            // set the first tab as active if not set by explicitly
-            if (!this._activeTab) {
-                this.setActiveTab(this._items[0]);
-            }
-            // force show the first default tab
-            this.show(this._activeTab.id, true);
-            // show tab content based on click
-            this._items.map(function (tab) {
-                tab.triggerEl.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    _this.show(tab.id);
-                });
-            });
-        }
-    };
-    Tabs.prototype.destroy = function () {
-        if (this._initialized) {
-            this._initialized = false;
-        }
-    };
-    Tabs.prototype.removeInstance = function () {
-        this.destroy();
-        dom_instances.removeInstance('Tabs', this._instanceId);
-    };
-    Tabs.prototype.destroyAndRemoveInstance = function () {
-        this.destroy();
-        this.removeInstance();
-    };
-    Tabs.prototype.getActiveTab = function () {
-        return this._activeTab;
-    };
-    Tabs.prototype.setActiveTab = function (tab) {
-        this._activeTab = tab;
-    };
-    Tabs.prototype.getTab = function (id) {
-        return this._items.filter(function (t) { return t.id === id; })[0];
-    };
-    Tabs.prototype.show = function (id, forceShow) {
-        var _a, _b;
-        var _this = this;
-        if (forceShow === void 0) { forceShow = false; }
-        var tab = this.getTab(id);
-        // don't do anything if already active
-        if (tab === this._activeTab && !forceShow) {
-            return;
-        }
-        // hide other tabs
-        this._items.map(function (t) {
-            var _a, _b;
-            if (t !== tab) {
-                (_a = t.triggerEl.classList).remove.apply(_a, _this._options.activeClasses.split(' '));
-                (_b = t.triggerEl.classList).add.apply(_b, _this._options.inactiveClasses.split(' '));
-                t.targetEl.classList.add('hidden');
-                t.triggerEl.setAttribute('aria-selected', 'false');
-            }
-        });
-        // show active tab
-        (_a = tab.triggerEl.classList).add.apply(_a, this._options.activeClasses.split(' '));
-        (_b = tab.triggerEl.classList).remove.apply(_b, this._options.inactiveClasses.split(' '));
-        tab.triggerEl.setAttribute('aria-selected', 'true');
-        tab.targetEl.classList.remove('hidden');
-        this.setActiveTab(tab);
-        // callback function
-        this._options.onShow(this, tab);
-    };
-    Tabs.prototype.updateOnShow = function (callback) {
-        this._options.onShow = callback;
-    };
-    return Tabs;
-}());
-function initTabs() {
-    document.querySelectorAll('[data-tabs-toggle]').forEach(function ($parentEl) {
-        var tabItems = [];
-        var activeClasses = $parentEl.getAttribute('data-tabs-active-classes');
-        var inactiveClasses = $parentEl.getAttribute('data-tabs-inactive-classes');
-        var defaultTabId = null;
-        $parentEl
-            .querySelectorAll('[role="tab"]')
-            .forEach(function ($triggerEl) {
-            var isActive = $triggerEl.getAttribute('aria-selected') === 'true';
-            var tab = {
-                id: $triggerEl.getAttribute('data-tabs-target'),
-                triggerEl: $triggerEl,
-                targetEl: document.querySelector($triggerEl.getAttribute('data-tabs-target')),
-            };
-            tabItems.push(tab);
-            if (isActive) {
-                defaultTabId = tab.id;
-            }
-        });
-        new Tabs($parentEl, tabItems, {
-            defaultTabId: defaultTabId,
-            activeClasses: activeClasses
-                ? activeClasses
-                : tabs_Default.activeClasses,
-            inactiveClasses: inactiveClasses
-                ? inactiveClasses
-                : tabs_Default.inactiveClasses,
-        });
-    });
-}
-if (typeof window !== 'undefined') {
-    window.Tabs = Tabs;
-    window.initTabs = initTabs;
-}
-/* harmony default export */ const tabs = ((/* unused pure expression or super */ null && (Tabs)));
-//# sourceMappingURL=index.js.map
-;// ./node_modules/flowbite/lib/esm/components/tooltip/index.js
-var tooltip_assign = (undefined && undefined.__assign) || function () {
-    tooltip_assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return tooltip_assign.apply(this, arguments);
-};
-var tooltip_spreadArray = (undefined && undefined.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-
-var tooltip_Default = {
-    placement: 'top',
-    triggerType: 'hover',
-    onShow: function () { },
-    onHide: function () { },
-    onToggle: function () { },
-};
-var tooltip_DefaultInstanceOptions = {
-    id: null,
-    override: true,
-};
-var Tooltip = /** @class */ (function () {
-    function Tooltip(targetEl, triggerEl, options, instanceOptions) {
-        if (targetEl === void 0) { targetEl = null; }
-        if (triggerEl === void 0) { triggerEl = null; }
-        if (options === void 0) { options = tooltip_Default; }
-        if (instanceOptions === void 0) { instanceOptions = tooltip_DefaultInstanceOptions; }
-        this._instanceId = instanceOptions.id
-            ? instanceOptions.id
-            : targetEl.id;
-        this._targetEl = targetEl;
-        this._triggerEl = triggerEl;
-        this._options = tooltip_assign(tooltip_assign({}, tooltip_Default), options);
-        this._popperInstance = null;
-        this._visible = false;
-        this._initialized = false;
-        this.init();
-        dom_instances.addInstance('Tooltip', this, this._instanceId, instanceOptions.override);
-    }
-    Tooltip.prototype.init = function () {
-        if (this._triggerEl && this._targetEl && !this._initialized) {
-            this._setupEventListeners();
-            this._popperInstance = this._createPopperInstance();
-            this._initialized = true;
-        }
-    };
-    Tooltip.prototype.destroy = function () {
-        var _this = this;
-        if (this._initialized) {
-            // remove event listeners associated with the trigger element
-            var triggerEvents = this._getTriggerEvents();
-            triggerEvents.showEvents.forEach(function (ev) {
-                _this._triggerEl.removeEventListener(ev, _this._showHandler);
-            });
-            triggerEvents.hideEvents.forEach(function (ev) {
-                _this._triggerEl.removeEventListener(ev, _this._hideHandler);
-            });
-            // remove event listeners for keydown
-            this._removeKeydownListener();
-            // remove event listeners for click outside
-            this._removeClickOutsideListener();
-            // destroy the Popper instance if you have one (assuming this._popperInstance is the Popper instance)
-            if (this._popperInstance) {
-                this._popperInstance.destroy();
-            }
-            this._initialized = false;
-        }
-    };
-    Tooltip.prototype.removeInstance = function () {
-        dom_instances.removeInstance('Tooltip', this._instanceId);
-    };
-    Tooltip.prototype.destroyAndRemoveInstance = function () {
-        this.destroy();
-        this.removeInstance();
-    };
-    Tooltip.prototype._setupEventListeners = function () {
-        var _this = this;
-        var triggerEvents = this._getTriggerEvents();
-        this._showHandler = function () {
-            _this.show();
-        };
-        this._hideHandler = function () {
-            _this.hide();
-        };
-        triggerEvents.showEvents.forEach(function (ev) {
-            _this._triggerEl.addEventListener(ev, _this._showHandler);
-        });
-        triggerEvents.hideEvents.forEach(function (ev) {
-            _this._triggerEl.addEventListener(ev, _this._hideHandler);
-        });
-    };
-    Tooltip.prototype._createPopperInstance = function () {
-        return popper_createPopper(this._triggerEl, this._targetEl, {
-            placement: this._options.placement,
-            modifiers: [
-                {
-                    name: 'offset',
-                    options: {
-                        offset: [0, 8],
-                    },
-                },
-            ],
-        });
-    };
-    Tooltip.prototype._getTriggerEvents = function () {
-        switch (this._options.triggerType) {
-            case 'hover':
-                return {
-                    showEvents: ['mouseenter', 'focus'],
-                    hideEvents: ['mouseleave', 'blur'],
-                };
-            case 'click':
-                return {
-                    showEvents: ['click', 'focus'],
-                    hideEvents: ['focusout', 'blur'],
-                };
-            case 'none':
-                return {
-                    showEvents: [],
-                    hideEvents: [],
-                };
-            default:
-                return {
-                    showEvents: ['mouseenter', 'focus'],
-                    hideEvents: ['mouseleave', 'blur'],
-                };
-        }
-    };
-    Tooltip.prototype._setupKeydownListener = function () {
-        var _this = this;
-        this._keydownEventListener = function (ev) {
-            if (ev.key === 'Escape') {
-                _this.hide();
-            }
-        };
-        document.body.addEventListener('keydown', this._keydownEventListener, true);
-    };
-    Tooltip.prototype._removeKeydownListener = function () {
-        document.body.removeEventListener('keydown', this._keydownEventListener, true);
-    };
-    Tooltip.prototype._setupClickOutsideListener = function () {
-        var _this = this;
-        this._clickOutsideEventListener = function (ev) {
-            _this._handleClickOutside(ev, _this._targetEl);
-        };
-        document.body.addEventListener('click', this._clickOutsideEventListener, true);
-    };
-    Tooltip.prototype._removeClickOutsideListener = function () {
-        document.body.removeEventListener('click', this._clickOutsideEventListener, true);
-    };
-    Tooltip.prototype._handleClickOutside = function (ev, targetEl) {
-        var clickedEl = ev.target;
-        if (clickedEl !== targetEl &&
-            !targetEl.contains(clickedEl) &&
-            !this._triggerEl.contains(clickedEl) &&
-            this.isVisible()) {
-            this.hide();
-        }
-    };
-    Tooltip.prototype.isVisible = function () {
-        return this._visible;
-    };
-    Tooltip.prototype.toggle = function () {
-        if (this.isVisible()) {
-            this.hide();
-        }
-        else {
-            this.show();
-        }
-    };
-    Tooltip.prototype.show = function () {
-        this._targetEl.classList.remove('opacity-0', 'invisible');
-        this._targetEl.classList.add('opacity-100', 'visible');
-        // Enable the event listeners
-        this._popperInstance.setOptions(function (options) { return (tooltip_assign(tooltip_assign({}, options), { modifiers: tooltip_spreadArray(tooltip_spreadArray([], options.modifiers, true), [
-                { name: 'eventListeners', enabled: true },
-            ], false) })); });
-        // handle click outside
-        this._setupClickOutsideListener();
-        // handle esc keydown
-        this._setupKeydownListener();
-        // Update its position
-        this._popperInstance.update();
-        // set visibility
-        this._visible = true;
-        // callback function
-        this._options.onShow(this);
-    };
-    Tooltip.prototype.hide = function () {
-        this._targetEl.classList.remove('opacity-100', 'visible');
-        this._targetEl.classList.add('opacity-0', 'invisible');
-        // Disable the event listeners
-        this._popperInstance.setOptions(function (options) { return (tooltip_assign(tooltip_assign({}, options), { modifiers: tooltip_spreadArray(tooltip_spreadArray([], options.modifiers, true), [
-                { name: 'eventListeners', enabled: false },
-            ], false) })); });
-        // handle click outside
-        this._removeClickOutsideListener();
-        // handle esc keydown
-        this._removeKeydownListener();
-        // set visibility
-        this._visible = false;
-        // callback function
-        this._options.onHide(this);
-    };
-    Tooltip.prototype.updateOnShow = function (callback) {
-        this._options.onShow = callback;
-    };
-    Tooltip.prototype.updateOnHide = function (callback) {
-        this._options.onHide = callback;
-    };
-    Tooltip.prototype.updateOnToggle = function (callback) {
-        this._options.onToggle = callback;
-    };
-    return Tooltip;
-}());
-function initTooltips() {
-    document.querySelectorAll('[data-tooltip-target]').forEach(function ($triggerEl) {
-        var tooltipId = $triggerEl.getAttribute('data-tooltip-target');
-        var $tooltipEl = document.getElementById(tooltipId);
-        if ($tooltipEl) {
-            var triggerType = $triggerEl.getAttribute('data-tooltip-trigger');
-            var placement = $triggerEl.getAttribute('data-tooltip-placement');
-            new Tooltip($tooltipEl, $triggerEl, {
-                placement: placement ? placement : tooltip_Default.placement,
-                triggerType: triggerType
-                    ? triggerType
-                    : tooltip_Default.triggerType,
-            });
-        }
-        else {
-            console.error("The tooltip element with id \"".concat(tooltipId, "\" does not exist. Please check the data-tooltip-target attribute."));
-        }
-    });
-}
-if (typeof window !== 'undefined') {
-    window.Tooltip = Tooltip;
-    window.initTooltips = initTooltips;
-}
-/* harmony default export */ const tooltip = ((/* unused pure expression or super */ null && (Tooltip)));
-//# sourceMappingURL=index.js.map
-;// ./node_modules/flowbite/lib/esm/components/popover/index.js
-var popover_assign = (undefined && undefined.__assign) || function () {
-    popover_assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return popover_assign.apply(this, arguments);
-};
-var popover_spreadArray = (undefined && undefined.__spreadArray) || function (to, from, pack) {
-    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
-        if (ar || !(i in from)) {
-            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
-            ar[i] = from[i];
-        }
-    }
-    return to.concat(ar || Array.prototype.slice.call(from));
-};
-/* eslint-disable @typescript-eslint/no-empty-function */
-
-
-var popover_Default = {
-    placement: 'top',
-    offset: 10,
-    triggerType: 'hover',
-    onShow: function () { },
-    onHide: function () { },
-    onToggle: function () { },
-};
-var popover_DefaultInstanceOptions = {
-    id: null,
-    override: true,
-};
-var Popover = /** @class */ (function () {
-    function Popover(targetEl, triggerEl, options, instanceOptions) {
-        if (targetEl === void 0) { targetEl = null; }
-        if (triggerEl === void 0) { triggerEl = null; }
-        if (options === void 0) { options = popover_Default; }
-        if (instanceOptions === void 0) { instanceOptions = popover_DefaultInstanceOptions; }
-        this._instanceId = instanceOptions.id
-            ? instanceOptions.id
-            : targetEl.id;
-        this._targetEl = targetEl;
-        this._triggerEl = triggerEl;
-        this._options = popover_assign(popover_assign({}, popover_Default), options);
-        this._popperInstance = null;
-        this._visible = false;
-        this._initialized = false;
-        this.init();
-        dom_instances.addInstance('Popover', this, instanceOptions.id ? instanceOptions.id : this._targetEl.id, instanceOptions.override);
-    }
-    Popover.prototype.init = function () {
-        if (this._triggerEl && this._targetEl && !this._initialized) {
-            this._setupEventListeners();
-            this._popperInstance = this._createPopperInstance();
-            this._initialized = true;
-        }
-    };
-    Popover.prototype.destroy = function () {
-        var _this = this;
-        if (this._initialized) {
-            // remove event listeners associated with the trigger element and target element
-            var triggerEvents = this._getTriggerEvents();
-            triggerEvents.showEvents.forEach(function (ev) {
-                _this._triggerEl.removeEventListener(ev, _this._showHandler);
-                _this._targetEl.removeEventListener(ev, _this._showHandler);
-            });
-            triggerEvents.hideEvents.forEach(function (ev) {
-                _this._triggerEl.removeEventListener(ev, _this._hideHandler);
-                _this._targetEl.removeEventListener(ev, _this._hideHandler);
-            });
-            // remove event listeners for keydown
-            this._removeKeydownListener();
-            // remove event listeners for click outside
-            this._removeClickOutsideListener();
-            // destroy the Popper instance if you have one (assuming this._popperInstance is the Popper instance)
-            if (this._popperInstance) {
-                this._popperInstance.destroy();
-            }
-            this._initialized = false;
-        }
-    };
-    Popover.prototype.removeInstance = function () {
-        dom_instances.removeInstance('Popover', this._instanceId);
-    };
-    Popover.prototype.destroyAndRemoveInstance = function () {
-        this.destroy();
-        this.removeInstance();
-    };
-    Popover.prototype._setupEventListeners = function () {
-        var _this = this;
-        var triggerEvents = this._getTriggerEvents();
-        this._showHandler = function () {
-            _this.show();
-        };
-        this._hideHandler = function () {
-            setTimeout(function () {
-                if (!_this._targetEl.matches(':hover')) {
-                    _this.hide();
-                }
-            }, 100);
-        };
-        triggerEvents.showEvents.forEach(function (ev) {
-            _this._triggerEl.addEventListener(ev, _this._showHandler);
-            _this._targetEl.addEventListener(ev, _this._showHandler);
-        });
-        triggerEvents.hideEvents.forEach(function (ev) {
-            _this._triggerEl.addEventListener(ev, _this._hideHandler);
-            _this._targetEl.addEventListener(ev, _this._hideHandler);
-        });
-    };
-    Popover.prototype._createPopperInstance = function () {
-        return popper_createPopper(this._triggerEl, this._targetEl, {
-            placement: this._options.placement,
-            modifiers: [
-                {
-                    name: 'offset',
-                    options: {
-                        offset: [0, this._options.offset],
-                    },
-                },
-            ],
-        });
-    };
-    Popover.prototype._getTriggerEvents = function () {
-        switch (this._options.triggerType) {
-            case 'hover':
-                return {
-                    showEvents: ['mouseenter', 'focus'],
-                    hideEvents: ['mouseleave', 'blur'],
-                };
-            case 'click':
-                return {
-                    showEvents: ['click', 'focus'],
-                    hideEvents: ['focusout', 'blur'],
-                };
-            case 'none':
-                return {
-                    showEvents: [],
-                    hideEvents: [],
-                };
-            default:
-                return {
-                    showEvents: ['mouseenter', 'focus'],
-                    hideEvents: ['mouseleave', 'blur'],
-                };
-        }
-    };
-    Popover.prototype._setupKeydownListener = function () {
-        var _this = this;
-        this._keydownEventListener = function (ev) {
-            if (ev.key === 'Escape') {
-                _this.hide();
-            }
-        };
-        document.body.addEventListener('keydown', this._keydownEventListener, true);
-    };
-    Popover.prototype._removeKeydownListener = function () {
-        document.body.removeEventListener('keydown', this._keydownEventListener, true);
-    };
-    Popover.prototype._setupClickOutsideListener = function () {
-        var _this = this;
-        this._clickOutsideEventListener = function (ev) {
-            _this._handleClickOutside(ev, _this._targetEl);
-        };
-        document.body.addEventListener('click', this._clickOutsideEventListener, true);
-    };
-    Popover.prototype._removeClickOutsideListener = function () {
-        document.body.removeEventListener('click', this._clickOutsideEventListener, true);
-    };
-    Popover.prototype._handleClickOutside = function (ev, targetEl) {
-        var clickedEl = ev.target;
-        if (clickedEl !== targetEl &&
-            !targetEl.contains(clickedEl) &&
-            !this._triggerEl.contains(clickedEl) &&
-            this.isVisible()) {
-            this.hide();
-        }
-    };
-    Popover.prototype.isVisible = function () {
-        return this._visible;
-    };
-    Popover.prototype.toggle = function () {
-        if (this.isVisible()) {
-            this.hide();
-        }
-        else {
-            this.show();
-        }
-        this._options.onToggle(this);
-    };
-    Popover.prototype.show = function () {
-        this._targetEl.classList.remove('opacity-0', 'invisible');
-        this._targetEl.classList.add('opacity-100', 'visible');
-        // Enable the event listeners
-        this._popperInstance.setOptions(function (options) { return (popover_assign(popover_assign({}, options), { modifiers: popover_spreadArray(popover_spreadArray([], options.modifiers, true), [
-                { name: 'eventListeners', enabled: true },
-            ], false) })); });
-        // handle click outside
-        this._setupClickOutsideListener();
-        // handle esc keydown
-        this._setupKeydownListener();
-        // Update its position
-        this._popperInstance.update();
-        // set visibility to true
-        this._visible = true;
-        // callback function
-        this._options.onShow(this);
-    };
-    Popover.prototype.hide = function () {
-        this._targetEl.classList.remove('opacity-100', 'visible');
-        this._targetEl.classList.add('opacity-0', 'invisible');
-        // Disable the event listeners
-        this._popperInstance.setOptions(function (options) { return (popover_assign(popover_assign({}, options), { modifiers: popover_spreadArray(popover_spreadArray([], options.modifiers, true), [
-                { name: 'eventListeners', enabled: false },
-            ], false) })); });
-        // handle click outside
-        this._removeClickOutsideListener();
-        // handle esc keydown
-        this._removeKeydownListener();
-        // set visibility to false
-        this._visible = false;
-        // callback function
-        this._options.onHide(this);
-    };
-    Popover.prototype.updateOnShow = function (callback) {
-        this._options.onShow = callback;
-    };
-    Popover.prototype.updateOnHide = function (callback) {
-        this._options.onHide = callback;
-    };
-    Popover.prototype.updateOnToggle = function (callback) {
-        this._options.onToggle = callback;
-    };
-    return Popover;
-}());
-function initPopovers() {
-    document.querySelectorAll('[data-popover-target]').forEach(function ($triggerEl) {
-        var popoverID = $triggerEl.getAttribute('data-popover-target');
-        var $popoverEl = document.getElementById(popoverID);
-        if ($popoverEl) {
-            var triggerType = $triggerEl.getAttribute('data-popover-trigger');
-            var placement = $triggerEl.getAttribute('data-popover-placement');
-            var offset = $triggerEl.getAttribute('data-popover-offset');
-            new Popover($popoverEl, $triggerEl, {
-                placement: placement ? placement : popover_Default.placement,
-                offset: offset ? parseInt(offset) : popover_Default.offset,
-                triggerType: triggerType
-                    ? triggerType
-                    : popover_Default.triggerType,
-            });
-        }
-        else {
-            console.error("The popover element with id \"".concat(popoverID, "\" does not exist. Please check the data-popover-target attribute."));
-        }
-    });
-}
-if (typeof window !== 'undefined') {
-    window.Popover = Popover;
-    window.initPopovers = initPopovers;
-}
-/* harmony default export */ const popover = ((/* unused pure expression or super */ null && (Popover)));
-//# sourceMappingURL=index.js.map
-;// ./node_modules/flowbite/lib/esm/components/dial/index.js
-var dial_assign = (undefined && undefined.__assign) || function () {
-    dial_assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return dial_assign.apply(this, arguments);
-};
-
-var dial_Default = {
-    triggerType: 'hover',
-    onShow: function () { },
-    onHide: function () { },
-    onToggle: function () { },
-};
-var dial_DefaultInstanceOptions = {
-    id: null,
-    override: true,
-};
-var Dial = /** @class */ (function () {
-    function Dial(parentEl, triggerEl, targetEl, options, instanceOptions) {
-        if (parentEl === void 0) { parentEl = null; }
-        if (triggerEl === void 0) { triggerEl = null; }
-        if (targetEl === void 0) { targetEl = null; }
-        if (options === void 0) { options = dial_Default; }
-        if (instanceOptions === void 0) { instanceOptions = dial_DefaultInstanceOptions; }
-        this._instanceId = instanceOptions.id
-            ? instanceOptions.id
-            : targetEl.id;
-        this._parentEl = parentEl;
-        this._triggerEl = triggerEl;
-        this._targetEl = targetEl;
-        this._options = dial_assign(dial_assign({}, dial_Default), options);
-        this._visible = false;
-        this._initialized = false;
-        this.init();
-        dom_instances.addInstance('Dial', this, this._instanceId, instanceOptions.override);
-    }
-    Dial.prototype.init = function () {
-        var _this = this;
-        if (this._triggerEl && this._targetEl && !this._initialized) {
-            var triggerEventTypes = this._getTriggerEventTypes(this._options.triggerType);
-            this._showEventHandler = function () {
-                _this.show();
-            };
-            triggerEventTypes.showEvents.forEach(function (ev) {
-                _this._triggerEl.addEventListener(ev, _this._showEventHandler);
-                _this._targetEl.addEventListener(ev, _this._showEventHandler);
-            });
-            this._hideEventHandler = function () {
-                if (!_this._parentEl.matches(':hover')) {
-                    _this.hide();
-                }
-            };
-            triggerEventTypes.hideEvents.forEach(function (ev) {
-                _this._parentEl.addEventListener(ev, _this._hideEventHandler);
-            });
-            this._initialized = true;
-        }
-    };
-    Dial.prototype.destroy = function () {
-        var _this = this;
-        if (this._initialized) {
-            var triggerEventTypes = this._getTriggerEventTypes(this._options.triggerType);
-            triggerEventTypes.showEvents.forEach(function (ev) {
-                _this._triggerEl.removeEventListener(ev, _this._showEventHandler);
-                _this._targetEl.removeEventListener(ev, _this._showEventHandler);
-            });
-            triggerEventTypes.hideEvents.forEach(function (ev) {
-                _this._parentEl.removeEventListener(ev, _this._hideEventHandler);
-            });
-            this._initialized = false;
-        }
-    };
-    Dial.prototype.removeInstance = function () {
-        dom_instances.removeInstance('Dial', this._instanceId);
-    };
-    Dial.prototype.destroyAndRemoveInstance = function () {
-        this.destroy();
-        this.removeInstance();
-    };
-    Dial.prototype.hide = function () {
-        this._targetEl.classList.add('hidden');
-        if (this._triggerEl) {
-            this._triggerEl.setAttribute('aria-expanded', 'false');
-        }
-        this._visible = false;
-        // callback function
-        this._options.onHide(this);
-    };
-    Dial.prototype.show = function () {
-        this._targetEl.classList.remove('hidden');
-        if (this._triggerEl) {
-            this._triggerEl.setAttribute('aria-expanded', 'true');
-        }
-        this._visible = true;
-        // callback function
-        this._options.onShow(this);
-    };
-    Dial.prototype.toggle = function () {
-        if (this._visible) {
-            this.hide();
-        }
-        else {
-            this.show();
-        }
-    };
-    Dial.prototype.isHidden = function () {
-        return !this._visible;
-    };
-    Dial.prototype.isVisible = function () {
-        return this._visible;
-    };
-    Dial.prototype._getTriggerEventTypes = function (triggerType) {
-        switch (triggerType) {
-            case 'hover':
-                return {
-                    showEvents: ['mouseenter', 'focus'],
-                    hideEvents: ['mouseleave', 'blur'],
-                };
-            case 'click':
-                return {
-                    showEvents: ['click', 'focus'],
-                    hideEvents: ['focusout', 'blur'],
-                };
-            case 'none':
-                return {
-                    showEvents: [],
-                    hideEvents: [],
-                };
-            default:
-                return {
-                    showEvents: ['mouseenter', 'focus'],
-                    hideEvents: ['mouseleave', 'blur'],
-                };
-        }
-    };
-    Dial.prototype.updateOnShow = function (callback) {
-        this._options.onShow = callback;
-    };
-    Dial.prototype.updateOnHide = function (callback) {
-        this._options.onHide = callback;
-    };
-    Dial.prototype.updateOnToggle = function (callback) {
-        this._options.onToggle = callback;
-    };
-    return Dial;
-}());
-function initDials() {
-    document.querySelectorAll('[data-dial-init]').forEach(function ($parentEl) {
-        var $triggerEl = $parentEl.querySelector('[data-dial-toggle]');
-        if ($triggerEl) {
-            var dialId = $triggerEl.getAttribute('data-dial-toggle');
-            var $dialEl = document.getElementById(dialId);
-            if ($dialEl) {
-                var triggerType = $triggerEl.getAttribute('data-dial-trigger');
-                new Dial($parentEl, $triggerEl, $dialEl, {
-                    triggerType: triggerType
-                        ? triggerType
-                        : dial_Default.triggerType,
-                });
-            }
-            else {
-                console.error("Dial with id ".concat(dialId, " does not exist. Are you sure that the data-dial-toggle attribute points to the correct modal id?"));
-            }
-        }
-        else {
-            console.error("Dial with id ".concat($parentEl.id, " does not have a trigger element. Are you sure that the data-dial-toggle attribute exists?"));
-        }
-    });
-}
-if (typeof window !== 'undefined') {
-    window.Dial = Dial;
-    window.initDials = initDials;
-}
-/* harmony default export */ const dial = ((/* unused pure expression or super */ null && (Dial)));
-//# sourceMappingURL=index.js.map
-;// ./node_modules/flowbite/lib/esm/components/input-counter/index.js
-var input_counter_assign = (undefined && undefined.__assign) || function () {
-    input_counter_assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return input_counter_assign.apply(this, arguments);
-};
-
-var input_counter_Default = {
-    minValue: null,
-    maxValue: null,
-    onIncrement: function () { },
-    onDecrement: function () { },
-};
-var input_counter_DefaultInstanceOptions = {
-    id: null,
-    override: true,
-};
-var InputCounter = /** @class */ (function () {
-    function InputCounter(targetEl, incrementEl, decrementEl, options, instanceOptions) {
-        if (targetEl === void 0) { targetEl = null; }
-        if (incrementEl === void 0) { incrementEl = null; }
-        if (decrementEl === void 0) { decrementEl = null; }
-        if (options === void 0) { options = input_counter_Default; }
-        if (instanceOptions === void 0) { instanceOptions = input_counter_DefaultInstanceOptions; }
-        this._instanceId = instanceOptions.id
-            ? instanceOptions.id
-            : targetEl.id;
-        this._targetEl = targetEl;
-        this._incrementEl = incrementEl;
-        this._decrementEl = decrementEl;
-        this._options = input_counter_assign(input_counter_assign({}, input_counter_Default), options);
-        this._initialized = false;
-        this.init();
-        dom_instances.addInstance('InputCounter', this, this._instanceId, instanceOptions.override);
-    }
-    InputCounter.prototype.init = function () {
-        var _this = this;
-        if (this._targetEl && !this._initialized) {
-            this._inputHandler = function (event) {
-                {
-                    var target = event.target;
-                    // check if the value is numeric
-                    if (!/^\d*$/.test(target.value)) {
-                        // Regex to check if the value is numeric
-                        target.value = target.value.replace(/[^\d]/g, ''); // Remove non-numeric characters
-                    }
-                    // check for max value
-                    if (_this._options.maxValue !== null &&
-                        parseInt(target.value) > _this._options.maxValue) {
-                        target.value = _this._options.maxValue.toString();
-                    }
-                    // check for min value
-                    if (_this._options.minValue !== null &&
-                        parseInt(target.value) < _this._options.minValue) {
-                        target.value = _this._options.minValue.toString();
-                    }
-                }
-            };
-            this._incrementClickHandler = function () {
-                _this.increment();
-            };
-            this._decrementClickHandler = function () {
-                _this.decrement();
-            };
-            // Add event listener to restrict input to numeric values only
-            this._targetEl.addEventListener('input', this._inputHandler);
-            if (this._incrementEl) {
-                this._incrementEl.addEventListener('click', this._incrementClickHandler);
-            }
-            if (this._decrementEl) {
-                this._decrementEl.addEventListener('click', this._decrementClickHandler);
-            }
-            this._initialized = true;
-        }
-    };
-    InputCounter.prototype.destroy = function () {
-        if (this._targetEl && this._initialized) {
-            this._targetEl.removeEventListener('input', this._inputHandler);
-            if (this._incrementEl) {
-                this._incrementEl.removeEventListener('click', this._incrementClickHandler);
-            }
-            if (this._decrementEl) {
-                this._decrementEl.removeEventListener('click', this._decrementClickHandler);
-            }
-            this._initialized = false;
-        }
-    };
-    InputCounter.prototype.removeInstance = function () {
-        dom_instances.removeInstance('InputCounter', this._instanceId);
-    };
-    InputCounter.prototype.destroyAndRemoveInstance = function () {
-        this.destroy();
-        this.removeInstance();
-    };
-    InputCounter.prototype.getCurrentValue = function () {
-        return parseInt(this._targetEl.value) || 0;
-    };
-    InputCounter.prototype.increment = function () {
-        // don't increment if the value is already at the maximum value
-        if (this._options.maxValue !== null &&
-            this.getCurrentValue() >= this._options.maxValue) {
-            return;
-        }
-        this._targetEl.value = (this.getCurrentValue() + 1).toString();
-        this._options.onIncrement(this);
-    };
-    InputCounter.prototype.decrement = function () {
-        // don't decrement if the value is already at the minimum value
-        if (this._options.minValue !== null &&
-            this.getCurrentValue() <= this._options.minValue) {
-            return;
-        }
-        this._targetEl.value = (this.getCurrentValue() - 1).toString();
-        this._options.onDecrement(this);
-    };
-    InputCounter.prototype.updateOnIncrement = function (callback) {
-        this._options.onIncrement = callback;
-    };
-    InputCounter.prototype.updateOnDecrement = function (callback) {
-        this._options.onDecrement = callback;
-    };
-    return InputCounter;
-}());
-function initInputCounters() {
-    document.querySelectorAll('[data-input-counter]').forEach(function ($targetEl) {
-        var targetId = $targetEl.id;
-        var $incrementEl = document.querySelector('[data-input-counter-increment="' + targetId + '"]');
-        var $decrementEl = document.querySelector('[data-input-counter-decrement="' + targetId + '"]');
-        var minValue = $targetEl.getAttribute('data-input-counter-min');
-        var maxValue = $targetEl.getAttribute('data-input-counter-max');
-        // check if the target element exists
-        if ($targetEl) {
-            if (!dom_instances.instanceExists('InputCounter', $targetEl.getAttribute('id'))) {
-                new InputCounter($targetEl, $incrementEl ? $incrementEl : null, $decrementEl ? $decrementEl : null, {
-                    minValue: minValue ? parseInt(minValue) : null,
-                    maxValue: maxValue ? parseInt(maxValue) : null,
-                });
-            }
-        }
-        else {
-            console.error("The target element with id \"".concat(targetId, "\" does not exist. Please check the data-input-counter attribute."));
-        }
-    });
-}
-if (typeof window !== 'undefined') {
-    window.InputCounter = InputCounter;
-    window.initInputCounters = initInputCounters;
-}
-/* harmony default export */ const input_counter = ((/* unused pure expression or super */ null && (InputCounter)));
-//# sourceMappingURL=index.js.map
-;// ./node_modules/flowbite/lib/esm/components/clipboard/index.js
-var clipboard_assign = (undefined && undefined.__assign) || function () {
-    clipboard_assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return clipboard_assign.apply(this, arguments);
-};
-
-var clipboard_Default = {
-    htmlEntities: false,
-    contentType: 'input',
-    onCopy: function () { },
-};
-var clipboard_DefaultInstanceOptions = {
-    id: null,
-    override: true,
-};
-var CopyClipboard = /** @class */ (function () {
-    function CopyClipboard(triggerEl, targetEl, options, instanceOptions) {
-        if (triggerEl === void 0) { triggerEl = null; }
-        if (targetEl === void 0) { targetEl = null; }
-        if (options === void 0) { options = clipboard_Default; }
-        if (instanceOptions === void 0) { instanceOptions = clipboard_DefaultInstanceOptions; }
-        this._instanceId = instanceOptions.id
-            ? instanceOptions.id
-            : targetEl.id;
-        this._triggerEl = triggerEl;
-        this._targetEl = targetEl;
-        this._options = clipboard_assign(clipboard_assign({}, clipboard_Default), options);
-        this._initialized = false;
-        this.init();
-        dom_instances.addInstance('CopyClipboard', this, this._instanceId, instanceOptions.override);
-    }
-    CopyClipboard.prototype.init = function () {
-        var _this = this;
-        if (this._targetEl && this._triggerEl && !this._initialized) {
-            this._triggerElClickHandler = function () {
-                _this.copy();
-            };
-            // clicking on the trigger element should copy the value of the target element
-            if (this._triggerEl) {
-                this._triggerEl.addEventListener('click', this._triggerElClickHandler);
-            }
-            this._initialized = true;
-        }
-    };
-    CopyClipboard.prototype.destroy = function () {
-        if (this._triggerEl && this._targetEl && this._initialized) {
-            if (this._triggerEl) {
-                this._triggerEl.removeEventListener('click', this._triggerElClickHandler);
-            }
-            this._initialized = false;
-        }
-    };
-    CopyClipboard.prototype.removeInstance = function () {
-        dom_instances.removeInstance('CopyClipboard', this._instanceId);
-    };
-    CopyClipboard.prototype.destroyAndRemoveInstance = function () {
-        this.destroy();
-        this.removeInstance();
-    };
-    CopyClipboard.prototype.getTargetValue = function () {
-        if (this._options.contentType === 'input') {
-            return this._targetEl.value;
-        }
-        if (this._options.contentType === 'innerHTML') {
-            return this._targetEl.innerHTML;
-        }
-        if (this._options.contentType === 'textContent') {
-            return this._targetEl.textContent.replace(/\s+/g, ' ').trim();
-        }
-    };
-    CopyClipboard.prototype.copy = function () {
-        var textToCopy = this.getTargetValue();
-        // Check if HTMLEntities option is enabled
-        if (this._options.htmlEntities) {
-            // Encode the text using HTML entities
-            textToCopy = this.decodeHTML(textToCopy);
-        }
-        // Create a temporary textarea element
-        var tempTextArea = document.createElement('textarea');
-        tempTextArea.value = textToCopy;
-        document.body.appendChild(tempTextArea);
-        // Select the text inside the textarea and copy it to the clipboard
-        tempTextArea.select();
-        document.execCommand('copy');
-        // Remove the temporary textarea
-        document.body.removeChild(tempTextArea);
-        // Callback function
-        this._options.onCopy(this);
-        return textToCopy;
-    };
-    // Function to encode text into HTML entities
-    CopyClipboard.prototype.decodeHTML = function (html) {
-        var textarea = document.createElement('textarea');
-        textarea.innerHTML = html;
-        return textarea.textContent;
-    };
-    CopyClipboard.prototype.updateOnCopyCallback = function (callback) {
-        this._options.onCopy = callback;
-    };
-    return CopyClipboard;
-}());
-function initCopyClipboards() {
-    document
-        .querySelectorAll('[data-copy-to-clipboard-target]')
-        .forEach(function ($triggerEl) {
-        var targetId = $triggerEl.getAttribute('data-copy-to-clipboard-target');
-        var $targetEl = document.getElementById(targetId);
-        var contentType = $triggerEl.getAttribute('data-copy-to-clipboard-content-type');
-        var htmlEntities = $triggerEl.getAttribute('data-copy-to-clipboard-html-entities');
-        // check if the target element exists
-        if ($targetEl) {
-            if (!dom_instances.instanceExists('CopyClipboard', $targetEl.getAttribute('id'))) {
-                new CopyClipboard($triggerEl, $targetEl, {
-                    htmlEntities: htmlEntities && htmlEntities === 'true'
-                        ? true
-                        : clipboard_Default.htmlEntities,
-                    contentType: contentType
-                        ? contentType
-                        : clipboard_Default.contentType,
-                });
-            }
-        }
-        else {
-            console.error("The target element with id \"".concat(targetId, "\" does not exist. Please check the data-copy-to-clipboard-target attribute."));
-        }
-    });
-}
-if (typeof window !== 'undefined') {
-    window.CopyClipboard = CopyClipboard;
-    window.initClipboards = initCopyClipboards;
-}
-/* harmony default export */ const clipboard = ((/* unused pure expression or super */ null && (CopyClipboard)));
-//# sourceMappingURL=index.js.map
-;// ./node_modules/flowbite-datepicker/dist/main.esm.js
-function _arrayLikeToArray(r, a) {
-  (null == a || a > r.length) && (a = r.length);
-  for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e];
-  return n;
-}
-function _arrayWithHoles(r) {
-  if (Array.isArray(r)) return r;
-}
-function _arrayWithoutHoles(r) {
-  if (Array.isArray(r)) return _arrayLikeToArray(r);
-}
-function _assertThisInitialized(e) {
-  if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  return e;
-}
-function _callSuper(t, o, e) {
-  return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e));
-}
-function _classCallCheck(a, n) {
-  if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function");
-}
-function _defineProperties(e, r) {
-  for (var t = 0; t < r.length; t++) {
-    var o = r[t];
-    o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o);
-  }
-}
-function _createClass(e, r, t) {
-  return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", {
-    writable: !1
-  }), e;
-}
-function _get() {
-  return _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get.bind() : function (e, t, r) {
-    var p = _superPropBase(e, t);
-    if (p) {
-      var n = Object.getOwnPropertyDescriptor(p, t);
-      return n.get ? n.get.call(arguments.length < 3 ? e : r) : n.value;
-    }
-  }, _get.apply(null, arguments);
-}
-function _getPrototypeOf(t) {
-  return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) {
-    return t.__proto__ || Object.getPrototypeOf(t);
-  }, _getPrototypeOf(t);
-}
-function _inherits(t, e) {
-  if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function");
-  t.prototype = Object.create(e && e.prototype, {
-    constructor: {
-      value: t,
-      writable: !0,
-      configurable: !0
-    }
-  }), Object.defineProperty(t, "prototype", {
-    writable: !1
-  }), e && _setPrototypeOf(t, e);
-}
-function _isNativeReflectConstruct() {
-  try {
-    var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
-  } catch (t) {}
-  return (_isNativeReflectConstruct = function () {
-    return !!t;
-  })();
-}
-function _iterableToArray(r) {
-  if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r);
-}
-function _iterableToArrayLimit(r, l) {
-  var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"];
-  if (null != t) {
-    var e,
-      n,
-      i,
-      u,
-      a = [],
-      f = !0,
-      o = !1;
-    try {
-      if (i = (t = t.call(r)).next, 0 === l) {
-        if (Object(t) !== t) return;
-        f = !1;
-      } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0);
-    } catch (r) {
-      o = !0, n = r;
-    } finally {
-      try {
-        if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return;
-      } finally {
-        if (o) throw n;
-      }
-    }
-    return a;
-  }
-}
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _possibleConstructorReturn(t, e) {
-  if (e && ("object" == typeof e || "function" == typeof e)) return e;
-  if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined");
-  return _assertThisInitialized(t);
-}
-function _setPrototypeOf(t, e) {
-  return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) {
-    return t.__proto__ = e, t;
-  }, _setPrototypeOf(t, e);
-}
-function _slicedToArray(r, e) {
-  return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest();
-}
-function _superPropBase(t, o) {
-  for (; !{}.hasOwnProperty.call(t, o) && null !== (t = _getPrototypeOf(t)););
-  return t;
-}
-function _toConsumableArray(r) {
-  return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread();
-}
-function _toPrimitive(t, r) {
-  if ("object" != typeof t || !t) return t;
-  var e = t[Symbol.toPrimitive];
-  if (void 0 !== e) {
-    var i = e.call(t, r || "default");
-    if ("object" != typeof i) return i;
-    throw new TypeError("@@toPrimitive must return a primitive value.");
-  }
-  return ("string" === r ? String : Number)(t);
-}
-function _toPropertyKey(t) {
-  var i = _toPrimitive(t, "string");
-  return "symbol" == typeof i ? i : i + "";
-}
-function _typeof(o) {
-  "@babel/helpers - typeof";
-
-  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
-    return typeof o;
-  } : function (o) {
-    return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
-  }, _typeof(o);
-}
-function _unsupportedIterableToArray(r, a) {
-  if (r) {
-    if ("string" == typeof r) return _arrayLikeToArray(r, a);
-    var t = {}.toString.call(r).slice(8, -1);
-    return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0;
-  }
-}
-
-function hasProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-function lastItemOf(arr) {
-  return arr[arr.length - 1];
-}
-
-// push only the items not included in the array
-function pushUnique(arr) {
-  for (var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    items[_key - 1] = arguments[_key];
-  }
-  items.forEach(function (item) {
-    if (arr.includes(item)) {
-      return;
-    }
-    arr.push(item);
-  });
-  return arr;
-}
-function stringToArray(str, separator) {
-  // convert empty string to an empty array
-  return str ? str.split(separator) : [];
-}
-function isInRange(testVal, min, max) {
-  var minOK = min === undefined || testVal >= min;
-  var maxOK = max === undefined || testVal <= max;
-  return minOK && maxOK;
-}
-function limitToRange(val, min, max) {
-  if (val < min) {
-    return min;
-  }
-  if (val > max) {
-    return max;
-  }
-  return val;
-}
-function createTagRepeat(tagName, repeat) {
-  var attributes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  var index = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
-  var html = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '';
-  var openTagSrc = Object.keys(attributes).reduce(function (src, attr) {
-    var val = attributes[attr];
-    if (typeof val === 'function') {
-      val = val(index);
-    }
-    return "".concat(src, " ").concat(attr, "=\"").concat(val, "\"");
-  }, tagName);
-  html += "<".concat(openTagSrc, "></").concat(tagName, ">");
-  var next = index + 1;
-  return next < repeat ? createTagRepeat(tagName, repeat, attributes, next, html) : html;
-}
-
-// Remove the spacing surrounding tags for HTML parser not to create text nodes
-// before/after elements
-function optimizeTemplateHTML(html) {
-  return html.replace(/>\s+/g, '>').replace(/\s+</, '<');
-}
-
-function stripTime(timeValue) {
-  return new Date(timeValue).setHours(0, 0, 0, 0);
-}
-function today() {
-  return new Date().setHours(0, 0, 0, 0);
-}
-
-// Get the time value of the start of given date or year, month and day
-function dateValue() {
-  switch (arguments.length) {
-    case 0:
-      return today();
-    case 1:
-      return stripTime(arguments.length <= 0 ? undefined : arguments[0]);
-  }
-
-  // use setFullYear() to keep 2-digit year from being mapped to 1900-1999
-  var newDate = new Date(0);
-  newDate.setFullYear.apply(newDate, arguments);
-  return newDate.setHours(0, 0, 0, 0);
-}
-function addDays(date, amount) {
-  var newDate = new Date(date);
-  return newDate.setDate(newDate.getDate() + amount);
-}
-function addWeeks(date, amount) {
-  return addDays(date, amount * 7);
-}
-function addMonths(date, amount) {
-  // If the day of the date is not in the new month, the last day of the new
-  // month will be returned. e.g. Jan 31 + 1 month → Feb 28 (not Mar 03)
-  var newDate = new Date(date);
-  var monthsToSet = newDate.getMonth() + amount;
-  var expectedMonth = monthsToSet % 12;
-  if (expectedMonth < 0) {
-    expectedMonth += 12;
-  }
-  var time = newDate.setMonth(monthsToSet);
-  return newDate.getMonth() !== expectedMonth ? newDate.setDate(0) : time;
-}
-function addYears(date, amount) {
-  // If the date is Feb 29 and the new year is not a leap year, Feb 28 of the
-  // new year will be returned.
-  var newDate = new Date(date);
-  var expectedMonth = newDate.getMonth();
-  var time = newDate.setFullYear(newDate.getFullYear() + amount);
-  return expectedMonth === 1 && newDate.getMonth() === 2 ? newDate.setDate(0) : time;
-}
-
-// Calculate the distance bettwen 2 days of the week
-function dayDiff(day, from) {
-  return (day - from + 7) % 7;
-}
-
-// Get the date of the specified day of the week of given base date
-function dayOfTheWeekOf(baseDate, dayOfWeek) {
-  var weekStart = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-  var baseDay = new Date(baseDate).getDay();
-  return addDays(baseDate, dayDiff(dayOfWeek, weekStart) - dayDiff(baseDay, weekStart));
-}
-
-// Get the ISO week of a date
-function getWeek(date) {
-  // start of ISO week is Monday
-  var thuOfTheWeek = dayOfTheWeekOf(date, 4, 1);
-  // 1st week == the week where the 4th of January is in
-  var firstThu = dayOfTheWeekOf(new Date(thuOfTheWeek).setMonth(0, 4), 4, 1);
-  return Math.round((thuOfTheWeek - firstThu) / 604800000) + 1;
-}
-
-// Get the start year of the period of years that includes given date
-// years: length of the year period
-function startOfYearPeriod(date, years) {
-  /* @see https://en.wikipedia.org/wiki/Year_zero#ISO_8601 */
-  var year = new Date(date).getFullYear();
-  return Math.floor(year / years) * years;
-}
-
-// pattern for format parts
-var reFormatTokens = /dd?|DD?|mm?|MM?|yy?(?:yy)?/;
-// pattern for non date parts
-var reNonDateParts = /[\s!-/:-@[-`{-~年月日]+/;
-// cache for persed formats
-var knownFormats = {};
-// parse funtions for date parts
-var parseFns = {
-  y: function y(date, year) {
-    return new Date(date).setFullYear(parseInt(year, 10));
-  },
-  m: function m(date, month, locale) {
-    var newDate = new Date(date);
-    var monthIndex = parseInt(month, 10) - 1;
-    if (isNaN(monthIndex)) {
-      if (!month) {
-        return NaN;
-      }
-      var monthName = month.toLowerCase();
-      var compareNames = function compareNames(name) {
-        return name.toLowerCase().startsWith(monthName);
-      };
-      // compare with both short and full names because some locales have periods
-      // in the short names (not equal to the first X letters of the full names)
-      monthIndex = locale.monthsShort.findIndex(compareNames);
-      if (monthIndex < 0) {
-        monthIndex = locale.months.findIndex(compareNames);
-      }
-      if (monthIndex < 0) {
-        return NaN;
-      }
-    }
-    newDate.setMonth(monthIndex);
-    return newDate.getMonth() !== normalizeMonth(monthIndex) ? newDate.setDate(0) : newDate.getTime();
-  },
-  d: function d(date, day) {
-    return new Date(date).setDate(parseInt(day, 10));
-  }
-};
-// format functions for date parts
-var formatFns = {
-  d: function d(date) {
-    return date.getDate();
-  },
-  dd: function dd(date) {
-    return padZero(date.getDate(), 2);
-  },
-  D: function D(date, locale) {
-    return locale.daysShort[date.getDay()];
-  },
-  DD: function DD(date, locale) {
-    return locale.days[date.getDay()];
-  },
-  m: function m(date) {
-    return date.getMonth() + 1;
-  },
-  mm: function mm(date) {
-    return padZero(date.getMonth() + 1, 2);
-  },
-  M: function M(date, locale) {
-    return locale.monthsShort[date.getMonth()];
-  },
-  MM: function MM(date, locale) {
-    return locale.months[date.getMonth()];
-  },
-  y: function y(date) {
-    return date.getFullYear();
-  },
-  yy: function yy(date) {
-    return padZero(date.getFullYear(), 2).slice(-2);
-  },
-  yyyy: function yyyy(date) {
-    return padZero(date.getFullYear(), 4);
-  }
-};
-
-// get month index in normal range (0 - 11) from any number
-function normalizeMonth(monthIndex) {
-  return monthIndex > -1 ? monthIndex % 12 : normalizeMonth(monthIndex + 12);
-}
-function padZero(num, length) {
-  return num.toString().padStart(length, '0');
-}
-function parseFormatString(format) {
-  if (typeof format !== 'string') {
-    throw new Error("Invalid date format.");
-  }
-  if (format in knownFormats) {
-    return knownFormats[format];
-  }
-
-  // sprit the format string into parts and seprators
-  var separators = format.split(reFormatTokens);
-  var parts = format.match(new RegExp(reFormatTokens, 'g'));
-  if (separators.length === 0 || !parts) {
-    throw new Error("Invalid date format.");
-  }
-
-  // collect format functions used in the format
-  var partFormatters = parts.map(function (token) {
-    return formatFns[token];
-  });
-
-  // collect parse function keys used in the format
-  // iterate over parseFns' keys in order to keep the order of the keys.
-  var partParserKeys = Object.keys(parseFns).reduce(function (keys, key) {
-    var token = parts.find(function (part) {
-      return part[0] !== 'D' && part[0].toLowerCase() === key;
-    });
-    if (token) {
-      keys.push(key);
-    }
-    return keys;
-  }, []);
-  return knownFormats[format] = {
-    parser: function parser(dateStr, locale) {
-      var dateParts = dateStr.split(reNonDateParts).reduce(function (dtParts, part, index) {
-        if (part.length > 0 && parts[index]) {
-          var token = parts[index][0];
-          if (token === 'M') {
-            dtParts.m = part;
-          } else if (token !== 'D') {
-            dtParts[token] = part;
-          }
-        }
-        return dtParts;
-      }, {});
-
-      // iterate over partParserkeys so that the parsing is made in the oder
-      // of year, month and day to prevent the day parser from correcting last
-      // day of month wrongly
-      return partParserKeys.reduce(function (origDate, key) {
-        var newDate = parseFns[key](origDate, dateParts[key], locale);
-        // ingnore the part failed to parse
-        return isNaN(newDate) ? origDate : newDate;
-      }, today());
-    },
-    formatter: function formatter(date, locale) {
-      var dateStr = partFormatters.reduce(function (str, fn, index) {
-        return str += "".concat(separators[index]).concat(fn(date, locale));
-      }, '');
-      // separators' length is always parts' length + 1,
-      return dateStr += lastItemOf(separators);
-    }
-  };
-}
-function parseDate(dateStr, format, locale) {
-  if (dateStr instanceof Date || typeof dateStr === 'number') {
-    var date = stripTime(dateStr);
-    return isNaN(date) ? undefined : date;
-  }
-  if (!dateStr) {
-    return undefined;
-  }
-  if (dateStr === 'today') {
-    return today();
-  }
-  if (format && format.toValue) {
-    var _date = format.toValue(dateStr, format, locale);
-    return isNaN(_date) ? undefined : stripTime(_date);
-  }
-  return parseFormatString(format).parser(dateStr, locale);
-}
-function formatDate(date, format, locale) {
-  if (isNaN(date) || !date && date !== 0) {
-    return '';
-  }
-  var dateObj = typeof date === 'number' ? new Date(date) : date;
-  if (format.toDisplay) {
-    return format.toDisplay(dateObj, format, locale);
-  }
-  return parseFormatString(format).formatter(dateObj, locale);
-}
-
-var listenerRegistry = new WeakMap();
-var _EventTarget$prototyp = EventTarget.prototype,
-  addEventListener = _EventTarget$prototyp.addEventListener,
-  removeEventListener = _EventTarget$prototyp.removeEventListener;
-
-// Register event listeners to a key object
-// listeners: array of listener definitions;
-//   - each definition must be a flat array of event target and the arguments
-//     used to call addEventListener() on the target
-function registerListeners(keyObj, listeners) {
-  var registered = listenerRegistry.get(keyObj);
-  if (!registered) {
-    registered = [];
-    listenerRegistry.set(keyObj, registered);
-  }
-  listeners.forEach(function (listener) {
-    addEventListener.call.apply(addEventListener, _toConsumableArray(listener));
-    registered.push(listener);
-  });
-}
-function unregisterListeners(keyObj) {
-  var listeners = listenerRegistry.get(keyObj);
-  if (!listeners) {
-    return;
-  }
-  listeners.forEach(function (listener) {
-    removeEventListener.call.apply(removeEventListener, _toConsumableArray(listener));
-  });
-  listenerRegistry["delete"](keyObj);
-}
-
-// Event.composedPath() polyfill for Edge
-// based on https://gist.github.com/kleinfreund/e9787d73776c0e3750dcfcdc89f100ec
-if (!Event.prototype.composedPath) {
-  var getComposedPath = function getComposedPath(node) {
-    var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-    path.push(node);
-    var parent;
-    if (node.parentNode) {
-      parent = node.parentNode;
-    } else if (node.host) {
-      // ShadowRoot
-      parent = node.host;
-    } else if (node.defaultView) {
-      // Document
-      parent = node.defaultView;
-    }
-    return parent ? getComposedPath(parent, path) : path;
-  };
-  Event.prototype.composedPath = function () {
-    return getComposedPath(this.target);
-  };
-}
-function findFromPath(path, criteria, currentTarget) {
-  var index = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
-  var el = path[index];
-  if (criteria(el)) {
-    return el;
-  } else if (el === currentTarget || !el.parentElement) {
-    // stop when reaching currentTarget or <html>
-    return;
-  }
-  return findFromPath(path, criteria, currentTarget, index + 1);
-}
-
-// Search for the actual target of a delegated event
-function findElementInEventPath(ev, selector) {
-  var criteria = typeof selector === 'function' ? selector : function (el) {
-    return el.matches(selector);
-  };
-  return findFromPath(ev.composedPath(), criteria, ev.currentTarget);
-}
-
-// default locales
-var locales = {
-  en: {
-    days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-    daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-    daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
-    months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-    monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    today: "Today",
-    clear: "Clear",
-    titleFormat: "MM y"
-  }
-};
-
-// config options updatable by setOptions() and their default values
-var defaultOptions = {
-  autohide: false,
-  beforeShowDay: null,
-  beforeShowDecade: null,
-  beforeShowMonth: null,
-  beforeShowYear: null,
-  calendarWeeks: false,
-  clearBtn: false,
-  dateDelimiter: ',',
-  datesDisabled: [],
-  daysOfWeekDisabled: [],
-  daysOfWeekHighlighted: [],
-  defaultViewDate: undefined,
-  // placeholder, defaults to today() by the program
-  disableTouchKeyboard: false,
-  format: 'mm/dd/yyyy',
-  language: 'en',
-  maxDate: null,
-  maxNumberOfDates: 1,
-  maxView: 3,
-  minDate: null,
-  nextArrow: '<svg class="w-4 h-4 rtl:rotate-180 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/></svg>',
-  orientation: 'auto',
-  pickLevel: 0,
-  prevArrow: '<svg class="w-4 h-4 rtl:rotate-180 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/></svg>',
-  showDaysOfWeek: true,
-  showOnClick: true,
-  showOnFocus: true,
-  startView: 0,
-  title: '',
-  todayBtn: false,
-  todayBtnMode: 0,
-  todayHighlight: false,
-  updateOnBlur: true,
-  weekStart: 0
-};
-
-var range = null;
-function parseHTML(html) {
-  if (range == null) {
-    range = document.createRange();
-  }
-  return range.createContextualFragment(html);
-}
-function hideElement(el) {
-  if (el.style.display === 'none') {
-    return;
-  }
-  // back up the existing display setting in data-style-display
-  if (el.style.display) {
-    el.dataset.styleDisplay = el.style.display;
-  }
-  el.style.display = 'none';
-}
-function showElement(el) {
-  if (el.style.display !== 'none') {
-    return;
-  }
-  if (el.dataset.styleDisplay) {
-    // restore backed-up dispay property
-    el.style.display = el.dataset.styleDisplay;
-    delete el.dataset.styleDisplay;
-  } else {
-    el.style.display = '';
-  }
-}
-function emptyChildNodes(el) {
-  if (el.firstChild) {
-    el.removeChild(el.firstChild);
-    emptyChildNodes(el);
-  }
-}
-function replaceChildNodes(el, newChildNodes) {
-  emptyChildNodes(el);
-  if (newChildNodes instanceof DocumentFragment) {
-    el.appendChild(newChildNodes);
-  } else if (typeof newChildNodes === 'string') {
-    el.appendChild(parseHTML(newChildNodes));
-  } else if (typeof newChildNodes.forEach === 'function') {
-    newChildNodes.forEach(function (node) {
-      el.appendChild(node);
-    });
-  }
-}
-
-var defaultLang = defaultOptions.language,
-  defaultFormat = defaultOptions.format,
-  defaultWeekStart = defaultOptions.weekStart;
-
-// Reducer function to filter out invalid day-of-week from the input
-function sanitizeDOW(dow, day) {
-  return dow.length < 6 && day >= 0 && day < 7 ? pushUnique(dow, day) : dow;
-}
-function calcEndOfWeek(startOfWeek) {
-  return (startOfWeek + 6) % 7;
-}
-
-// validate input date. if invalid, fallback to the original value
-function validateDate(value, format, locale, origValue) {
-  var date = parseDate(value, format, locale);
-  return date !== undefined ? date : origValue;
-}
-
-// Validate viewId. if invalid, fallback to the original value
-function validateViewId(value, origValue) {
-  var max = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 3;
-  var viewId = parseInt(value, 10);
-  return viewId >= 0 && viewId <= max ? viewId : origValue;
-}
-
-// Create Datepicker configuration to set
-function processOptions(options, datepicker) {
-  var inOpts = Object.assign({}, options);
-  var config = {};
-  var locales = datepicker.constructor.locales;
-  var _ref = datepicker.config || {},
-    format = _ref.format,
-    language = _ref.language,
-    locale = _ref.locale,
-    maxDate = _ref.maxDate,
-    maxView = _ref.maxView,
-    minDate = _ref.minDate,
-    pickLevel = _ref.pickLevel,
-    startView = _ref.startView,
-    weekStart = _ref.weekStart;
-  if (inOpts.language) {
-    var lang;
-    if (inOpts.language !== language) {
-      if (locales[inOpts.language]) {
-        lang = inOpts.language;
-      } else {
-        // Check if langauge + region tag can fallback to the one without
-        // region (e.g. fr-CA → fr)
-        lang = inOpts.language.split('-')[0];
-        if (locales[lang] === undefined) {
-          lang = false;
-        }
-      }
-    }
-    delete inOpts.language;
-    if (lang) {
-      language = config.language = lang;
-
-      // update locale as well when updating language
-      var origLocale = locale || locales[defaultLang];
-      // use default language's properties for the fallback
-      locale = Object.assign({
-        format: defaultFormat,
-        weekStart: defaultWeekStart
-      }, locales[defaultLang]);
-      if (language !== defaultLang) {
-        Object.assign(locale, locales[language]);
-      }
-      config.locale = locale;
-      // if format and/or weekStart are the same as old locale's defaults,
-      // update them to new locale's defaults
-      if (format === origLocale.format) {
-        format = config.format = locale.format;
-      }
-      if (weekStart === origLocale.weekStart) {
-        weekStart = config.weekStart = locale.weekStart;
-        config.weekEnd = calcEndOfWeek(locale.weekStart);
-      }
-    }
-  }
-  if (inOpts.format) {
-    var hasToDisplay = typeof inOpts.format.toDisplay === 'function';
-    var hasToValue = typeof inOpts.format.toValue === 'function';
-    var validFormatString = reFormatTokens.test(inOpts.format);
-    if (hasToDisplay && hasToValue || validFormatString) {
-      format = config.format = inOpts.format;
-    }
-    delete inOpts.format;
-  }
-
-  //*** dates ***//
-  // while min and maxDate for "no limit" in the options are better to be null
-  // (especially when updating), the ones in the config have to be undefined
-  // because null is treated as 0 (= unix epoch) when comparing with time value
-  var minDt = minDate;
-  var maxDt = maxDate;
-  if (inOpts.minDate !== undefined) {
-    minDt = inOpts.minDate === null ? dateValue(0, 0, 1) // set 0000-01-01 to prevent negative values for year
-    : validateDate(inOpts.minDate, format, locale, minDt);
-    delete inOpts.minDate;
-  }
-  if (inOpts.maxDate !== undefined) {
-    maxDt = inOpts.maxDate === null ? undefined : validateDate(inOpts.maxDate, format, locale, maxDt);
-    delete inOpts.maxDate;
-  }
-  if (maxDt < minDt) {
-    minDate = config.minDate = maxDt;
-    maxDate = config.maxDate = minDt;
-  } else {
-    if (minDate !== minDt) {
-      minDate = config.minDate = minDt;
-    }
-    if (maxDate !== maxDt) {
-      maxDate = config.maxDate = maxDt;
-    }
-  }
-  if (inOpts.datesDisabled) {
-    config.datesDisabled = inOpts.datesDisabled.reduce(function (dates, dt) {
-      var date = parseDate(dt, format, locale);
-      return date !== undefined ? pushUnique(dates, date) : dates;
-    }, []);
-    delete inOpts.datesDisabled;
-  }
-  if (inOpts.defaultViewDate !== undefined) {
-    var viewDate = parseDate(inOpts.defaultViewDate, format, locale);
-    if (viewDate !== undefined) {
-      config.defaultViewDate = viewDate;
-    }
-    delete inOpts.defaultViewDate;
-  }
-
-  //*** days of week ***//
-  if (inOpts.weekStart !== undefined) {
-    var wkStart = Number(inOpts.weekStart) % 7;
-    if (!isNaN(wkStart)) {
-      weekStart = config.weekStart = wkStart;
-      config.weekEnd = calcEndOfWeek(wkStart);
-    }
-    delete inOpts.weekStart;
-  }
-  if (inOpts.daysOfWeekDisabled) {
-    config.daysOfWeekDisabled = inOpts.daysOfWeekDisabled.reduce(sanitizeDOW, []);
-    delete inOpts.daysOfWeekDisabled;
-  }
-  if (inOpts.daysOfWeekHighlighted) {
-    config.daysOfWeekHighlighted = inOpts.daysOfWeekHighlighted.reduce(sanitizeDOW, []);
-    delete inOpts.daysOfWeekHighlighted;
-  }
-
-  //*** multi date ***//
-  if (inOpts.maxNumberOfDates !== undefined) {
-    var maxNumberOfDates = parseInt(inOpts.maxNumberOfDates, 10);
-    if (maxNumberOfDates >= 0) {
-      config.maxNumberOfDates = maxNumberOfDates;
-      config.multidate = maxNumberOfDates !== 1;
-    }
-    delete inOpts.maxNumberOfDates;
-  }
-  if (inOpts.dateDelimiter) {
-    config.dateDelimiter = String(inOpts.dateDelimiter);
-    delete inOpts.dateDelimiter;
-  }
-
-  //*** pick level & view ***//
-  var newPickLevel = pickLevel;
-  if (inOpts.pickLevel !== undefined) {
-    newPickLevel = validateViewId(inOpts.pickLevel, 2);
-    delete inOpts.pickLevel;
-  }
-  if (newPickLevel !== pickLevel) {
-    pickLevel = config.pickLevel = newPickLevel;
-  }
-  var newMaxView = maxView;
-  if (inOpts.maxView !== undefined) {
-    newMaxView = validateViewId(inOpts.maxView, maxView);
-    delete inOpts.maxView;
-  }
-  // ensure max view >= pick level
-  newMaxView = pickLevel > newMaxView ? pickLevel : newMaxView;
-  if (newMaxView !== maxView) {
-    maxView = config.maxView = newMaxView;
-  }
-  var newStartView = startView;
-  if (inOpts.startView !== undefined) {
-    newStartView = validateViewId(inOpts.startView, newStartView);
-    delete inOpts.startView;
-  }
-  // ensure pick level <= start view <= max view
-  if (newStartView < pickLevel) {
-    newStartView = pickLevel;
-  } else if (newStartView > maxView) {
-    newStartView = maxView;
-  }
-  if (newStartView !== startView) {
-    config.startView = newStartView;
-  }
-
-  //*** template ***//
-  if (inOpts.prevArrow) {
-    var prevArrow = parseHTML(inOpts.prevArrow);
-    if (prevArrow.childNodes.length > 0) {
-      config.prevArrow = prevArrow.childNodes;
-    }
-    delete inOpts.prevArrow;
-  }
-  if (inOpts.nextArrow) {
-    var nextArrow = parseHTML(inOpts.nextArrow);
-    if (nextArrow.childNodes.length > 0) {
-      config.nextArrow = nextArrow.childNodes;
-    }
-    delete inOpts.nextArrow;
-  }
-
-  //*** misc ***//
-  if (inOpts.disableTouchKeyboard !== undefined) {
-    config.disableTouchKeyboard = 'ontouchstart' in document && !!inOpts.disableTouchKeyboard;
-    delete inOpts.disableTouchKeyboard;
-  }
-  if (inOpts.orientation) {
-    var orientation = inOpts.orientation.toLowerCase().split(/\s+/g);
-    config.orientation = {
-      x: orientation.find(function (x) {
-        return x === 'left' || x === 'right';
-      }) || 'auto',
-      y: orientation.find(function (y) {
-        return y === 'top' || y === 'bottom';
-      }) || 'auto'
-    };
-    delete inOpts.orientation;
-  }
-  if (inOpts.todayBtnMode !== undefined) {
-    switch (inOpts.todayBtnMode) {
-      case 0:
-      case 1:
-        config.todayBtnMode = inOpts.todayBtnMode;
-    }
-    delete inOpts.todayBtnMode;
-  }
-
-  //*** copy the rest ***//
-  Object.keys(inOpts).forEach(function (key) {
-    if (inOpts[key] !== undefined && hasProperty(defaultOptions, key)) {
-      config[key] = inOpts[key];
-    }
-  });
-  return config;
-}
-
-var pickerTemplate = optimizeTemplateHTML("<div class=\"datepicker hidden\">\n  <div class=\"datepicker-picker inline-block rounded-lg bg-white dark:bg-gray-700 shadow-lg p-4\">\n    <div class=\"datepicker-header\">\n      <div class=\"datepicker-title bg-white dark:bg-gray-700 dark:text-white px-2 py-3 text-center font-semibold\"></div>\n      <div class=\"datepicker-controls flex justify-between mb-2\">\n        <button type=\"button\" class=\"bg-white dark:bg-gray-700 rounded-lg text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white text-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-200 prev-btn\"></button>\n        <button type=\"button\" class=\"text-sm rounded-lg text-gray-900 dark:text-white bg-white dark:bg-gray-700 font-semibold py-2.5 px-5 hover:bg-gray-100 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-200 view-switch\"></button>\n        <button type=\"button\" class=\"bg-white dark:bg-gray-700 rounded-lg text-gray-500 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-gray-900 dark:hover:text-white text-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-200 next-btn\"></button>\n      </div>\n    </div>\n    <div class=\"datepicker-main p-1\"></div>\n    <div class=\"datepicker-footer\">\n      <div class=\"datepicker-controls flex space-x-2 rtl:space-x-reverse mt-2\">\n        <button type=\"button\" class=\"%buttonClass% today-btn text-white bg-blue-700 !bg-primary-700 dark:bg-blue-600 dark:!bg-primary-600 hover:bg-blue-800 hover:!bg-primary-800 dark:hover:bg-blue-700 dark:hover:!bg-primary-700 focus:ring-4 focus:ring-blue-300 focus:!ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center w-1/2\"></button>\n        <button type=\"button\" class=\"%buttonClass% clear-btn text-gray-900 dark:text-white bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 focus:ring-4 focus:ring-blue-300 focus:!ring-primary-300 font-medium rounded-lg text-sm px-5 py-2 text-center w-1/2\"></button>\n      </div>\n    </div>\n  </div>\n</div>");
-
-var daysTemplate = optimizeTemplateHTML("<div class=\"days\">\n  <div class=\"days-of-week grid grid-cols-7 mb-1\">".concat(createTagRepeat('span', 7, {
-  "class": 'dow block flex-1 leading-9 border-0 rounded-lg cursor-default text-center text-gray-900 font-semibold text-sm'
-}), "</div>\n  <div class=\"datepicker-grid w-64 grid grid-cols-7\">").concat(createTagRepeat('span', 42, {
-  "class": 'block flex-1 leading-9 border-0 rounded-lg cursor-default text-center text-gray-900 font-semibold text-sm h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400'
-}), "</div>\n</div>"));
-
-var calendarWeeksTemplate = optimizeTemplateHTML("<div class=\"calendar-weeks\">\n  <div class=\"days-of-week flex\"><span class=\"dow h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400\"></span></div>\n  <div class=\"weeks\">".concat(createTagRepeat('span', 6, {
-  "class": 'week block flex-1 leading-9 border-0 rounded-lg cursor-default text-center text-gray-900 font-semibold text-sm'
-}), "</div>\n</div>"));
-
-// Base class of the view classes
-var View = /*#__PURE__*/function () {
-  function View(picker, config) {
-    _classCallCheck(this, View);
-    Object.assign(this, config, {
-      picker: picker,
-      element: parseHTML("<div class=\"datepicker-view flex\"></div>").firstChild,
-      selected: []
-    });
-    this.init(this.picker.datepicker.config);
-  }
-  return _createClass(View, [{
-    key: "init",
-    value: function init(options) {
-      if (options.pickLevel !== undefined) {
-        this.isMinView = this.id === options.pickLevel;
-      }
-      this.setOptions(options);
-      this.updateFocus();
-      this.updateSelection();
-    }
-
-    // Execute beforeShow() callback and apply the result to the element
-    // args:
-    // - current - current value on the iteration on view rendering
-    // - timeValue - time value of the date to pass to beforeShow()
-  }, {
-    key: "performBeforeHook",
-    value: function performBeforeHook(el, current, timeValue) {
-      var result = this.beforeShow(new Date(timeValue));
-      switch (_typeof(result)) {
-        case 'boolean':
-          result = {
-            enabled: result
-          };
-          break;
-        case 'string':
-          result = {
-            classes: result
-          };
-      }
-      if (result) {
-        if (result.enabled === false) {
-          el.classList.add('disabled');
-          pushUnique(this.disabled, current);
-        }
-        if (result.classes) {
-          var _el$classList;
-          var extraClasses = result.classes.split(/\s+/);
-          (_el$classList = el.classList).add.apply(_el$classList, _toConsumableArray(extraClasses));
-          if (extraClasses.includes('disabled')) {
-            pushUnique(this.disabled, current);
-          }
-        }
-        if (result.content) {
-          replaceChildNodes(el, result.content);
-        }
-      }
-    }
-  }]);
-}();
-
-var DaysView = /*#__PURE__*/function (_View) {
-  function DaysView(picker) {
-    _classCallCheck(this, DaysView);
-    return _callSuper(this, DaysView, [picker, {
-      id: 0,
-      name: 'days',
-      cellClass: 'day'
-    }]);
-  }
-  _inherits(DaysView, _View);
-  return _createClass(DaysView, [{
-    key: "init",
-    value: function init(options) {
-      var onConstruction = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      if (onConstruction) {
-        var inner = parseHTML(daysTemplate).firstChild;
-        this.dow = inner.firstChild;
-        this.grid = inner.lastChild;
-        this.element.appendChild(inner);
-      }
-      _get(_getPrototypeOf(DaysView.prototype), "init", this).call(this, options);
-    }
-  }, {
-    key: "setOptions",
-    value: function setOptions(options) {
-      var _this = this;
-      var updateDOW;
-      if (hasProperty(options, 'minDate')) {
-        this.minDate = options.minDate;
-      }
-      if (hasProperty(options, 'maxDate')) {
-        this.maxDate = options.maxDate;
-      }
-      if (options.datesDisabled) {
-        this.datesDisabled = options.datesDisabled;
-      }
-      if (options.daysOfWeekDisabled) {
-        this.daysOfWeekDisabled = options.daysOfWeekDisabled;
-        updateDOW = true;
-      }
-      if (options.daysOfWeekHighlighted) {
-        this.daysOfWeekHighlighted = options.daysOfWeekHighlighted;
-      }
-      if (options.todayHighlight !== undefined) {
-        this.todayHighlight = options.todayHighlight;
-      }
-      if (options.weekStart !== undefined) {
-        this.weekStart = options.weekStart;
-        this.weekEnd = options.weekEnd;
-        updateDOW = true;
-      }
-      if (options.locale) {
-        var locale = this.locale = options.locale;
-        this.dayNames = locale.daysMin;
-        this.switchLabelFormat = locale.titleFormat;
-        updateDOW = true;
-      }
-      if (options.beforeShowDay !== undefined) {
-        this.beforeShow = typeof options.beforeShowDay === 'function' ? options.beforeShowDay : undefined;
-      }
-      if (options.calendarWeeks !== undefined) {
-        if (options.calendarWeeks && !this.calendarWeeks) {
-          var weeksElem = parseHTML(calendarWeeksTemplate).firstChild;
-          this.calendarWeeks = {
-            element: weeksElem,
-            dow: weeksElem.firstChild,
-            weeks: weeksElem.lastChild
-          };
-          this.element.insertBefore(weeksElem, this.element.firstChild);
-        } else if (this.calendarWeeks && !options.calendarWeeks) {
-          this.element.removeChild(this.calendarWeeks.element);
-          this.calendarWeeks = null;
-        }
-      }
-      if (options.showDaysOfWeek !== undefined) {
-        if (options.showDaysOfWeek) {
-          showElement(this.dow);
-          if (this.calendarWeeks) {
-            showElement(this.calendarWeeks.dow);
-          }
-        } else {
-          hideElement(this.dow);
-          if (this.calendarWeeks) {
-            hideElement(this.calendarWeeks.dow);
-          }
-        }
-      }
-
-      // update days-of-week when locale, daysOfweekDisabled or weekStart is changed
-      if (updateDOW) {
-        Array.from(this.dow.children).forEach(function (el, index) {
-          var dow = (_this.weekStart + index) % 7;
-          el.textContent = _this.dayNames[dow];
-          el.className = _this.daysOfWeekDisabled.includes(dow) ? 'dow disabled text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400 cursor-not-allowed' : 'dow text-center h-6 leading-6 text-sm font-medium text-gray-500 dark:text-gray-400';
-        });
-      }
-    }
-
-    // Apply update on the focused date to view's settings
-  }, {
-    key: "updateFocus",
-    value: function updateFocus() {
-      var viewDate = new Date(this.picker.viewDate);
-      var viewYear = viewDate.getFullYear();
-      var viewMonth = viewDate.getMonth();
-      var firstOfMonth = dateValue(viewYear, viewMonth, 1);
-      var start = dayOfTheWeekOf(firstOfMonth, this.weekStart, this.weekStart);
-      this.first = firstOfMonth;
-      this.last = dateValue(viewYear, viewMonth + 1, 0);
-      this.start = start;
-      this.focused = this.picker.viewDate;
-    }
-
-    // Apply update on the selected dates to view's settings
-  }, {
-    key: "updateSelection",
-    value: function updateSelection() {
-      var _this$picker$datepick = this.picker.datepicker,
-        dates = _this$picker$datepick.dates,
-        rangepicker = _this$picker$datepick.rangepicker;
-      this.selected = dates;
-      if (rangepicker) {
-        this.range = rangepicker.dates;
-      }
-    }
-
-    // Update the entire view UI
-  }, {
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-      // update today marker on ever render
-      this.today = this.todayHighlight ? today() : undefined;
-      // refresh disabled dates on every render in order to clear the ones added
-      // by beforeShow hook at previous render
-      this.disabled = _toConsumableArray(this.datesDisabled);
-      var switchLabel = formatDate(this.focused, this.switchLabelFormat, this.locale);
-      this.picker.setViewSwitchLabel(switchLabel);
-      this.picker.setPrevBtnDisabled(this.first <= this.minDate);
-      this.picker.setNextBtnDisabled(this.last >= this.maxDate);
-      if (this.calendarWeeks) {
-        // start of the UTC week (Monday) of the 1st of the month
-        var startOfWeek = dayOfTheWeekOf(this.first, 1, 1);
-        Array.from(this.calendarWeeks.weeks.children).forEach(function (el, index) {
-          el.textContent = getWeek(addWeeks(startOfWeek, index));
-        });
-      }
-      Array.from(this.grid.children).forEach(function (el, index) {
-        var classList = el.classList;
-        var current = addDays(_this2.start, index);
-        var date = new Date(current);
-        var day = date.getDay();
-        el.className = "datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm ".concat(_this2.cellClass);
-        el.dataset.date = current;
-        el.textContent = date.getDate();
-        if (current < _this2.first) {
-          classList.add('prev', 'text-gray-500', 'dark:text-white');
-        } else if (current > _this2.last) {
-          classList.add('next', 'text-gray-500', 'dark:text-white');
-        }
-        if (_this2.today === current) {
-          classList.add('today', 'bg-gray-100', 'dark:bg-gray-600');
-        }
-        if (current < _this2.minDate || current > _this2.maxDate || _this2.disabled.includes(current)) {
-          classList.add('disabled', 'cursor-not-allowed', 'text-gray-400', 'dark:text-gray-500');
-          classList.remove('hover:bg-gray-100', 'dark:hover:bg-gray-600', 'text-gray-900', 'dark:text-white', 'cursor-pointer');
-        }
-        if (_this2.daysOfWeekDisabled.includes(day)) {
-          classList.add('disabled', 'cursor-not-allowed', 'text-gray-400', 'dark:text-gray-500');
-          classList.remove('hover:bg-gray-100', 'dark:hover:bg-gray-600', 'text-gray-900', 'dark:text-white', 'cursor-pointer');
-          pushUnique(_this2.disabled, current);
-        }
-        if (_this2.daysOfWeekHighlighted.includes(day)) {
-          classList.add('highlighted');
-        }
-        if (_this2.range) {
-          var _this2$range = _slicedToArray(_this2.range, 2),
-            rangeStart = _this2$range[0],
-            rangeEnd = _this2$range[1];
-          if (current > rangeStart && current < rangeEnd) {
-            classList.add('range', 'bg-gray-200', 'dark:bg-gray-600');
-            classList.remove('rounded-lg', 'rounded-l-lg', 'rounded-r-lg');
-          }
-          if (current === rangeStart) {
-            classList.add('range-start', 'bg-gray-100', 'dark:bg-gray-600', 'rounded-l-lg');
-            classList.remove('rounded-lg', 'rounded-r-lg');
-          }
-          if (current === rangeEnd) {
-            classList.add('range-end', 'bg-gray-100', 'dark:bg-gray-600', 'rounded-r-lg');
-            classList.remove('rounded-lg', 'rounded-l-lg');
-          }
-        }
-        if (_this2.selected.includes(current)) {
-          classList.add('selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark:!bg-primary-600', 'dark:text-white');
-          classList.remove('text-gray-900', 'text-gray-500', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600', 'dark:bg-gray-600', 'bg-gray-100', 'bg-gray-200');
-        }
-        if (current === _this2.focused) {
-          classList.add('focused');
-        }
-        if (_this2.beforeShow) {
-          _this2.performBeforeHook(el, current, current);
-        }
-      });
-    }
-
-    // Update the view UI by applying the changes of selected and focused items
-  }, {
-    key: "refresh",
-    value: function refresh() {
-      var _this3 = this;
-      var _ref = this.range || [],
-        _ref2 = _slicedToArray(_ref, 2),
-        rangeStart = _ref2[0],
-        rangeEnd = _ref2[1];
-      this.grid.querySelectorAll('.range, .range-start, .range-end, .selected, .focused').forEach(function (el) {
-        el.classList.remove('range', 'range-start', 'range-end', 'selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark:!bg-primary-600', 'dark:text-white', 'focused');
-        el.classList.add('text-gray-900', 'rounded-lg', 'dark:text-white');
-      });
-      Array.from(this.grid.children).forEach(function (el) {
-        var current = Number(el.dataset.date);
-        var classList = el.classList;
-        classList.remove('bg-gray-200', 'dark:bg-gray-600', 'rounded-l-lg', 'rounded-r-lg');
-        if (current > rangeStart && current < rangeEnd) {
-          classList.add('range', 'bg-gray-200', 'dark:bg-gray-600');
-          classList.remove('rounded-lg');
-        }
-        if (current === rangeStart) {
-          classList.add('range-start', 'bg-gray-200', 'dark:bg-gray-600', 'rounded-l-lg');
-          classList.remove('rounded-lg');
-        }
-        if (current === rangeEnd) {
-          classList.add('range-end', 'bg-gray-200', 'dark:bg-gray-600', 'rounded-r-lg');
-          classList.remove('rounded-lg');
-        }
-        if (_this3.selected.includes(current)) {
-          classList.add('selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark:!bg-primary-600', 'dark:text-white');
-          classList.remove('text-gray-900', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600', 'bg-gray-100', 'bg-gray-200', 'dark:bg-gray-600');
-        }
-        if (current === _this3.focused) {
-          classList.add('focused');
-        }
-      });
-    }
-
-    // Update the view UI by applying the change of focused item
-  }, {
-    key: "refreshFocus",
-    value: function refreshFocus() {
-      var index = Math.round((this.focused - this.start) / 86400000);
-      this.grid.querySelectorAll('.focused').forEach(function (el) {
-        el.classList.remove('focused');
-      });
-      this.grid.children[index].classList.add('focused');
-    }
-  }]);
-}(View);
-
-function computeMonthRange(range, thisYear) {
-  if (!range || !range[0] || !range[1]) {
-    return;
-  }
-  var _range = _slicedToArray(range, 2),
-    _range$ = _slicedToArray(_range[0], 2),
-    startY = _range$[0],
-    startM = _range$[1],
-    _range$2 = _slicedToArray(_range[1], 2),
-    endY = _range$2[0],
-    endM = _range$2[1];
-  if (startY > thisYear || endY < thisYear) {
-    return;
-  }
-  return [startY === thisYear ? startM : -1, endY === thisYear ? endM : 12];
-}
-var MonthsView = /*#__PURE__*/function (_View) {
-  function MonthsView(picker) {
-    _classCallCheck(this, MonthsView);
-    return _callSuper(this, MonthsView, [picker, {
-      id: 1,
-      name: 'months',
-      cellClass: 'month'
-    }]);
-  }
-  _inherits(MonthsView, _View);
-  return _createClass(MonthsView, [{
-    key: "init",
-    value: function init(options) {
-      var onConstruction = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      if (onConstruction) {
-        this.grid = this.element;
-        this.element.classList.add('months', 'datepicker-grid', 'w-64', 'grid', 'grid-cols-4');
-        this.grid.appendChild(parseHTML(createTagRepeat('span', 12, {
-          'data-month': function dataMonth(ix) {
-            return ix;
-          }
-        })));
-      }
-      _get(_getPrototypeOf(MonthsView.prototype), "init", this).call(this, options);
-    }
-  }, {
-    key: "setOptions",
-    value: function setOptions(options) {
-      if (options.locale) {
-        this.monthNames = options.locale.monthsShort;
-      }
-      if (hasProperty(options, 'minDate')) {
-        if (options.minDate === undefined) {
-          this.minYear = this.minMonth = this.minDate = undefined;
-        } else {
-          var minDateObj = new Date(options.minDate);
-          this.minYear = minDateObj.getFullYear();
-          this.minMonth = minDateObj.getMonth();
-          this.minDate = minDateObj.setDate(1);
-        }
-      }
-      if (hasProperty(options, 'maxDate')) {
-        if (options.maxDate === undefined) {
-          this.maxYear = this.maxMonth = this.maxDate = undefined;
-        } else {
-          var maxDateObj = new Date(options.maxDate);
-          this.maxYear = maxDateObj.getFullYear();
-          this.maxMonth = maxDateObj.getMonth();
-          this.maxDate = dateValue(this.maxYear, this.maxMonth + 1, 0);
-        }
-      }
-      if (options.beforeShowMonth !== undefined) {
-        this.beforeShow = typeof options.beforeShowMonth === 'function' ? options.beforeShowMonth : undefined;
-      }
-    }
-
-    // Update view's settings to reflect the viewDate set on the picker
-  }, {
-    key: "updateFocus",
-    value: function updateFocus() {
-      var viewDate = new Date(this.picker.viewDate);
-      this.year = viewDate.getFullYear();
-      this.focused = viewDate.getMonth();
-    }
-
-    // Update view's settings to reflect the selected dates
-  }, {
-    key: "updateSelection",
-    value: function updateSelection() {
-      var _this$picker$datepick = this.picker.datepicker,
-        dates = _this$picker$datepick.dates,
-        rangepicker = _this$picker$datepick.rangepicker;
-      this.selected = dates.reduce(function (selected, timeValue) {
-        var date = new Date(timeValue);
-        var year = date.getFullYear();
-        var month = date.getMonth();
-        if (selected[year] === undefined) {
-          selected[year] = [month];
-        } else {
-          pushUnique(selected[year], month);
-        }
-        return selected;
-      }, {});
-      if (rangepicker && rangepicker.dates) {
-        this.range = rangepicker.dates.map(function (timeValue) {
-          var date = new Date(timeValue);
-          return isNaN(date) ? undefined : [date.getFullYear(), date.getMonth()];
-        });
-      }
-    }
-
-    // Update the entire view UI
-  }, {
-    key: "render",
-    value: function render() {
-      var _this = this;
-      // refresh disabled months on every render in order to clear the ones added
-      // by beforeShow hook at previous render
-      this.disabled = [];
-      this.picker.setViewSwitchLabel(this.year);
-      this.picker.setPrevBtnDisabled(this.year <= this.minYear);
-      this.picker.setNextBtnDisabled(this.year >= this.maxYear);
-      var selected = this.selected[this.year] || [];
-      var yrOutOfRange = this.year < this.minYear || this.year > this.maxYear;
-      var isMinYear = this.year === this.minYear;
-      var isMaxYear = this.year === this.maxYear;
-      var range = computeMonthRange(this.range, this.year);
-      Array.from(this.grid.children).forEach(function (el, index) {
-        var classList = el.classList;
-        var date = dateValue(_this.year, index, 1);
-        el.className = "datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm ".concat(_this.cellClass);
-        if (_this.isMinView) {
-          el.dataset.date = date;
-        }
-        // reset text on every render to clear the custom content set
-        // by beforeShow hook at previous render
-        el.textContent = _this.monthNames[index];
-        if (yrOutOfRange || isMinYear && index < _this.minMonth || isMaxYear && index > _this.maxMonth) {
-          classList.add('disabled');
-        }
-        if (range) {
-          var _range2 = _slicedToArray(range, 2),
-            rangeStart = _range2[0],
-            rangeEnd = _range2[1];
-          if (index > rangeStart && index < rangeEnd) {
-            classList.add('range');
-          }
-          if (index === rangeStart) {
-            classList.add('range-start');
-          }
-          if (index === rangeEnd) {
-            classList.add('range-end');
-          }
-        }
-        if (selected.includes(index)) {
-          classList.add('selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark:!bg-primary-600', 'dark:text-white');
-          classList.remove('text-gray-900', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600');
-        }
-        if (index === _this.focused) {
-          classList.add('focused');
-        }
-        if (_this.beforeShow) {
-          _this.performBeforeHook(el, index, date);
-        }
-      });
-    }
-
-    // Update the view UI by applying the changes of selected and focused items
-  }, {
-    key: "refresh",
-    value: function refresh() {
-      var _this2 = this;
-      var selected = this.selected[this.year] || [];
-      var _ref = computeMonthRange(this.range, this.year) || [],
-        _ref2 = _slicedToArray(_ref, 2),
-        rangeStart = _ref2[0],
-        rangeEnd = _ref2[1];
-      this.grid.querySelectorAll('.range, .range-start, .range-end, .selected, .focused').forEach(function (el) {
-        el.classList.remove('range', 'range-start', 'range-end', 'selected', 'bg-blue-700', '!bg-primary-700', 'dark:bg-blue-600', 'dark:!bg-primary-700', 'dark:text-white', 'text-white', 'focused');
-        el.classList.add('text-gray-900', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600');
-      });
-      Array.from(this.grid.children).forEach(function (el, index) {
-        var classList = el.classList;
-        if (index > rangeStart && index < rangeEnd) {
-          classList.add('range');
-        }
-        if (index === rangeStart) {
-          classList.add('range-start');
-        }
-        if (index === rangeEnd) {
-          classList.add('range-end');
-        }
-        if (selected.includes(index)) {
-          classList.add('selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark:!bg-primary-600', 'dark:text-white');
-          classList.remove('text-gray-900', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600');
-        }
-        if (index === _this2.focused) {
-          classList.add('focused');
-        }
-      });
-    }
-
-    // Update the view UI by applying the change of focused item
-  }, {
-    key: "refreshFocus",
-    value: function refreshFocus() {
-      this.grid.querySelectorAll('.focused').forEach(function (el) {
-        el.classList.remove('focused');
-      });
-      this.grid.children[this.focused].classList.add('focused');
-    }
-  }]);
-}(View);
-
-function toTitleCase(word) {
-  return _toConsumableArray(word).reduce(function (str, ch, ix) {
-    return str += ix ? ch : ch.toUpperCase();
-  }, '');
-}
-
-// Class representing the years and decades view elements
-var YearsView = /*#__PURE__*/function (_View) {
-  function YearsView(picker, config) {
-    _classCallCheck(this, YearsView);
-    return _callSuper(this, YearsView, [picker, config]);
-  }
-  _inherits(YearsView, _View);
-  return _createClass(YearsView, [{
-    key: "init",
-    value: function init(options) {
-      var onConstruction = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      if (onConstruction) {
-        this.navStep = this.step * 10;
-        this.beforeShowOption = "beforeShow".concat(toTitleCase(this.cellClass));
-        this.grid = this.element;
-        this.element.classList.add(this.name, 'datepicker-grid', 'w-64', 'grid', 'grid-cols-4');
-        this.grid.appendChild(parseHTML(createTagRepeat('span', 12)));
-      }
-      _get(_getPrototypeOf(YearsView.prototype), "init", this).call(this, options);
-    }
-  }, {
-    key: "setOptions",
-    value: function setOptions(options) {
-      if (hasProperty(options, 'minDate')) {
-        if (options.minDate === undefined) {
-          this.minYear = this.minDate = undefined;
-        } else {
-          this.minYear = startOfYearPeriod(options.minDate, this.step);
-          this.minDate = dateValue(this.minYear, 0, 1);
-        }
-      }
-      if (hasProperty(options, 'maxDate')) {
-        if (options.maxDate === undefined) {
-          this.maxYear = this.maxDate = undefined;
-        } else {
-          this.maxYear = startOfYearPeriod(options.maxDate, this.step);
-          this.maxDate = dateValue(this.maxYear, 11, 31);
-        }
-      }
-      if (options[this.beforeShowOption] !== undefined) {
-        var beforeShow = options[this.beforeShowOption];
-        this.beforeShow = typeof beforeShow === 'function' ? beforeShow : undefined;
-      }
-    }
-
-    // Update view's settings to reflect the viewDate set on the picker
-  }, {
-    key: "updateFocus",
-    value: function updateFocus() {
-      var viewDate = new Date(this.picker.viewDate);
-      var first = startOfYearPeriod(viewDate, this.navStep);
-      var last = first + 9 * this.step;
-      this.first = first;
-      this.last = last;
-      this.start = first - this.step;
-      this.focused = startOfYearPeriod(viewDate, this.step);
-    }
-
-    // Update view's settings to reflect the selected dates
-  }, {
-    key: "updateSelection",
-    value: function updateSelection() {
-      var _this = this;
-      var _this$picker$datepick = this.picker.datepicker,
-        dates = _this$picker$datepick.dates,
-        rangepicker = _this$picker$datepick.rangepicker;
-      this.selected = dates.reduce(function (years, timeValue) {
-        return pushUnique(years, startOfYearPeriod(timeValue, _this.step));
-      }, []);
-      if (rangepicker && rangepicker.dates) {
-        this.range = rangepicker.dates.map(function (timeValue) {
-          if (timeValue !== undefined) {
-            return startOfYearPeriod(timeValue, _this.step);
-          }
-        });
-      }
-    }
-
-    // Update the entire view UI
-  }, {
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-      // refresh disabled years on every render in order to clear the ones added
-      // by beforeShow hook at previous render
-      this.disabled = [];
-      this.picker.setViewSwitchLabel("".concat(this.first, "-").concat(this.last));
-      this.picker.setPrevBtnDisabled(this.first <= this.minYear);
-      this.picker.setNextBtnDisabled(this.last >= this.maxYear);
-      Array.from(this.grid.children).forEach(function (el, index) {
-        var classList = el.classList;
-        var current = _this2.start + index * _this2.step;
-        var date = dateValue(current, 0, 1);
-        el.className = "datepicker-cell hover:bg-gray-100 dark:hover:bg-gray-600 block flex-1 leading-9 border-0 rounded-lg cursor-pointer text-center text-gray-900 dark:text-white font-semibold text-sm ".concat(_this2.cellClass);
-        if (_this2.isMinView) {
-          el.dataset.date = date;
-        }
-        el.textContent = el.dataset.year = current;
-        if (index === 0) {
-          classList.add('prev');
-        } else if (index === 11) {
-          classList.add('next');
-        }
-        if (current < _this2.minYear || current > _this2.maxYear) {
-          classList.add('disabled');
-        }
-        if (_this2.range) {
-          var _this2$range = _slicedToArray(_this2.range, 2),
-            rangeStart = _this2$range[0],
-            rangeEnd = _this2$range[1];
-          if (current > rangeStart && current < rangeEnd) {
-            classList.add('range');
-          }
-          if (current === rangeStart) {
-            classList.add('range-start');
-          }
-          if (current === rangeEnd) {
-            classList.add('range-end');
-          }
-        }
-        if (_this2.selected.includes(current)) {
-          classList.add('selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark:!bg-primary-600', 'dark:text-white');
-          classList.remove('text-gray-900', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600');
-        }
-        if (current === _this2.focused) {
-          classList.add('focused');
-        }
-        if (_this2.beforeShow) {
-          _this2.performBeforeHook(el, current, date);
-        }
-      });
-    }
-
-    // Update the view UI by applying the changes of selected and focused items
-  }, {
-    key: "refresh",
-    value: function refresh() {
-      var _this3 = this;
-      var _ref = this.range || [],
-        _ref2 = _slicedToArray(_ref, 2),
-        rangeStart = _ref2[0],
-        rangeEnd = _ref2[1];
-      this.grid.querySelectorAll('.range, .range-start, .range-end, .selected, .focused').forEach(function (el) {
-        el.classList.remove('range', 'range-start', 'range-end', 'selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark!bg-primary-600', 'dark:text-white', 'focused');
-      });
-      Array.from(this.grid.children).forEach(function (el) {
-        var current = Number(el.textContent);
-        var classList = el.classList;
-        if (current > rangeStart && current < rangeEnd) {
-          classList.add('range');
-        }
-        if (current === rangeStart) {
-          classList.add('range-start');
-        }
-        if (current === rangeEnd) {
-          classList.add('range-end');
-        }
-        if (_this3.selected.includes(current)) {
-          classList.add('selected', 'bg-blue-700', '!bg-primary-700', 'text-white', 'dark:bg-blue-600', 'dark:!bg-primary-600', 'dark:text-white');
-          classList.remove('text-gray-900', 'hover:bg-gray-100', 'dark:text-white', 'dark:hover:bg-gray-600');
-        }
-        if (current === _this3.focused) {
-          classList.add('focused');
-        }
-      });
-    }
-
-    // Update the view UI by applying the change of focused item
-  }, {
-    key: "refreshFocus",
-    value: function refreshFocus() {
-      var index = Math.round((this.focused - this.start) / this.step);
-      this.grid.querySelectorAll('.focused').forEach(function (el) {
-        el.classList.remove('focused');
-      });
-      this.grid.children[index].classList.add('focused');
-    }
-  }]);
-}(View);
-
-function triggerDatepickerEvent(datepicker, type) {
-  var detail = {
-    date: datepicker.getDate(),
-    viewDate: new Date(datepicker.picker.viewDate),
-    viewId: datepicker.picker.currentView.id,
-    datepicker: datepicker
-  };
-  datepicker.element.dispatchEvent(new CustomEvent(type, {
-    detail: detail
-  }));
-}
-
-// direction: -1 (to previous), 1 (to next)
-function goToPrevOrNext(datepicker, direction) {
-  var _datepicker$config = datepicker.config,
-    minDate = _datepicker$config.minDate,
-    maxDate = _datepicker$config.maxDate;
-  var _datepicker$picker = datepicker.picker,
-    currentView = _datepicker$picker.currentView,
-    viewDate = _datepicker$picker.viewDate;
-  var newViewDate;
-  switch (currentView.id) {
-    case 0:
-      newViewDate = addMonths(viewDate, direction);
-      break;
-    case 1:
-      newViewDate = addYears(viewDate, direction);
-      break;
-    default:
-      newViewDate = addYears(viewDate, direction * currentView.navStep);
-  }
-  newViewDate = limitToRange(newViewDate, minDate, maxDate);
-  datepicker.picker.changeFocus(newViewDate).render();
-}
-function switchView(datepicker) {
-  var viewId = datepicker.picker.currentView.id;
-  if (viewId === datepicker.config.maxView) {
-    return;
-  }
-  datepicker.picker.changeView(viewId + 1).render();
-}
-function unfocus(datepicker) {
-  if (datepicker.config.updateOnBlur) {
-    datepicker.update({
-      autohide: true
-    });
-  } else {
-    datepicker.refresh('input');
-    datepicker.hide();
-  }
-}
-
-function goToSelectedMonthOrYear(datepicker, selection) {
-  var picker = datepicker.picker;
-  var viewDate = new Date(picker.viewDate);
-  var viewId = picker.currentView.id;
-  var newDate = viewId === 1 ? addMonths(viewDate, selection - viewDate.getMonth()) : addYears(viewDate, selection - viewDate.getFullYear());
-  picker.changeFocus(newDate).changeView(viewId - 1).render();
-}
-function onClickTodayBtn(datepicker) {
-  var picker = datepicker.picker;
-  var currentDate = today();
-  if (datepicker.config.todayBtnMode === 1) {
-    if (datepicker.config.autohide) {
-      datepicker.setDate(currentDate);
-      return;
-    }
-    datepicker.setDate(currentDate, {
-      render: false
-    });
-    picker.update();
-  }
-  if (picker.viewDate !== currentDate) {
-    picker.changeFocus(currentDate);
-  }
-  picker.changeView(0).render();
-}
-function onClickClearBtn(datepicker) {
-  datepicker.setDate({
-    clear: true
-  });
-}
-function onClickViewSwitch(datepicker) {
-  switchView(datepicker);
-}
-function onClickPrevBtn(datepicker) {
-  goToPrevOrNext(datepicker, -1);
-}
-function onClickNextBtn(datepicker) {
-  goToPrevOrNext(datepicker, 1);
-}
-
-// For the picker's main block to delegete the events from `datepicker-cell`s
-function onClickView(datepicker, ev) {
-  var target = findElementInEventPath(ev, '.datepicker-cell');
-  if (!target || target.classList.contains('disabled')) {
-    return;
-  }
-  var _datepicker$picker$cu = datepicker.picker.currentView,
-    id = _datepicker$picker$cu.id,
-    isMinView = _datepicker$picker$cu.isMinView;
-  if (isMinView) {
-    datepicker.setDate(Number(target.dataset.date));
-  } else if (id === 1) {
-    goToSelectedMonthOrYear(datepicker, Number(target.dataset.month));
-  } else {
-    goToSelectedMonthOrYear(datepicker, Number(target.dataset.year));
-  }
-}
-function onClickPicker(datepicker) {
-  if (!datepicker.inline && !datepicker.config.disableTouchKeyboard) {
-    datepicker.inputField.focus();
-  }
-}
-
-function processPickerOptions(picker, options) {
-  if (options.title !== undefined) {
-    if (options.title) {
-      picker.controls.title.textContent = options.title;
-      showElement(picker.controls.title);
-    } else {
-      picker.controls.title.textContent = '';
-      hideElement(picker.controls.title);
-    }
-  }
-  if (options.prevArrow) {
-    var prevBtn = picker.controls.prevBtn;
-    emptyChildNodes(prevBtn);
-    options.prevArrow.forEach(function (node) {
-      prevBtn.appendChild(node.cloneNode(true));
-    });
-  }
-  if (options.nextArrow) {
-    var nextBtn = picker.controls.nextBtn;
-    emptyChildNodes(nextBtn);
-    options.nextArrow.forEach(function (node) {
-      nextBtn.appendChild(node.cloneNode(true));
-    });
-  }
-  if (options.locale) {
-    picker.controls.todayBtn.textContent = options.locale.today;
-    picker.controls.clearBtn.textContent = options.locale.clear;
-  }
-  if (options.todayBtn !== undefined) {
-    if (options.todayBtn) {
-      showElement(picker.controls.todayBtn);
-    } else {
-      hideElement(picker.controls.todayBtn);
-    }
-  }
-  if (hasProperty(options, 'minDate') || hasProperty(options, 'maxDate')) {
-    var _picker$datepicker$co = picker.datepicker.config,
-      minDate = _picker$datepicker$co.minDate,
-      maxDate = _picker$datepicker$co.maxDate;
-    picker.controls.todayBtn.disabled = !isInRange(today(), minDate, maxDate);
-  }
-  if (options.clearBtn !== undefined) {
-    if (options.clearBtn) {
-      showElement(picker.controls.clearBtn);
-    } else {
-      hideElement(picker.controls.clearBtn);
-    }
-  }
-}
-
-// Compute view date to reset, which will be...
-// - the last item of the selected dates or defaultViewDate if no selection
-// - limitted to minDate or maxDate if it exceeds the range
-function computeResetViewDate(datepicker) {
-  var dates = datepicker.dates,
-    config = datepicker.config;
-  var viewDate = dates.length > 0 ? lastItemOf(dates) : config.defaultViewDate;
-  return limitToRange(viewDate, config.minDate, config.maxDate);
-}
-
-// Change current view's view date
-function setViewDate(picker, newDate) {
-  var oldViewDate = new Date(picker.viewDate);
-  var newViewDate = new Date(newDate);
-  var _picker$currentView = picker.currentView,
-    id = _picker$currentView.id,
-    year = _picker$currentView.year,
-    first = _picker$currentView.first,
-    last = _picker$currentView.last;
-  var viewYear = newViewDate.getFullYear();
-  picker.viewDate = newDate;
-  if (viewYear !== oldViewDate.getFullYear()) {
-    triggerDatepickerEvent(picker.datepicker, 'changeYear');
-  }
-  if (newViewDate.getMonth() !== oldViewDate.getMonth()) {
-    triggerDatepickerEvent(picker.datepicker, 'changeMonth');
-  }
-
-  // return whether the new date is in different period on time from the one
-  // displayed in the current view
-  // when true, the view needs to be re-rendered on the next UI refresh.
-  switch (id) {
-    case 0:
-      return newDate < first || newDate > last;
-    case 1:
-      return viewYear !== year;
-    default:
-      return viewYear < first || viewYear > last;
-  }
-}
-function getTextDirection(el) {
-  return window.getComputedStyle(el).direction;
-}
-
-// Class representing the picker UI
-var Picker = /*#__PURE__*/function () {
-  function Picker(datepicker) {
-    _classCallCheck(this, Picker);
-    this.datepicker = datepicker;
-    var template = pickerTemplate.replace(/%buttonClass%/g, datepicker.config.buttonClass);
-    var element = this.element = parseHTML(template).firstChild;
-    var _element$firstChild$c = _slicedToArray(element.firstChild.children, 3),
-      header = _element$firstChild$c[0],
-      main = _element$firstChild$c[1],
-      footer = _element$firstChild$c[2];
-    var title = header.firstElementChild;
-    var _header$lastElementCh = _slicedToArray(header.lastElementChild.children, 3),
-      prevBtn = _header$lastElementCh[0],
-      viewSwitch = _header$lastElementCh[1],
-      nextBtn = _header$lastElementCh[2];
-    var _footer$firstChild$ch = _slicedToArray(footer.firstChild.children, 2),
-      todayBtn = _footer$firstChild$ch[0],
-      clearBtn = _footer$firstChild$ch[1];
-    var controls = {
-      title: title,
-      prevBtn: prevBtn,
-      viewSwitch: viewSwitch,
-      nextBtn: nextBtn,
-      todayBtn: todayBtn,
-      clearBtn: clearBtn
-    };
-    this.main = main;
-    this.controls = controls;
-    var elementClass = datepicker.inline ? 'inline' : 'dropdown';
-    element.classList.add("datepicker-".concat(elementClass));
-    elementClass === 'dropdown' ? element.classList.add('dropdown', 'absolute', 'top-0', 'left-0', 'z-50', 'pt-2') : null;
-    processPickerOptions(this, datepicker.config);
-    this.viewDate = computeResetViewDate(datepicker);
-
-    // set up event listeners
-    registerListeners(datepicker, [[element, 'click', onClickPicker.bind(null, datepicker), {
-      capture: true
-    }], [main, 'click', onClickView.bind(null, datepicker)], [controls.viewSwitch, 'click', onClickViewSwitch.bind(null, datepicker)], [controls.prevBtn, 'click', onClickPrevBtn.bind(null, datepicker)], [controls.nextBtn, 'click', onClickNextBtn.bind(null, datepicker)], [controls.todayBtn, 'click', onClickTodayBtn.bind(null, datepicker)], [controls.clearBtn, 'click', onClickClearBtn.bind(null, datepicker)]]);
-
-    // set up views
-    this.views = [new DaysView(this), new MonthsView(this), new YearsView(this, {
-      id: 2,
-      name: 'years',
-      cellClass: 'year',
-      step: 1
-    }), new YearsView(this, {
-      id: 3,
-      name: 'decades',
-      cellClass: 'decade',
-      step: 10
-    })];
-    this.currentView = this.views[datepicker.config.startView];
-    this.currentView.render();
-    this.main.appendChild(this.currentView.element);
-    datepicker.config.container.appendChild(this.element);
-  }
-  return _createClass(Picker, [{
-    key: "setOptions",
-    value: function setOptions(options) {
-      processPickerOptions(this, options);
-      this.views.forEach(function (view) {
-        view.init(options, false);
-      });
-      this.currentView.render();
-    }
-  }, {
-    key: "detach",
-    value: function detach() {
-      this.datepicker.config.container.removeChild(this.element);
-    }
-  }, {
-    key: "show",
-    value: function show() {
-      if (this.active) {
-        return;
-      }
-      this.element.classList.add('active', 'block');
-      this.element.classList.remove('hidden');
-      this.active = true;
-      var datepicker = this.datepicker;
-      if (!datepicker.inline) {
-        // ensure picker's direction matches input's
-        var inputDirection = getTextDirection(datepicker.inputField);
-        if (inputDirection !== getTextDirection(datepicker.config.container)) {
-          this.element.dir = inputDirection;
-        } else if (this.element.dir) {
-          this.element.removeAttribute('dir');
-        }
-        this.place();
-        if (datepicker.config.disableTouchKeyboard) {
-          datepicker.inputField.blur();
-        }
-      }
-      triggerDatepickerEvent(datepicker, 'show');
-    }
-  }, {
-    key: "hide",
-    value: function hide() {
-      if (!this.active) {
-        return;
-      }
-      this.datepicker.exitEditMode();
-      this.element.classList.remove('active', 'block');
-      this.element.classList.add('active', 'block', 'hidden');
-      this.active = false;
-      triggerDatepickerEvent(this.datepicker, 'hide');
-    }
-  }, {
-    key: "place",
-    value: function place() {
-      var _this$element = this.element,
-        classList = _this$element.classList,
-        style = _this$element.style;
-      var _this$datepicker = this.datepicker,
-        config = _this$datepicker.config,
-        inputField = _this$datepicker.inputField;
-      var container = config.container;
-      var _this$element$getBoun = this.element.getBoundingClientRect(),
-        calendarWidth = _this$element$getBoun.width,
-        calendarHeight = _this$element$getBoun.height;
-      var _container$getBoundin = container.getBoundingClientRect(),
-        containerLeft = _container$getBoundin.left,
-        containerTop = _container$getBoundin.top,
-        containerWidth = _container$getBoundin.width;
-      var _inputField$getBoundi = inputField.getBoundingClientRect(),
-        inputLeft = _inputField$getBoundi.left,
-        inputTop = _inputField$getBoundi.top,
-        inputWidth = _inputField$getBoundi.width,
-        inputHeight = _inputField$getBoundi.height;
-      var _config$orientation = config.orientation,
-        orientX = _config$orientation.x,
-        orientY = _config$orientation.y;
-      var scrollTop;
-      var left;
-      var top;
-      if (container === document.body) {
-        scrollTop = window.scrollY;
-        left = inputLeft + window.scrollX;
-        top = inputTop + scrollTop;
-      } else {
-        scrollTop = container.scrollTop;
-        left = inputLeft - containerLeft;
-        top = inputTop - containerTop + scrollTop;
-      }
-      if (orientX === 'auto') {
-        if (left < 0) {
-          // align to the left and move into visible area if input's left edge < window's
-          orientX = 'left';
-          left = 10;
-        } else if (left + calendarWidth > containerWidth) {
-          // align to the right if canlendar's right edge > container's
-          orientX = 'right';
-        } else {
-          orientX = getTextDirection(inputField) === 'rtl' ? 'right' : 'left';
-        }
-      }
-      if (orientX === 'right') {
-        left -= calendarWidth - inputWidth;
-      }
-      if (orientY === 'auto') {
-        orientY = top - calendarHeight < scrollTop ? 'bottom' : 'top';
-      }
-      if (orientY === 'top') {
-        top -= calendarHeight;
-      } else {
-        top += inputHeight;
-      }
-      classList.remove('datepicker-orient-top', 'datepicker-orient-bottom', 'datepicker-orient-right', 'datepicker-orient-left');
-      classList.add("datepicker-orient-".concat(orientY), "datepicker-orient-".concat(orientX));
-      style.top = top ? "".concat(top, "px") : top;
-      style.left = left ? "".concat(left, "px") : left;
-    }
-  }, {
-    key: "setViewSwitchLabel",
-    value: function setViewSwitchLabel(labelText) {
-      this.controls.viewSwitch.textContent = labelText;
-    }
-  }, {
-    key: "setPrevBtnDisabled",
-    value: function setPrevBtnDisabled(disabled) {
-      this.controls.prevBtn.disabled = disabled;
-    }
-  }, {
-    key: "setNextBtnDisabled",
-    value: function setNextBtnDisabled(disabled) {
-      this.controls.nextBtn.disabled = disabled;
-    }
-  }, {
-    key: "changeView",
-    value: function changeView(viewId) {
-      var oldView = this.currentView;
-      var newView = this.views[viewId];
-      if (newView.id !== oldView.id) {
-        this.currentView = newView;
-        this._renderMethod = 'render';
-        triggerDatepickerEvent(this.datepicker, 'changeView');
-        this.main.replaceChild(newView.element, oldView.element);
-      }
-      return this;
-    }
-
-    // Change the focused date (view date)
-  }, {
-    key: "changeFocus",
-    value: function changeFocus(newViewDate) {
-      this._renderMethod = setViewDate(this, newViewDate) ? 'render' : 'refreshFocus';
-      this.views.forEach(function (view) {
-        view.updateFocus();
-      });
-      return this;
-    }
-
-    // Apply the change of the selected dates
-  }, {
-    key: "update",
-    value: function update() {
-      var newViewDate = computeResetViewDate(this.datepicker);
-      this._renderMethod = setViewDate(this, newViewDate) ? 'render' : 'refresh';
-      this.views.forEach(function (view) {
-        view.updateFocus();
-        view.updateSelection();
-      });
-      return this;
-    }
-
-    // Refresh the picker UI
-  }, {
-    key: "render",
-    value: function render() {
-      var quickRender = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-      var renderMethod = quickRender && this._renderMethod || 'render';
-      delete this._renderMethod;
-      this.currentView[renderMethod]();
-    }
-  }]);
-}();
-
-// Find the closest date that doesn't meet the condition for unavailable date
-// Returns undefined if no available date is found
-// addFn: function to calculate the next date
-//   - args: time value, amount
-// increase: amount to pass to addFn
-// testFn: function to test the unavailablity of the date
-//   - args: time value; retun: true if unavailable
-function findNextAvailableOne(date, addFn, increase, testFn, min, max) {
-  if (!isInRange(date, min, max)) {
-    return;
-  }
-  if (testFn(date)) {
-    var newDate = addFn(date, increase);
-    return findNextAvailableOne(newDate, addFn, increase, testFn, min, max);
-  }
-  return date;
-}
-
-// direction: -1 (left/up), 1 (right/down)
-// vertical: true for up/down, false for left/right
-function moveByArrowKey(datepicker, ev, direction, vertical) {
-  var picker = datepicker.picker;
-  var currentView = picker.currentView;
-  var step = currentView.step || 1;
-  var viewDate = picker.viewDate;
-  var addFn;
-  var testFn;
-  switch (currentView.id) {
-    case 0:
-      if (vertical) {
-        viewDate = addDays(viewDate, direction * 7);
-      } else if (ev.ctrlKey || ev.metaKey) {
-        viewDate = addYears(viewDate, direction);
-      } else {
-        viewDate = addDays(viewDate, direction);
-      }
-      addFn = addDays;
-      testFn = function testFn(date) {
-        return currentView.disabled.includes(date);
-      };
-      break;
-    case 1:
-      viewDate = addMonths(viewDate, vertical ? direction * 4 : direction);
-      addFn = addMonths;
-      testFn = function testFn(date) {
-        var dt = new Date(date);
-        var year = currentView.year,
-          disabled = currentView.disabled;
-        return dt.getFullYear() === year && disabled.includes(dt.getMonth());
-      };
-      break;
-    default:
-      viewDate = addYears(viewDate, direction * (vertical ? 4 : 1) * step);
-      addFn = addYears;
-      testFn = function testFn(date) {
-        return currentView.disabled.includes(startOfYearPeriod(date, step));
-      };
-  }
-  viewDate = findNextAvailableOne(viewDate, addFn, direction < 0 ? -step : step, testFn, currentView.minDate, currentView.maxDate);
-  if (viewDate !== undefined) {
-    picker.changeFocus(viewDate).render();
-  }
-}
-function onKeydown(datepicker, ev) {
-  if (ev.key === 'Tab') {
-    unfocus(datepicker);
-    return;
-  }
-  var picker = datepicker.picker;
-  var _picker$currentView = picker.currentView,
-    id = _picker$currentView.id,
-    isMinView = _picker$currentView.isMinView;
-  if (!picker.active) {
-    switch (ev.key) {
-      case 'ArrowDown':
-      case 'Escape':
-        picker.show();
-        break;
-      case 'Enter':
-        datepicker.update();
-        break;
-      default:
-        return;
-    }
-  } else if (datepicker.editMode) {
-    switch (ev.key) {
-      case 'Escape':
-        picker.hide();
-        break;
-      case 'Enter':
-        datepicker.exitEditMode({
-          update: true,
-          autohide: datepicker.config.autohide
-        });
-        break;
-      default:
-        return;
-    }
-  } else {
-    switch (ev.key) {
-      case 'Escape':
-        picker.hide();
-        break;
-      case 'ArrowLeft':
-        if (ev.ctrlKey || ev.metaKey) {
-          goToPrevOrNext(datepicker, -1);
-        } else if (ev.shiftKey) {
-          datepicker.enterEditMode();
-          return;
-        } else {
-          moveByArrowKey(datepicker, ev, -1, false);
-        }
-        break;
-      case 'ArrowRight':
-        if (ev.ctrlKey || ev.metaKey) {
-          goToPrevOrNext(datepicker, 1);
-        } else if (ev.shiftKey) {
-          datepicker.enterEditMode();
-          return;
-        } else {
-          moveByArrowKey(datepicker, ev, 1, false);
-        }
-        break;
-      case 'ArrowUp':
-        if (ev.ctrlKey || ev.metaKey) {
-          switchView(datepicker);
-        } else if (ev.shiftKey) {
-          datepicker.enterEditMode();
-          return;
-        } else {
-          moveByArrowKey(datepicker, ev, -1, true);
-        }
-        break;
-      case 'ArrowDown':
-        if (ev.shiftKey && !ev.ctrlKey && !ev.metaKey) {
-          datepicker.enterEditMode();
-          return;
-        }
-        moveByArrowKey(datepicker, ev, 1, true);
-        break;
-      case 'Enter':
-        if (isMinView) {
-          datepicker.setDate(picker.viewDate);
-        } else {
-          picker.changeView(id - 1).render();
-        }
-        break;
-      case 'Backspace':
-      case 'Delete':
-        datepicker.enterEditMode();
-        return;
-      default:
-        if (ev.key.length === 1 && !ev.ctrlKey && !ev.metaKey) {
-          datepicker.enterEditMode();
-        }
-        return;
-    }
-  }
-  ev.preventDefault();
-  ev.stopPropagation();
-}
-function onFocus(datepicker) {
-  if (datepicker.config.showOnFocus && !datepicker._showing) {
-    datepicker.show();
-  }
-}
-
-// for the prevention for entering edit mode while getting focus on click
-function onMousedown(datepicker, ev) {
-  var el = ev.target;
-  if (datepicker.picker.active || datepicker.config.showOnClick) {
-    el._active = el === document.activeElement;
-    el._clicking = setTimeout(function () {
-      delete el._active;
-      delete el._clicking;
-    }, 2000);
-  }
-}
-function onClickInput(datepicker, ev) {
-  var el = ev.target;
-  if (!el._clicking) {
-    return;
-  }
-  clearTimeout(el._clicking);
-  delete el._clicking;
-  if (el._active) {
-    datepicker.enterEditMode();
-  }
-  delete el._active;
-  if (datepicker.config.showOnClick) {
-    datepicker.show();
-  }
-}
-function onPaste(datepicker, ev) {
-  if (ev.clipboardData.types.includes('text/plain')) {
-    datepicker.enterEditMode();
-  }
-}
-
-// for the `document` to delegate the events from outside the picker/input field
-function onClickOutside(datepicker, ev) {
-  var element = datepicker.element;
-  if (element !== document.activeElement) {
-    return;
-  }
-  var pickerElem = datepicker.picker.element;
-  if (findElementInEventPath(ev, function (el) {
-    return el === element || el === pickerElem;
-  })) {
-    return;
-  }
-  unfocus(datepicker);
-}
-
-function stringifyDates(dates, config) {
-  return dates.map(function (dt) {
-    return formatDate(dt, config.format, config.locale);
-  }).join(config.dateDelimiter);
-}
-
-// parse input dates and create an array of time values for selection
-// returns undefined if there are no valid dates in inputDates
-// when origDates (current selection) is passed, the function works to mix
-// the input dates into the current selection
-function processInputDates(datepicker, inputDates) {
-  var clear = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-  var config = datepicker.config,
-    origDates = datepicker.dates,
-    rangepicker = datepicker.rangepicker;
-  if (inputDates.length === 0) {
-    // empty input is considered valid unless origiDates is passed
-    return clear ? [] : undefined;
-  }
-  var rangeEnd = rangepicker && datepicker === rangepicker.datepickers[1];
-  var newDates = inputDates.reduce(function (dates, dt) {
-    var date = parseDate(dt, config.format, config.locale);
-    if (date === undefined) {
-      return dates;
-    }
-    if (config.pickLevel > 0) {
-      // adjust to 1st of the month/Jan 1st of the year
-      // or to the last day of the monh/Dec 31st of the year if the datepicker
-      // is the range-end picker of a rangepicker
-      var _dt = new Date(date);
-      if (config.pickLevel === 1) {
-        date = rangeEnd ? _dt.setMonth(_dt.getMonth() + 1, 0) : _dt.setDate(1);
-      } else {
-        date = rangeEnd ? _dt.setFullYear(_dt.getFullYear() + 1, 0, 0) : _dt.setMonth(0, 1);
-      }
-    }
-    if (isInRange(date, config.minDate, config.maxDate) && !dates.includes(date) && !config.datesDisabled.includes(date) && !config.daysOfWeekDisabled.includes(new Date(date).getDay())) {
-      dates.push(date);
-    }
-    return dates;
-  }, []);
-  if (newDates.length === 0) {
-    return;
-  }
-  if (config.multidate && !clear) {
-    // get the synmetric difference between origDates and newDates
-    newDates = newDates.reduce(function (dates, date) {
-      if (!origDates.includes(date)) {
-        dates.push(date);
-      }
-      return dates;
-    }, origDates.filter(function (date) {
-      return !newDates.includes(date);
-    }));
-  }
-  // do length check always because user can input multiple dates regardless of the mode
-  return config.maxNumberOfDates && newDates.length > config.maxNumberOfDates ? newDates.slice(config.maxNumberOfDates * -1) : newDates;
-}
-
-// refresh the UI elements
-// modes: 1: input only, 2, picker only, 3 both
-function refreshUI(datepicker) {
-  var mode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 3;
-  var quickRender = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-  var config = datepicker.config,
-    picker = datepicker.picker,
-    inputField = datepicker.inputField;
-  if (mode & 2) {
-    var newView = picker.active ? config.pickLevel : config.startView;
-    picker.update().changeView(newView).render(quickRender);
-  }
-  if (mode & 1 && inputField) {
-    inputField.value = stringifyDates(datepicker.dates, config);
-  }
-}
-function _setDate(datepicker, inputDates, options) {
-  var clear = options.clear,
-    render = options.render,
-    autohide = options.autohide;
-  if (render === undefined) {
-    render = true;
-  }
-  if (!render) {
-    autohide = false;
-  } else if (autohide === undefined) {
-    autohide = datepicker.config.autohide;
-  }
-  var newDates = processInputDates(datepicker, inputDates, clear);
-  if (!newDates) {
-    return;
-  }
-  if (newDates.toString() !== datepicker.dates.toString()) {
-    datepicker.dates = newDates;
-    refreshUI(datepicker, render ? 3 : 1);
-    triggerDatepickerEvent(datepicker, 'changeDate');
-  } else {
-    refreshUI(datepicker, 1);
-  }
-  if (autohide) {
-    datepicker.hide();
-  }
-}
-
-/**
- * Class representing a date picker
- */
-var main_esm_Datepicker = /*#__PURE__*/function () {
-  /**
-   * Create a date picker
-   * @param  {Element} element - element to bind a date picker
-   * @param  {Object} [options] - config options
-   * @param  {DateRangePicker} [rangepicker] - DateRangePicker instance the
-   * date picker belongs to. Use this only when creating date picker as a part
-   * of date range picker
-   */
-  function Datepicker(element) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var rangepicker = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
-    _classCallCheck(this, Datepicker);
-    element.datepicker = this;
-    this.element = element;
-
-    // set up config
-    var config = this.config = Object.assign({
-      buttonClass: options.buttonClass && String(options.buttonClass) || 'button',
-      container: document.body,
-      defaultViewDate: today(),
-      maxDate: undefined,
-      minDate: undefined
-    }, processOptions(defaultOptions, this));
-    this._options = options;
-    Object.assign(config, processOptions(options, this));
-
-    // configure by type
-    var inline = this.inline = element.tagName !== 'INPUT';
-    var inputField;
-    var initialDates;
-    if (inline) {
-      config.container = element;
-      initialDates = stringToArray(element.dataset.date, config.dateDelimiter);
-      delete element.dataset.date;
-    } else {
-      var container = options.container ? document.querySelector(options.container) : null;
-      if (container) {
-        config.container = container;
-      }
-      inputField = this.inputField = element;
-      inputField.classList.add('datepicker-input');
-      initialDates = stringToArray(inputField.value, config.dateDelimiter);
-    }
-    if (rangepicker) {
-      // check validiry
-      var index = rangepicker.inputs.indexOf(inputField);
-      var datepickers = rangepicker.datepickers;
-      if (index < 0 || index > 1 || !Array.isArray(datepickers)) {
-        throw Error('Invalid rangepicker object.');
-      }
-      // attach itaelf to the rangepicker here so that processInputDates() can
-      // determine if this is the range-end picker of the rangepicker while
-      // setting inital values when pickLevel > 0
-      datepickers[index] = this;
-      // add getter for rangepicker
-      Object.defineProperty(this, 'rangepicker', {
-        get: function get() {
-          return rangepicker;
-        }
-      });
-    }
-
-    // set initial dates
-    this.dates = [];
-    // process initial value
-    var inputDateValues = processInputDates(this, initialDates);
-    if (inputDateValues && inputDateValues.length > 0) {
-      this.dates = inputDateValues;
-    }
-    if (inputField) {
-      inputField.value = stringifyDates(this.dates, config);
-    }
-    var picker = this.picker = new Picker(this);
-    if (inline) {
-      this.show();
-    } else {
-      // set up event listeners in other modes
-      var onMousedownDocument = onClickOutside.bind(null, this);
-      var listeners = [[inputField, 'keydown', onKeydown.bind(null, this)], [inputField, 'focus', onFocus.bind(null, this)], [inputField, 'mousedown', onMousedown.bind(null, this)], [inputField, 'click', onClickInput.bind(null, this)], [inputField, 'paste', onPaste.bind(null, this)], [document, 'mousedown', onMousedownDocument], [document, 'touchstart', onMousedownDocument], [window, 'resize', picker.place.bind(picker)]];
-      registerListeners(this, listeners);
-    }
-  }
-
-  /**
-   * Format Date object or time value in given format and language
-   * @param  {Date|Number} date - date or time value to format
-   * @param  {String|Object} format - format string or object that contains
-   * toDisplay() custom formatter, whose signature is
-   * - args:
-   *   - date: {Date} - Date instance of the date passed to the method
-   *   - format: {Object} - the format object passed to the method
-   *   - locale: {Object} - locale for the language specified by `lang`
-   * - return:
-   *     {String} formatted date
-   * @param  {String} [lang=en] - language code for the locale to use
-   * @return {String} formatted date
-   */
-  return _createClass(Datepicker, [{
-    key: "active",
-    get:
-    /**
-     * @type {Boolean} - Whether the picker element is shown. `true` whne shown
-     */
-    function get() {
-      return !!(this.picker && this.picker.active);
-    }
-
-    /**
-     * @type {HTMLDivElement} - DOM object of picker element
-     */
-  }, {
-    key: "pickerElement",
-    get: function get() {
-      return this.picker ? this.picker.element : undefined;
-    }
-
-    /**
-     * Set new values to the config options
-     * @param {Object} options - config options to update
-     */
-  }, {
-    key: "setOptions",
-    value: function setOptions(options) {
-      var picker = this.picker;
-      var newOptions = processOptions(options, this);
-      Object.assign(this._options, options);
-      Object.assign(this.config, newOptions);
-      picker.setOptions(newOptions);
-      refreshUI(this, 3);
-    }
-
-    /**
-     * Show the picker element
-     */
-  }, {
-    key: "show",
-    value: function show() {
-      if (this.inputField) {
-        if (this.inputField.disabled) {
-          return;
-        }
-        if (this.inputField !== document.activeElement) {
-          this._showing = true;
-          this.inputField.focus();
-          delete this._showing;
-        }
-      }
-      this.picker.show();
-    }
-
-    /**
-     * Hide the picker element
-     * Not available on inline picker
-     */
-  }, {
-    key: "hide",
-    value: function hide() {
-      if (this.inline) {
-        return;
-      }
-      this.picker.hide();
-      this.picker.update().changeView(this.config.startView).render();
-    }
-
-    /**
-     * Destroy the Datepicker instance
-     * @return {Detepicker} - the instance destroyed
-     */
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      this.hide();
-      unregisterListeners(this);
-      this.picker.detach();
-      if (!this.inline) {
-        this.inputField.classList.remove('datepicker-input');
-      }
-      delete this.element.datepicker;
-      return this;
-    }
-
-    /**
-     * Get the selected date(s)
-     *
-     * The method returns a Date object of selected date by default, and returns
-     * an array of selected dates in multidate mode. If format string is passed,
-     * it returns date string(s) formatted in given format.
-     *
-     * @param  {String} [format] - Format string to stringify the date(s)
-     * @return {Date|String|Date[]|String[]} - selected date(s), or if none is
-     * selected, empty array in multidate mode and untitled in sigledate mode
-     */
-  }, {
-    key: "getDate",
-    value: function getDate() {
-      var _this = this;
-      var format = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-      var callback = format ? function (date) {
-        return formatDate(date, format, _this.config.locale);
-      } : function (date) {
-        return new Date(date);
-      };
-      if (this.config.multidate) {
-        return this.dates.map(callback);
-      }
-      if (this.dates.length > 0) {
-        return callback(this.dates[0]);
-      }
-    }
-
-    /**
-     * Set selected date(s)
-     *
-     * In multidate mode, you can pass multiple dates as a series of arguments
-     * or an array. (Since each date is parsed individually, the type of the
-     * dates doesn't have to be the same.)
-     * The given dates are used to toggle the select status of each date. The
-     * number of selected dates is kept from exceeding the length set to
-     * maxNumberOfDates.
-     *
-     * With clear: true option, the method can be used to clear the selection
-     * and to replace the selection instead of toggling in multidate mode.
-     * If the option is passed with no date arguments or an empty dates array,
-     * it works as "clear" (clear the selection then set nothing), and if the
-     * option is passed with new dates to select, it works as "replace" (clear
-     * the selection then set the given dates)
-     *
-     * When render: false option is used, the method omits re-rendering the
-     * picker element. In this case, you need to call refresh() method later in
-     * order for the picker element to reflect the changes. The input field is
-     * refreshed always regardless of this option.
-     *
-     * When invalid (unparsable, repeated, disabled or out-of-range) dates are
-     * passed, the method ignores them and applies only valid ones. In the case
-     * that all the given dates are invalid, which is distinguished from passing
-     * no dates, the method considers it as an error and leaves the selection
-     * untouched.
-     *
-     * @param {...(Date|Number|String)|Array} [dates] - Date strings, Date
-     * objects, time values or mix of those for new selection
-     * @param {Object} [options] - function options
-     * - clear: {boolean} - Whether to clear the existing selection
-     *     defualt: false
-     * - render: {boolean} - Whether to re-render the picker element
-     *     default: true
-     * - autohide: {boolean} - Whether to hide the picker element after re-render
-     *     Ignored when used with render: false
-     *     default: config.autohide
-     */
-  }, {
-    key: "setDate",
-    value: function setDate() {
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-      var dates = [].concat(args);
-      var opts = {};
-      var lastArg = lastItemOf(args);
-      if (_typeof(lastArg) === 'object' && !Array.isArray(lastArg) && !(lastArg instanceof Date) && lastArg) {
-        Object.assign(opts, dates.pop());
-      }
-      var inputDates = Array.isArray(dates[0]) ? dates[0] : dates;
-      _setDate(this, inputDates, opts);
-    }
-
-    /**
-     * Update the selected date(s) with input field's value
-     * Not available on inline picker
-     *
-     * The input field will be refreshed with properly formatted date string.
-     *
-     * @param  {Object} [options] - function options
-     * - autohide: {boolean} - whether to hide the picker element after refresh
-     *     default: false
-     */
-  }, {
-    key: "update",
-    value: function update() {
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-      if (this.inline) {
-        return;
-      }
-      var opts = {
-        clear: true,
-        autohide: !!(options && options.autohide)
-      };
-      var inputDates = stringToArray(this.inputField.value, this.config.dateDelimiter);
-      _setDate(this, inputDates, opts);
-    }
-
-    /**
-     * Refresh the picker element and the associated input field
-     * @param {String} [target] - target item when refreshing one item only
-     * 'picker' or 'input'
-     * @param {Boolean} [forceRender] - whether to re-render the picker element
-     * regardless of its state instead of optimized refresh
-     */
-  }, {
-    key: "refresh",
-    value: function refresh() {
-      var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-      var forceRender = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      if (target && typeof target !== 'string') {
-        forceRender = target;
-        target = undefined;
-      }
-      var mode;
-      if (target === 'picker') {
-        mode = 2;
-      } else if (target === 'input') {
-        mode = 1;
-      } else {
-        mode = 3;
-      }
-      refreshUI(this, mode, !forceRender);
-    }
-
-    /**
-     * Enter edit mode
-     * Not available on inline picker or when the picker element is hidden
-     */
-  }, {
-    key: "enterEditMode",
-    value: function enterEditMode() {
-      if (this.inline || !this.picker.active || this.editMode) {
-        return;
-      }
-      this.editMode = true;
-      this.inputField.classList.add('in-edit', 'border-blue-700', '!border-primary-700');
-    }
-
-    /**
-     * Exit from edit mode
-     * Not available on inline picker
-     * @param  {Object} [options] - function options
-     * - update: {boolean} - whether to call update() after exiting
-     *     If false, input field is revert to the existing selection
-     *     default: false
-     */
-  }, {
-    key: "exitEditMode",
-    value: function exitEditMode() {
-      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-      if (this.inline || !this.editMode) {
-        return;
-      }
-      var opts = Object.assign({
-        update: false
-      }, options);
-      delete this.editMode;
-      this.inputField.classList.remove('in-edit', 'border-blue-700', '!border-primary-700');
-      if (opts.update) {
-        this.update(opts);
-      }
-    }
-  }], [{
-    key: "formatDate",
-    value: function formatDate$1(date, format, lang) {
-      return formatDate(date, format, lang && locales[lang] || locales.en);
-    }
-
-    /**
-     * Parse date string
-     * @param  {String|Date|Number} dateStr - date string, Date object or time
-     * value to parse
-     * @param  {String|Object} format - format string or object that contains
-     * toValue() custom parser, whose signature is
-     * - args:
-     *   - dateStr: {String|Date|Number} - the dateStr passed to the method
-     *   - format: {Object} - the format object passed to the method
-     *   - locale: {Object} - locale for the language specified by `lang`
-     * - return:
-     *     {Date|Number} parsed date or its time value
-     * @param  {String} [lang=en] - language code for the locale to use
-     * @return {Number} time value of parsed date
-     */
-  }, {
-    key: "parseDate",
-    value: function parseDate$1(dateStr, format, lang) {
-      return parseDate(dateStr, format, lang && locales[lang] || locales.en);
-    }
-
-    /**
-     * @type {Object} - Installed locales in `[languageCode]: localeObject` format
-     * en`:_English (US)_ is pre-installed.
-     */
-  }, {
-    key: "locales",
-    get: function get() {
-      return locales;
-    }
-  }]);
-}();
-
-// filter out the config options inapproprite to pass to Datepicker
-function filterOptions(options) {
-  var newOpts = Object.assign({}, options);
-  delete newOpts.inputs;
-  delete newOpts.allowOneSidedRange;
-  delete newOpts.maxNumberOfDates; // to ensure each datepicker handles a single date
-
-  return newOpts;
-}
-function setupDatepicker(rangepicker, changeDateListener, el, options) {
-  registerListeners(rangepicker, [[el, 'changeDate', changeDateListener]]);
-  new main_esm_Datepicker(el, options, rangepicker);
-}
-function onChangeDate(rangepicker, ev) {
-  // to prevent both datepickers trigger the other side's update each other
-  if (rangepicker._updating) {
-    return;
-  }
-  rangepicker._updating = true;
-  var target = ev.target;
-  if (target.datepicker === undefined) {
-    return;
-  }
-  var datepickers = rangepicker.datepickers;
-  var setDateOptions = {
-    render: false
-  };
-  var changedSide = rangepicker.inputs.indexOf(target);
-  var otherSide = changedSide === 0 ? 1 : 0;
-  var changedDate = datepickers[changedSide].dates[0];
-  var otherDate = datepickers[otherSide].dates[0];
-  if (changedDate !== undefined && otherDate !== undefined) {
-    // if the start of the range > the end, swap them
-    if (changedSide === 0 && changedDate > otherDate) {
-      datepickers[0].setDate(otherDate, setDateOptions);
-      datepickers[1].setDate(changedDate, setDateOptions);
-    } else if (changedSide === 1 && changedDate < otherDate) {
-      datepickers[0].setDate(changedDate, setDateOptions);
-      datepickers[1].setDate(otherDate, setDateOptions);
-    }
-  } else if (!rangepicker.allowOneSidedRange) {
-    // to prevent the range from becoming one-sided, copy changed side's
-    // selection (no matter if it's empty) to the other side
-    if (changedDate !== undefined || otherDate !== undefined) {
-      setDateOptions.clear = true;
-      datepickers[otherSide].setDate(datepickers[changedSide].dates, setDateOptions);
-    }
-  }
-  datepickers[0].picker.update().render();
-  datepickers[1].picker.update().render();
-  delete rangepicker._updating;
-}
-
-/**
- * Class representing a date range picker
- */
-var DateRangePicker = /*#__PURE__*/function () {
-  /**
-   * Create a date range picker
-   * @param  {Element} element - element to bind a date range picker
-   * @param  {Object} [options] - config options
-   */
-  function DateRangePicker(element) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    _classCallCheck(this, DateRangePicker);
-    var inputs = Array.isArray(options.inputs) ? options.inputs : Array.from(element.querySelectorAll('input'));
-    if (inputs.length < 2) {
-      return;
-    }
-    element.rangepicker = this;
-    this.element = element;
-    this.inputs = inputs.slice(0, 2);
-    this.allowOneSidedRange = !!options.allowOneSidedRange;
-    var changeDateListener = onChangeDate.bind(null, this);
-    var cleanOptions = filterOptions(options);
-    // in order for initial date setup to work right when pcicLvel > 0,
-    // let Datepicker constructor add the instance to the rangepicker
-    var datepickers = [];
-    Object.defineProperty(this, 'datepickers', {
-      get: function get() {
-        return datepickers;
-      }
-    });
-    setupDatepicker(this, changeDateListener, this.inputs[0], cleanOptions);
-    setupDatepicker(this, changeDateListener, this.inputs[1], cleanOptions);
-    Object.freeze(datepickers);
-    // normalize the range if inital dates are given
-    if (datepickers[0].dates.length > 0) {
-      onChangeDate(this, {
-        target: this.inputs[0]
-      });
-    } else if (datepickers[1].dates.length > 0) {
-      onChangeDate(this, {
-        target: this.inputs[1]
-      });
-    }
-  }
-
-  /**
-   * @type {Array} - selected date of the linked date pickers
-   */
-  return _createClass(DateRangePicker, [{
-    key: "dates",
-    get: function get() {
-      return this.datepickers.length === 2 ? [this.datepickers[0].dates[0], this.datepickers[1].dates[0]] : undefined;
-    }
-
-    /**
-     * Set new values to the config options
-     * @param {Object} options - config options to update
-     */
-  }, {
-    key: "setOptions",
-    value: function setOptions(options) {
-      this.allowOneSidedRange = !!options.allowOneSidedRange;
-      var cleanOptions = filterOptions(options);
-      this.datepickers[0].setOptions(cleanOptions);
-      this.datepickers[1].setOptions(cleanOptions);
-    }
-
-    /**
-     * Destroy the DateRangePicker instance
-     * @return {DateRangePicker} - the instance destroyed
-     */
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      this.datepickers[0].destroy();
-      this.datepickers[1].destroy();
-      unregisterListeners(this);
-      delete this.element.rangepicker;
-    }
-
-    /**
-     * Get the start and end dates of the date range
-     *
-     * The method returns Date objects by default. If format string is passed,
-     * it returns date strings formatted in given format.
-     * The result array always contains 2 items (start date/end date) and
-     * undefined is used for unselected side. (e.g. If none is selected,
-     * the result will be [undefined, undefined]. If only the end date is set
-     * when allowOneSidedRange config option is true, [undefined, endDate] will
-     * be returned.)
-     *
-     * @param  {String} [format] - Format string to stringify the dates
-     * @return {Array} - Start and end dates
-     */
-  }, {
-    key: "getDates",
-    value: function getDates() {
-      var _this = this;
-      var format = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
-      var callback = format ? function (date) {
-        return formatDate(date, format, _this.datepickers[0].config.locale);
-      } : function (date) {
-        return new Date(date);
-      };
-      return this.dates.map(function (date) {
-        return date === undefined ? date : callback(date);
-      });
-    }
-
-    /**
-     * Set the start and end dates of the date range
-     *
-     * The method calls datepicker.setDate() internally using each of the
-     * arguments in start→end order.
-     *
-     * When a clear: true option object is passed instead of a date, the method
-     * clears the date.
-     *
-     * If an invalid date, the same date as the current one or an option object
-     * without clear: true is passed, the method considers that argument as an
-     * "ineffective" argument because calling datepicker.setDate() with those
-     * values makes no changes to the date selection.
-     *
-     * When the allowOneSidedRange config option is false, passing {clear: true}
-     * to clear the range works only when it is done to the last effective
-     * argument (in other words, passed to rangeEnd or to rangeStart along with
-     * ineffective rangeEnd). This is because when the date range is changed,
-     * it gets normalized based on the last change at the end of the changing
-     * process.
-     *
-     * @param {Date|Number|String|Object} rangeStart - Start date of the range
-     * or {clear: true} to clear the date
-     * @param {Date|Number|String|Object} rangeEnd - End date of the range
-     * or {clear: true} to clear the date
-     */
-  }, {
-    key: "setDates",
-    value: function setDates(rangeStart, rangeEnd) {
-      var _this$datepickers = _slicedToArray(this.datepickers, 2),
-        datepicker0 = _this$datepickers[0],
-        datepicker1 = _this$datepickers[1];
-      var origDates = this.dates;
-
-      // If range normalization runs on every change, we can't set a new range
-      // that starts after the end of the current range correctly because the
-      // normalization process swaps start↔︎end right after setting the new start
-      // date. To prevent this, the normalization process needs to run once after
-      // both of the new dates are set.
-      this._updating = true;
-      datepicker0.setDate(rangeStart);
-      datepicker1.setDate(rangeEnd);
-      delete this._updating;
-      if (datepicker1.dates[0] !== origDates[1]) {
-        onChangeDate(this, {
-          target: this.inputs[1]
-        });
-      } else if (datepicker0.dates[0] !== origDates[0]) {
-        onChangeDate(this, {
-          target: this.inputs[0]
-        });
-      }
-    }
-  }]);
-}();
-
-
-
-;// ./node_modules/flowbite/lib/esm/components/datepicker/index.js
-var datepicker_assign = (undefined && undefined.__assign) || function () {
-    datepicker_assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return datepicker_assign.apply(this, arguments);
-};
-
-
-var datepicker_Default = {
-    defaultDatepickerId: null,
-    autohide: false,
-    format: 'mm/dd/yyyy',
-    maxDate: null,
-    minDate: null,
-    orientation: 'bottom',
-    buttons: false,
-    autoSelectToday: 0,
-    title: null,
-    language: 'en',
-    rangePicker: false,
-    onShow: function () { },
-    onHide: function () { },
-};
-var datepicker_DefaultInstanceOptions = {
-    id: null,
-    override: true,
-};
-var Datepicker = /** @class */ (function () {
-    function Datepicker(datepickerEl, options, instanceOptions) {
-        if (datepickerEl === void 0) { datepickerEl = null; }
-        if (options === void 0) { options = datepicker_Default; }
-        if (instanceOptions === void 0) { instanceOptions = datepicker_DefaultInstanceOptions; }
-        this._instanceId = instanceOptions.id
-            ? instanceOptions.id
-            : datepickerEl.id;
-        this._datepickerEl = datepickerEl;
-        this._datepickerInstance = null;
-        this._options = datepicker_assign(datepicker_assign({}, datepicker_Default), options);
-        this._initialized = false;
-        this.init();
-        dom_instances.addInstance('Datepicker', this, this._instanceId, instanceOptions.override);
-    }
-    Datepicker.prototype.init = function () {
-        if (this._datepickerEl && !this._initialized) {
-            if (this._options.rangePicker) {
-                this._datepickerInstance = new DateRangePicker(this._datepickerEl, this._getDatepickerOptions(this._options));
-            }
-            else {
-                this._datepickerInstance = new main_esm_Datepicker(this._datepickerEl, this._getDatepickerOptions(this._options));
-            }
-            this._initialized = true;
-        }
-    };
-    Datepicker.prototype.destroy = function () {
-        if (this._initialized) {
-            this._initialized = false;
-            this._datepickerInstance.destroy();
-        }
-    };
-    Datepicker.prototype.removeInstance = function () {
-        this.destroy();
-        dom_instances.removeInstance('Datepicker', this._instanceId);
-    };
-    Datepicker.prototype.destroyAndRemoveInstance = function () {
-        this.destroy();
-        this.removeInstance();
-    };
-    Datepicker.prototype.getDatepickerInstance = function () {
-        return this._datepickerInstance;
-    };
-    Datepicker.prototype.getDate = function () {
-        if (this._options.rangePicker &&
-            this._datepickerInstance instanceof DateRangePicker) {
-            return this._datepickerInstance.getDates();
-        }
-        if (!this._options.rangePicker &&
-            this._datepickerInstance instanceof main_esm_Datepicker) {
-            return this._datepickerInstance.getDate();
-        }
-    };
-    Datepicker.prototype.setDate = function (date) {
-        if (this._options.rangePicker &&
-            this._datepickerInstance instanceof DateRangePicker) {
-            return this._datepickerInstance.setDates(date);
-        }
-        if (!this._options.rangePicker &&
-            this._datepickerInstance instanceof main_esm_Datepicker) {
-            return this._datepickerInstance.setDate(date);
-        }
-    };
-    Datepicker.prototype.show = function () {
-        this._datepickerInstance.show();
-        this._options.onShow(this);
-    };
-    Datepicker.prototype.hide = function () {
-        this._datepickerInstance.hide();
-        this._options.onHide(this);
-    };
-    Datepicker.prototype._getDatepickerOptions = function (options) {
-        var datepickerOptions = {};
-        if (options.buttons) {
-            datepickerOptions.todayBtn = true;
-            datepickerOptions.clearBtn = true;
-            if (options.autoSelectToday) {
-                datepickerOptions.todayBtnMode = 1;
-            }
-        }
-        if (options.autohide) {
-            datepickerOptions.autohide = true;
-        }
-        if (options.format) {
-            datepickerOptions.format = options.format;
-        }
-        if (options.maxDate) {
-            datepickerOptions.maxDate = options.maxDate;
-        }
-        if (options.minDate) {
-            datepickerOptions.minDate = options.minDate;
-        }
-        if (options.orientation) {
-            datepickerOptions.orientation = options.orientation;
-        }
-        if (options.title) {
-            datepickerOptions.title = options.title;
-        }
-        if (options.language) {
-            datepickerOptions.language = options.language;
-        }
-        return datepickerOptions;
-    };
-    Datepicker.prototype.updateOnShow = function (callback) {
-        this._options.onShow = callback;
-    };
-    Datepicker.prototype.updateOnHide = function (callback) {
-        this._options.onHide = callback;
-    };
-    return Datepicker;
-}());
-function initDatepickers() {
-    document
-        .querySelectorAll('[datepicker], [inline-datepicker], [date-rangepicker]')
-        .forEach(function ($datepickerEl) {
-        if ($datepickerEl) {
-            var buttons = $datepickerEl.hasAttribute('datepicker-buttons');
-            var autoselectToday = $datepickerEl.hasAttribute('datepicker-autoselect-today');
-            var autohide = $datepickerEl.hasAttribute('datepicker-autohide');
-            var format = $datepickerEl.getAttribute('datepicker-format');
-            var maxDate = $datepickerEl.getAttribute('datepicker-max-date');
-            var minDate = $datepickerEl.getAttribute('datepicker-min-date');
-            var orientation_1 = $datepickerEl.getAttribute('datepicker-orientation');
-            var title = $datepickerEl.getAttribute('datepicker-title');
-            var language = $datepickerEl.getAttribute('datepicker-language');
-            var rangePicker = $datepickerEl.hasAttribute('date-rangepicker');
-            new Datepicker($datepickerEl, {
-                buttons: buttons ? buttons : datepicker_Default.buttons,
-                autoSelectToday: autoselectToday
-                    ? autoselectToday
-                    : datepicker_Default.autoSelectToday,
-                autohide: autohide ? autohide : datepicker_Default.autohide,
-                format: format ? format : datepicker_Default.format,
-                maxDate: maxDate ? maxDate : datepicker_Default.maxDate,
-                minDate: minDate ? minDate : datepicker_Default.minDate,
-                orientation: orientation_1
-                    ? orientation_1
-                    : datepicker_Default.orientation,
-                title: title ? title : datepicker_Default.title,
-                language: language ? language : datepicker_Default.language,
-                rangePicker: rangePicker
-                    ? rangePicker
-                    : datepicker_Default.rangePicker,
-            });
-        }
-        else {
-            console.error("The datepicker element does not exist. Please check the datepicker attribute.");
-        }
-    });
-}
-if (typeof window !== 'undefined') {
-    window.Datepicker = Datepicker;
-    window.initDatepickers = initDatepickers;
-}
-/* harmony default export */ const datepicker = ((/* unused pure expression or super */ null && (Datepicker)));
-//# sourceMappingURL=index.js.map
-;// ./node_modules/flowbite/lib/esm/components/index.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function initFlowbite() {
-    initAccordions();
-    initCollapses();
-    initCarousels();
-    initDismisses();
-    initDropdowns();
-    initModals();
-    initDrawers();
-    initTabs();
-    initTooltips();
-    initPopovers();
-    initDials();
-    initInputCounters();
-    initCopyClipboards();
-    initDatepickers();
-}
-if (typeof window !== 'undefined') {
-    window.initFlowbite = initFlowbite;
-}
-//# sourceMappingURL=index.js.map
-;// ./node_modules/flowbite/lib/esm/index.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// setup events for data attributes
-var esm_events = new events('load', [
-    initAccordions,
-    initCollapses,
-    initCarousels,
-    initDismisses,
-    initDropdowns,
-    initModals,
-    initDrawers,
-    initTabs,
-    initTooltips,
-    initPopovers,
-    initDials,
-    initInputCounters,
-    initCopyClipboards,
-    initDatepickers,
-]);
-esm_events.init();
-// export all components
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export all types
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export all interfaces
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export init functions
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export all init functions
-
-//# sourceMappingURL=index.js.map
-// EXTERNAL MODULE: ./src/dark-mode.js
-var dark_mode = __webpack_require__(4);
-// EXTERNAL MODULE: ./src/navbar.js
-var navbar = __webpack_require__(756);
-// EXTERNAL MODULE: ./src/current-year.js
-var current_year = __webpack_require__(391);
-;// ./data/companies.json
-const companies_namespaceObject = /*#__PURE__*/JSON.parse('{"CO":{"name":"Centro-Oeste","states":{"DF":{"name":"Distrito Federal","companies":[{"name":"Flama","url":"https://flama.is/"}]},"GO":{"name":"Goias","companies":[{"name":"Anexo Solucoes","url":"http://www.anexosolucoes.com.br/"}]}}},"NE":{"name":"Nordeste","states":{"BA":{"name":"Bahia","companies":[{"name":"Elo7","url":"https://www.elo7.com.br/"}]},"CE":{"name":"Ceara","companies":[{"name":"Bitix","url":"https://www.bitix.com.br/"}]}}},"N":{"name":"Norte","states":{"AM":{"name":"Amazonas","companies":[{"name":"Bemol Digital","url":"https://www.bemoldigital.com.br/"}]}}},"SE":{"name":"Sudeste","states":{"MG":{"name":"Minas Gerais","companies":[{"name":"Mélliuz","url":"https://www.meliuz.com.br/"}]},"RJ":{"name":"Rio de Janeiro","companies":[{"name":"Stone","url":"https://www.stone.com.br/"}]},"SP":{"name":"Sao Paulo","companies":[{"name":"Creditas","url":"https://www.creditas.com.br/"},{"name":"Gympass","url":"https://www.gympass.com/"},{"name":"Loggi","url":"https://www.loggi.com/"},{"name":"QuintoAndar","url":"https://www.quintoandar.com.br/"}]}}},"S":{"name":"Sul","states":{"PR":{"name":"Parana","companies":[{"name":"Olist","url":"https://www.olist.com/"}]},"RS":{"name":"Rio Grande do Sul","companies":[{"name":"Warren","url":"https://warren.com.br/"}]},"SC":{"name":"Santa Catarina","companies":[{"name":"ContaAzul","url":"https://www.contaazul.com/"}]}}}}');
-;// ./src/companies.js
-
-
-document.addEventListener("DOMContentLoaded", function () {
-  const buttons = document.querySelectorAll(".tab-button");
-  const container = document.getElementById("companies-container");
-
-  function loadCompanies(region) {
-    container.innerHTML = "";
-    const regionData = companies_namespaceObject[region];
-
-    if (!regionData) return;
-
-    Object.values(regionData.states).forEach(state => {
-      state.companies.forEach(company => {
-        const card = document.createElement("div");
-        card.className = "relative overflow-hidden h-[320px] rounded-lg group flex items-center justify-center border-2 border-primary";
-        card.innerHTML = `
-              <img class="object-fit object-center scale-100 ease-in duration-300 group-hover:scale-125"
-                src="{{< baseurl >}}/images/companies/${company.image}" alt="${company.name}">
-              <div class="absolute inset-0 grid items-end justify-center p-4 from-transparent to-black/60">
-                <div class="text-center">
-                  <p class="text-xl font-bold text-white">
-                    ${company.name}
-                  </p>
-                  <p class="text-base font-medium text-gray-300">
-                    ${state.name}
-                  </p>
-                  <ul class="flex space-x-4 sm:mt-0 justify-center">
-                    <li>
-                      <a href="${company.site}" class="text-gray-500 hover:text-gray-900 dark:hover:text-white" target="_blank">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                          <path fill-rule="evenodd"
-                            d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-                            clip-rule="evenodd" />
-                        </svg>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="${company.linkedin}" class="text-gray-500 hover:text-gray-900 dark:hover:text-white" target="_blank">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                          <path fill-rule="evenodd"
-                            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                            clip-rule="evenodd" />
-                        </svg>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            `;
-        container.appendChild(card);
-      });
-    });
-  }
-
-  buttons.forEach(button => {
-    button.addEventListener("click", function () {
-      buttons.forEach(btn => btn.classList.replace("bg-primary", "bg-gray-300"));
-      this.classList.replace("bg-gray-300", "bg-primary");
-
-      const region = this.dataset.region;
-      loadCompanies(region);
-    });
-  });
-
-  loadCompanies("CO");
-});
-
-;// ./src/app.js
-
-
-
-
-
-
-
-
-})();
-
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/app.js");
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=app.bundle.js.map
